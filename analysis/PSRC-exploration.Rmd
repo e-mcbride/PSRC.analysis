@@ -15,7 +15,7 @@ editor_options:
 This document will be checking out the PSRC data.
 
 
-# Initiation
+# Initialization
 
 ```{r, setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, include = TRUE, root.dir = here::here())
@@ -216,7 +216,7 @@ What do we have in the person-level data?
 
 Import Person Data
 ```{r}
-prdat
+prdat <- read_rds(here("analysis/data/derived_data/prdat.rds"))
 ```
 
 
@@ -227,7 +227,6 @@ prdat
 ```{r}
 prdat %>% 
   sum_by_year(age)
-
 ```
 
 ```{r}
@@ -257,13 +256,11 @@ prdat %>%
 Who are in the `NA` group? I think it's probably ppl under 18
 ```{r}
 prdat %>% 
-  select(employment, age_category) %>% 
-  filter(is.na(employment)) %>% 
-  View()
-
+  filter(is.na(employment)) %>%
+  pull(age_category) %>% 
+  unique()
 
 prdat %>% 
-  select(employment, age_category) %>% 
   filter(age_category == "Under 18 years") %>% 
   pull(employment) %>%
   unique()
@@ -271,7 +268,6 @@ prdat %>%
 
 Are number under 18 and number `NA` for employment the same?
 ```{r}
-
 prdat %>% filter(is.na(employment)) %>% pull(employment) %>% length()
 prdat %>% filter(age_category == "Under 18 years") %>% pull(age_category) %>% length()
 ```
@@ -306,6 +302,7 @@ prdat %>%
 prdat %>% 
   tabyl(jobs_count, worker)
 ```
+
 ```{r}
 prdat %>% 
   tabyl(employment, worker)
@@ -365,5 +362,132 @@ prdat %>%
 ```
 
 ## Travel Behavior
+#### Workplace
+
+```{r}
+prdat %>% 
+  sum_by_year(workplace)
+```
+#### License
+```{r}
+prdat %>% 
+  sum_by_year(license)
+```
+#### Commute
+
+Frequency:
+```{r}
+prdat %>% 
+  sum_by_year(commute_freq)
+```
+
+```{r}
+prdat %>% 
+  sum_by_year(commute_mode)
+```
+
+```{r}
+prdat %>% 
+  sum_by_year(telecommute_freq)
+```
+
+```{r}
+prdat %>% 
+  sum_by_year(school_freq)
+```
+School frequency was NOT repeated in 2019.
+
+#### Mode
+
+Times ridden transit in past 30 days
+```{r}
+prdat %>% 
+  sum_by_year(mode_freq_1)
+```
+
+Times ridden a bike in past 30 days
+```{r}
+prdat %>% 
+  sum_by_year(mode_freq_2)
+```
+
+Times gone for a walk in past 30 days
+
+```{r}
+prdat %>% 
+  sum_by_year(mode_freq_3)
+```
+
+Times used carshare in past 30 days
+```{r}
+prdat %>% 
+  sum_by_year(mode_freq_4)
+```
+
+
+Times used rideshare in past 30 days
+```{r}
+prdat %>% 
+  sum_by_year(mode_freq_5)
+```
+
 
 ## Attitudes, opinions
+
+#### Use more transit
+
+Safer ways to get to stops
+```{r}
+prdat %>% 
+  sum_by_year(wbt_transitmore_1)
+```
+
+Increased frequency
+```{r}
+prdat %>% 
+  sum_by_year(wbt_transitmore_2)
+```
+
+
+Increased reliability
+```{r}
+prdat %>% 
+  sum_by_year(wbt_transitmore_3)
+```
+
+
+
+#### Use more bike
+Shared use path or protected bike lane
+```{r}
+prdat %>% 
+  sum_by_year(wbt_bikemore_1)
+```
+
+Neighborhood greenway
+```{r}
+prdat %>% 
+  sum_by_year(wbt_bikemore_2)
+```
+
+Bike lane
+```{r}
+prdat %>% 
+  sum_by_year(wbt_bikemore_3)
+```
+
+
+Shared roadway lane
+```{r}
+prdat %>% 
+  sum_by_year(wbt_bikemore_4)
+```
+
+End of trip amenities
+```{r}
+prdat %>% 
+  sum_by_year(wbt_bikemore_5)
+```
+
+
+

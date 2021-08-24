@@ -64,9 +64,89 @@ prdat <- raw_pr %>%
                                 "College, graduate, or professional school",
                                 "Vocational/technical school",
                                 "Other",
-                                "None"))
+                                "None")),
+         workplace = ordered(workplace,
+                             c("Usually the same location (outside home)",
+                               "Workplace regularly varies (different offices or jobsites)",
+                               "At home (telecommute or self-employed with home office)",
+                               "Drives for a living (e.g., bus driver, salesperson)")),
+         license = ordered(license,
+                           c("Yes, has an intermediate or unrestricted license",
+                             "Yes, has a learner’s permit",
+                             "No, does not have a license or permit")),
+         commute_freq = ordered(commute_freq,
+                                c("6-7 days a week",
+                                  "5 days a week",
+                                  "4 days a week",
+                                  "3 days a week",
+                                  "2 days a week",
+                                  "1 day a week",
+                                  "A few times per month",
+                                  "Less than monthly")),
+         commute_mode = ordered(commute_mode,
+                                c("Drive alone",
+                                  "Carpool ONLY with other household members",
+                                  "Carpool with other people not in household (may also include household members)",
+                                  "Motorcycle/moped/scooter",
+                                  "Vanpool",
+                                  "Bicycle or e-bike",
+                                  "Walk, jog, or wheelchair",
+                                  "Bus (public transit)",
+                                  "Private bus or shuttle",
+                                  "Paratransit",
+                                  "Commuter rail (Sounder, Amtrak)",
+                                  "Urban rail (Link light rail, monorail)",
+                                  "Streetcar",
+                                  "Ferry or water taxi",
+                                  "Taxi (e.g., Yellow Cab)",
+                                  "Other hired service (Uber, Lyft, or other smartphone-app car service)",
+                                  "Airplane or helicopter",
+                                  "Scooter or e-scooter (e.g., Lime, Bird, Razor)",
+                                  "Motorcycle/moped",
+                                  "Other (e.g. skateboard)")),
+         telecommute_freq = ordered(telecommute_freq,
+                                    c("6-7 days a week",
+                                      "5 days a week",
+                                      "4 days a week",
+                                      "3 days a week",
+                                      "2 days a week",
+                                      "1 day a week",
+                                      "A few times per month",
+                                      "Less than monthly",
+                                      "Never",
+                                      "Not applicable")),
+         across(starts_with("mode_freq_"), 
+                ~ ordered(.x, 
+                          c("6-7 days/week",
+                            "5 days/week",
+                            "2-4 days/week",
+                            "1 day/week",
+                            "1-3 times in the past 30 days",
+                            "I do this, but not in the past 30 days",
+                            "I never do this"))),
+         across(starts_with("wbt_"),
+                ~ ordered(.x,
+                          c("Regularly (6-7 days per week)",
+                            "Somewhat often (3-5 days per week)",
+                            "Occasionally (1-2 days per week)",
+                            "Rarely (1-3 times per month)",
+                            "Never",
+                            "Not Applicable")))
          )
 
+# prdat %>% 
+#   select(starts_with("mode_freq_")) %>% 
+#   View()
+# 
+# prdat %>% 
+#   select(starts_with("wbt_")) %>% 
+#   View(title = "prdat")
+# 
+# raw_pr %>% 
+#   select(starts_with("wbt_")) %>% 
+#   View(title = "raw_pr")
+
+write_rds(prdat, here("analysis/data/derived_data/prdat.rds"))
 
 
 
