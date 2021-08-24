@@ -1,0 +1,23 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+In this notebook, I go through my conceptual model and decide which variables from PSRC I will use to test each part of the model. I will create a list of variables from each dataset level (household, person, travel, etc). Finally, I will use this list to select the variables from each dataset. 
+
+# Intention
+## Attitude
+
+## Social Factors
+
+## Affect
+
+# Habit
+
+# Context/Facilitating Conditions
+These have an indirect effect on travel behavior choices through their impact on **intention** and **habit**. 
+
+
+
+
+# Travel Behavior Indicator Variables

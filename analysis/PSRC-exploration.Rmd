@@ -1,0 +1,369 @@
+---
+title: "Exploring, Assessing PSRC Data"
+output:
+  html_notebook:
+    toc: yes
+    toc_float: yes
+  # html_document:
+  #   toc: yes
+  #   toc_float: yes
+  #   df_print: paged
+editor_options:
+  chunk_output_type: inline
+---
+
+This document will be checking out the PSRC data.
+
+
+# Initiation
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, include = TRUE, root.dir = here::here())
+```
+
+```{r, Imports, include=TRUE, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(here)
+library(janitor)
+```
+
+## Code for building tables, etc.
+
+#### Summary table:
+```{r, sumtable}
+sumtbl <- function(.data, ...) {
+  .data %>% 
+    group_by(...) %>% 
+    summarize(n = n())
+}
+```
+
+#### Crosstab:
+```{r, crosstab}
+sum_by_year <- function(data, sumvar) {
+  data %>% 
+    tabyl({{ sumvar }}, survey_year) %>% 
+    adorn_totals(where = c("row", "col")) %>%
+    adorn_percentages(denominator = "col") %>% 
+      adorn_pct_formatting() %>% 
+    adorn_ns()
+}
+
+```
+
+<!-- # Household Level -->
+
+# Household Level {.tabset .tabset-fade .tabset-pills}
+
+Import household data:
+```{r, message=FALSE}
+hhdat <- read_rds(here("analysis/data/derived_data/hhdat.rds"))
+```
+
+## Basic counts
+
+#### How many households from 2017 vs 2019
+
+```{r, echo = TRUE}
+hhdat %>% sumtbl(survey_year)
+```
+
+#### Number of smartphone vs travel diary
+
+```{r}
+hhdat %>% 
+  sumtbl(hhgroup)
+```
+
+#### Cross of those two: how many in each survey year
+
+```{r}
+hhdat %>% 
+  sum_by_year(hhgroup)
+```
+
+## Income
+
+#### Broad income (everyone answered)
+
+```{r}
+hhdat %>% 
+  sum_by_year(hhincome_broad)
+```
+
+
+#### Detailed income
+
+```{r}
+hhdat %>% 
+  sum_by_year(hhincome_detailed)
+```
+
+#### Follow-up categories if they said "prefer not to answer" to the detailed question
+
+```{r}
+hhdat %>% 
+  filter(!is.na(hhincome_followup)) %>% 
+  sum_by_year(hhincome_followup)
+```
+
+## Household size
+
+```{r}
+hhdat %>% 
+  sum_by_year(hhsize)
+
+```
+
+#### Number adults and children
+
+```{r}
+# hhdat %>% 
+#   mutate(hhsize = as.numeric(str_sub(hhsize, start = 1, end = 2))) %>% 
+#   mutate(adult_ratio = numadults/hhsize) %>%  
+#   sum_by_year(adult_ratio)
+
+hhdat %>% sum_by_year(numadults)
+
+```
+
+#### Number of workers
+
+```{r}
+hhdat %>% 
+  sum_by_year(numworkers)
+```
+
+#### Number of workers by number of adults for 2017
+```{r}
+hhdat %>% 
+  filter(survey_year == 2017) %>% 
+  tabyl(numworkers, numadults) %>% 
+  adorn_totals() %>% 
+  adorn_percentages(denominator = "col") %>% 
+  adorn_pct_formatting() %>% 
+  adorn_ns() %>% 
+  adorn_title()
+```
+
+## Life Cycle
+
+```{r}
+hhdat %>% 
+  sum_by_year(lifecycle)
+
+```
+
+Is `lifecycle` exclusionary? How could that work? If not, how is it decided which group they are in? 
+
+```{r}
+hhdat %>% 
+  filter(lifecycle == "Household includes children under 5" | lifecycle == "Household includes children age 5-17") %>% 
+  select(hhid, lifecycle, numchildren, numadults) %>% 
+  View(title = "kids")
+
+hhdat %>% 
+  filter(numchildren == 0) %>% 
+  select(hhid, lifecycle, numchildren, numadults) %>% 
+  View(title = "nokids")
+```
+
+**If they have kids, then they are put into a "kids" group.** The group is determined by the youngest kid they have. If under 5, then they are put in "children under 5" group. If over 5, they are put in "children age 5-17" group. 
+
+Else, they are put into the appropriate group based on number of hh members and householder age. 
+
+## Day of week of diary
+
+```{r}
+hhdat %>% 
+  sum_by_year(dayofweek)
+```
+Travel diary **ONLY** Tuesday, Wednesday, Thursday. For "typical day" type of measurement.
+
+
+## Residence type
+
+#### Rent/own
+```{r}
+hhdat %>% 
+  sum_by_year(rent_own)
+```
+
+#### Residence type
+
+```{r}
+hhdat %>% 
+  sum_by_year(res_type)
+```
+
+
+
+## Number of weekdays 
+
+Doing this one because I don't understand what it's purpose is.
+
+```{r}
+hhdat %>% 
+  select(lifecycle, hhsize, nwkdays, dayofweek) %>% 
+  head()
+```
+
+Still don't understand what this means.
+
+
+# Person Level
+What do we have in the person-level data?
+
+Import Person Data
+```{r}
+prdat
+```
+
+
+## Demographics
+
+#### Age
+
+```{r}
+prdat %>% 
+  sum_by_year(age)
+
+```
+
+```{r}
+prdat %>% 
+  sum_by_year(age_category)
+```
+
+
+#### Gender
+
+```{r}
+prdat %>% 
+  sum_by_year(gender)
+```
+
+## SES
+Socioeconomic status variables.
+
+### Employment
+
+#### General employment variable
+```{r}
+prdat %>% 
+  sum_by_year(employment)
+```
+
+Who are in the `NA` group? I think it's probably ppl under 18
+```{r}
+prdat %>% 
+  select(employment, age_category) %>% 
+  filter(is.na(employment)) %>% 
+  View()
+
+
+prdat %>% 
+  select(employment, age_category) %>% 
+  filter(age_category == "Under 18 years") %>% 
+  pull(employment) %>%
+  unique()
+```
+
+Are number under 18 and number `NA` for employment the same?
+```{r}
+
+prdat %>% filter(is.na(employment)) %>% pull(employment) %>% length()
+prdat %>% filter(age_category == "Under 18 years") %>% pull(age_category) %>% length()
+```
+YES. All `NA` values for `employment` are ppl under 18. 
+
+
+#### Number of jobs
+
+```{r}
+prdat %>% 
+  sum_by_year(jobs_count)
+```
+
+
+#### Worker
+
+```{r}
+prdat %>% 
+  sum_by_year(worker)
+```
+
+```{r}
+prdat %>% 
+  filter(age == "16-17 years" | age_category != "Under 18 years") %>% 
+  filter(worker == "No jobs") %>%
+  select(hhid, person_id, age, employment, jobs_count, worker) %>% 
+  View(title = "non-workers")
+```
+
+
+```{r}
+prdat %>% 
+  tabyl(jobs_count, worker)
+```
+```{r}
+prdat %>% 
+  tabyl(employment, worker)
+```
+
+
+Difference between `worker` and `jobs_count`: `jobs_count` is only "0 jobs" for 16-17 year-olds. Otherwise, it is `NA`. The values for both `jobs_count` and `worker` are determined by the `employment` variable. If `employment` is "retired", "homemaker", or "not currently employed", then `jobs_count` is `NA`, and  `worker` is "No jobs". 
+
+For my analysis, `worker` is probably useful enough on it's own. However, `jobs_count` is interesting. If ppl have multiple jobs in the same day, they need to go to more places. This could pose issues with taking public transit or other modes besides SOV's, where freedom of movement/flexibility is reduced.
+
+
+## Education
+#### Education
+
+```{r}
+prdat %>% 
+  sum_by_year(education)
+```
+
+```{r}
+prdat %>% 
+  tabyl(education, age_category) %>% 
+  adorn_percentages(denominator = "col") %>% adorn_pct_formatting()
+```
+Seattle area has skewed demographics in terms of educational attainment: number of people with bachelor degree and above is extremely high. In particular, number with graduate/post-graduate degree.
+
+```{r}
+prdat %>% 
+  sum_by_year(education)
+```
+
+
+
+#### Student
+```{r}
+prdat %>% 
+  sum_by_year(student)
+  
+```
+
+```{r}
+prdat %>% 
+  tabyl(student, age_category)
+```
+
+School type
+
+```{r}
+prdat %>% 
+  sum_by_year(schooltype)
+```
+
+```{r}
+prdat %>% 
+  tabyl(schooltype, age_category) %>% 
+  adorn_percentages(denominator = "col") %>% adorn_pct_formatting()
+```
+
+## Travel Behavior
+
+## Attitudes, opinions
