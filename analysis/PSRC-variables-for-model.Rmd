@@ -1,23 +1,95 @@
 ---
-title: "R Notebook"
-output: html_notebook
+title: "PSRC Variables for Model"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 2
+    toc_float: yes    
+    df_print: paged
+
 ---
+
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, include = TRUE, root.dir = here::here())
+```
+
+
 
 In this notebook, I go through my conceptual model and decide which variables from PSRC I will use to test each part of the model. I will create a list of variables from each dataset level (household, person, travel, etc). Finally, I will use this list to select the variables from each dataset. 
 
-# Intention
+```{r, Imports, include=TRUE, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(here)
+# library(janitor)
+```
+
+
+```{r}
+prdat <- read_rds(here("analysis/data/derived_data/prdat.rds"))
+```
+
+# Intention {.tabset .tabset-fade .tabset-pills}
+
 ## Attitude
+Unfortunately, it does not look like we will be able to include "social factors" or "affect", as there are not any survey questions that cover these. However, We do have information about preferences. 
+
+### Values and Beliefs
+
+
+### Preferences/Intentions
+Surveys usually don't distinguish crisply between preference and intention.
+
+For intention, we have the variables starting with `wbt_`. These are asking what would influence someone to use more transit and use their bicycles more. This definitely is the type of question that measures **Intention** to use these modes.
+
+We also have the number of trips by different modes in past 30 days, names from `mode_freq_1` - `mode_freq_5`. The modes include. 
+
+* times ridden transit
+* times ridden a bike
+* times gone for a walk
+* times used carshare
+* times used rideshare
+
+```{r}
+prefs <- prdat %>% select(starts_with("wbt_"), starts_with("mode_freq_")) %>% names()
+```
+
+HOWEVER: should `mode_freq` variables instead be used for **Habit**?
+
 
 ## Social Factors
 
 ## Affect
 
-# Habit
+# Habit {.tabset .tabset-fade .tabset-pills}
 
-# Context/Facilitating Conditions
+## Stand-in subsection
+
+Potentially, the variables named from `mode_freq_1` - `mode_freq_5` could be used for measuring habit. These measure the number of trips by different modes in past 30 days. The modes include: 
+
+* times ridden transit
+* times ridden a bike
+* times gone for a walk
+* times used carshare
+* times used rideshare
+
+This set of variables is also included as potential option for measuring **preferences**.
+
+
+There is also "usual way of commuting to current location/office" called `commute_mode`
+
+Also the `commute_` variables! These are showing habit. 
+
+Other modes (30 day) can be useful for ppl who don't drive to work. 
+
+# Context/Facilitating Conditions {.tabset .tabset-fade .tabset-pills}
 These have an indirect effect on travel behavior choices through their impact on **intention** and **habit**. 
 
+## Stand-in subsection
 
 
 
-# Travel Behavior Indicator Variables
+# Travel Behavior Indicator Variables {.tabset .tabset-fade .tabset-pills}
+## Stand-in subsection
+
+
