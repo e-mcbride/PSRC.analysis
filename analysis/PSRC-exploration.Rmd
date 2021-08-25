@@ -1,13 +1,14 @@
 ---
 title: "Exploring, Assessing PSRC Data"
 output:
-  html_notebook:
+  html_document:
     toc: yes
+    toc_depth: 2
     toc_float: yes
-  # html_document:
+    df_print: paged
+  # html_notebook:
   #   toc: yes
   #   toc_float: yes
-  #   df_print: paged
 editor_options:
   chunk_output_type: inline
 ---
@@ -59,6 +60,13 @@ Import household data:
 ```{r, message=FALSE}
 hhdat <- read_rds(here("analysis/data/derived_data/hhdat.rds"))
 ```
+
+## other stuff
+```{r}
+# hhdat %>% 
+#   tabyl(final_home_rgcnum, final_home_uvnum)
+```
+
 
 ## Basic counts
 
@@ -211,13 +219,26 @@ hhdat %>%
 Still don't understand what this means.
 
 
-# Person Level
+# Person Level {.tabset .tabset-fade .tabset-pills}
 What do we have in the person-level data?
 
 Import Person Data
 ```{r}
 prdat <- read_rds(here("analysis/data/derived_data/prdat.rds"))
 ```
+
+## Other stuff
+```{r}
+prdat %>% 
+  tabyl(student, worker) %>% 
+  adorn_percentages() %>% adorn_pct_formatting()
+```
+
+```{r}
+prdat %>% 
+  tabyl(commute_mode, student)
+```
+
 
 
 ## Demographics
@@ -434,6 +455,29 @@ prdat %>%
 
 ## Attitudes, opinions
 
+### Preference survey
+```{r}
+prdat %>% 
+  sum_by_year(completed_pref_survey)
+```
+```{r}
+prdat %>% 
+  filter(!(completed_pref_survey == "Yes")) %>% 
+  View()
+```
+
+This was only included in 2017. 
+
+According to p. 19 of the PSRC 2017 final report, preference survey was the following:
+
+* various mode frequencies (how often one typically uses modes)
+* (If uses transit) availability and use of varioustransit fare payment methods
+* Employer transit subsidies and commuter benefits
+* Autonomous vehicle concerns and interests
+* Factors that would encourage increased bike/transit usage
+
+If a person's survey was reported by proxy, then they were not asked opinion and preference questions. This consisted of `211` respondents in 2017.
+
 #### Use more transit
 
 Safer ways to get to stops
@@ -488,6 +532,32 @@ End of trip amenities
 prdat %>% 
   sum_by_year(wbt_bikemore_5)
 ```
+
+# Trip Level {.tabset .tabset-fade .tabset-pills}
+
+Import Trip-level Data
+```{r}
+trdat <- read_rds(here("analysis/data/derived_data/trdat.rds"))
+```
+
+
+
+## Diary day sequence
+
+Not sure what this is so i'm checking it out
+
+```{r}
+# trdat %>% pull(personid)
+trdat %>% 
+  filter(personid == 1710065203) %>% 
+  pull(daynum) %>% 
+  unique()
+```
+SO: this person (id: `1710065203`) has 7 daynums recorded. According to the psrc 2017 final report: those that used rSurvey reported their travel for 1 day. Those that used rMove reported their travel for 7 days. 
+
+It also says that households were "preassigned" to a Tues, Wed, or Thurs, and then reassigned to week always starting with a Tues if they were using rMove. 
+
+
 
 
 
