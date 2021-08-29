@@ -52,7 +52,6 @@ sum_by_year <- function(data, sumvar) {
 
 ```
 
-<!-- # Household Level -->
 
 # Household Level {.tabset .tabset-fade .tabset-pills}
 
@@ -556,6 +555,90 @@ trdat %>%
 SO: this person (id: `1710065203`) has 7 daynums recorded. According to the psrc 2017 final report: those that used rSurvey reported their travel for 1 day. Those that used rMove reported their travel for 7 days. 
 
 It also says that households were "preassigned" to a Tues, Wed, or Thurs, and then reassigned to week always starting with a Tues if they were using rMove. 
+
+
+## Mode stuff
+
+```{r}
+modedat <- trdat %>% 
+  select(hhid, personid, contains("mode"))
+```
+
+
+```{r}
+walk2bus <- trdat %>% 
+  filter(str_detect(mode_1, "Walk")) %>% 
+  filter(str_detect(mode_2, regex("bus", ignore_case = TRUE)) | 
+           str_detect(mode_2, regex("rail", ignore_case = TRUE)) 
+         )
+```
+
+Which trips even have multiple modes?
+```{r}
+multmode <- modedat %>% 
+  filter(!is.na(mode_2))
+```
+
+1,584 trips out of 124,516 have multiple modes. Out of those, 
+
+
+```{r}
+multmode %>% 
+  group_by(mode_1) %>% 
+  summarise(n = n()) %>% 
+  arrange(desc(n))
+```
+
+```{r}
+multmode %>% 
+  tabyl(mode_1) %>% 
+  arrange(desc(n))
+```
+
+```{r}
+multmode %>% 
+  tabyl(mode_2) %>% 
+  arrange(desc(n)) %>% 
+  adorn_pct_formatting()
+```
+
+```{r}
+trdat %>% 
+  tabyl(mode_1) %>% 
+  arrange(desc(n)) %>% 
+  adorn_pct_formatting()
+```
+
+
+```{r}
+multmode %>% 
+  group_by(mode_2) %>% 
+  summarise(n = n()) %>% 
+  arrange(desc(n))
+```
+
+
+
+## First travel beh LPA: Main mode
+
+```{r}
+trdat %>% 
+  group_by(main_mode) %>% 
+  summarise(n = n())
+```
+
+
+
+Get all the modes used by each person . Should look like this:
+
+
+| personid    | Bike    | Walk    | Transit   | HOV     | SOV     | Other     |
+|-------------|---------|---------|-----------|---------|---------|-----------|
+| 12345       | 1       | 1       | 1         | 0       | 1       | 1         |
+| 23456       | 0       | 1       | 1         | 0       | 1       | 0         |
+
+
+This is done in `analysis/04_prep-mode-data.r`
 
 
 
