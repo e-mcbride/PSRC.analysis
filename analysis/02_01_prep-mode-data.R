@@ -1,4 +1,4 @@
-# nubmer of times used each mode on diary day
+# Prep mode data and create model syntax
 
 library(tidyverse)
 library(here)
@@ -38,7 +38,7 @@ mode <- trdat %>%
   # Adding people who did not travel:
     bind_rows(notrav)
 
-
+# Create model syntax ##################################################################
 
 #import my function to write mplus data to file in the right file location
 devtools::load_all()
