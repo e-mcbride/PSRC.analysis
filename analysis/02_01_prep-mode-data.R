@@ -65,7 +65,7 @@ create_model_dirs <- function(model_name) {
 }
 
 
-model_name <- "mode"
+model_name <- "TEST"
 
 create_model_dirs(model_name)
 
@@ -82,4 +82,28 @@ write_mplus_data(df = mode,
                  hashfilename = TRUE)
 
 
-MplusAutomation::createModels(templatefile = "analysis/03_Mplus/mode/template/lpa_mode_template.txt")
+# create blank template file
+
+templatefile_path <- paste0(model_template, model_name, "_template.txt")
+
+if(file.exists(templatefile_path)) {
+  message("File already exists")
+} else {
+  file.create(templatefile_path)
+}
+
+# THEN: manually write template file before running the following:
+
+MplusAutomation::createModels(templatefile = templatefile_path)
+
+
+# Copy .inp files to the model folder from the template folder,
+# BUT ONLY IF THE INPUT FILES DO NOT ALREADY EXIST
+# IF THEY DO EXIST, they will not be overwritten. This protects changes made to input files to
+# optimize model results
+
+inp_list <- list.files(model_template, pattern = ".inp", full.names = TRUE)
+
+file.copy(from = inp_list, to = model_path,
+          recursive = FALSE,
+          overwrite = FALSE)
