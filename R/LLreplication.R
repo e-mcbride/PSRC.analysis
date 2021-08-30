@@ -27,7 +27,7 @@ LLrep_to_table <- function(mplusModel) {
     }
     llrp <- llrp %>%
       dplyr::rename("loglikelihood" = V1, "seed" = V2, "initStageStart" = V3) %>%
-      filter(loglikelihood != "")
+      dplyr::filter(loglikelihood != "")
   }
 
   return(llrp)

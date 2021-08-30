@@ -20,7 +20,7 @@ write_mplus_data <- function(df,
 
   try({
     data.frame(df) %>%
-      prepareMplusData(
+      MplusAutomation::prepareMplusData(
         filename = filename,
         writeData = writeData,
         hashfilename = hashfilename);

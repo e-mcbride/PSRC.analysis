@@ -5,11 +5,10 @@
 #' @param mplusmodelinp A single `mplus.inp` object
 model_to_mplusObjList <- function(mplusmodelinp) {
   mplusmodelinp %>%
-    # purrr::pluck("input") %>%
     purrr::set_names(toupper) %>%
     purrr::map_at(vars(-TITLE),
            ~ paste0(stringr::str_to_upper(names(.x)), " = ", .x, ";\n") %>%
-             str_c(collapse = " ")
+             stringr::str_c(collapse = " ")
            )
 }
 
