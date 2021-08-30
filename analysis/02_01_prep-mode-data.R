@@ -80,3 +80,6 @@ write_mplus_data(df = mode,
                  filename = paste0(model_name, "-data-mplus-ready.dat"),
                  writeData = "ifmissing",
                  hashfilename = TRUE)
+
+
+MplusAutomation::createModels(templatefile = "analysis/03_Mplus/mode/template/lpa_mode_template.txt")
