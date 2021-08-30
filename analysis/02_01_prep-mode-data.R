@@ -3,6 +3,7 @@
 library(tidyverse)
 library(here)
 library(janitor)
+library(MplusAutomation)
 
 trdat <- read_rds(here("analysis/data/derived_data/trdat.rds"))
 
@@ -61,40 +62,21 @@ create_model_dirs <- function(model_name) {
     message("Template folder already exists within model root folder")
   }
   dir.create(template_path)
-
-  #
-  # if(!dir.exists(analysis_path)){
-  #   dir.create(analysis_path)
-  # }
-  # if(!dir.exists(template_path)){
-  # dir.create(template_path)
-  # }
-  # message("Both directories already exist")
-
 }
-
-# create_model_dirs("HEYO")
 
 
 model_name <- "mode"
-model_template <- paste0("analysis/03_Mplus/", model_name, "-template/")
 
-# model_name <- "WHY"
-# analysis_path <- paste0("analysis/03_Mplus/", model_name, "/")
-# analysis_path
-#
-# template_path <- paste0(analysis_path, "template/")
-# template_path
-#
-# template_path <- paste0("analysis/03_Mplus/", mode_n, "-template/")
-#
-#
-# dir.create(here(template_path))
-# dir.exists(here(template_path))
+create_model_dirs(model_name)
+
+model_path <- paste0("analysis/03_Mplus/", model_name, "/")
+model_template <-  paste0(model_path, "template/")
+
+
 
 
 write_mplus_data(df = mode,
-                 wd_for_analysis = here(template_path),
-                 filename = paste0(mode_n, "-data-mplus-ready.dat"),
-                 writeData = "ifmmissing",
+                 wd_for_analysis = here(model_path),
+                 filename = paste0(model_name, "-data-mplus-ready.dat"),
+                 writeData = "ifmissing",
                  hashfilename = TRUE)
