@@ -19,7 +19,8 @@ assign(paste0("allOut_", model_name),
 # if it does, then update it
 # if it does not, append "mode" or "attitude" or whatever to the list.
 
-
+allOut <- list()
+allOut[[model_name]] <-
 # allOut_mod <- readModels(
 #   model_path,
 #   # here("analysis/03_Mplus/attitudes/"),

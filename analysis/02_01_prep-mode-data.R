@@ -92,8 +92,9 @@ if(file.exists(templatefile_path)) {
   file.create(templatefile_path)
 }
 
-# THEN: manually write template file before running the following:
 
+# THEN: manually write template file before running the following: ----------------
+#  This section could become a function on its own
 MplusAutomation::createModels(templatefile = templatefile_path)
 
 
