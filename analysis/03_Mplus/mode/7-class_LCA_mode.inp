@@ -1,0 +1,25 @@
+TITLE: 7-class LCA: mode
+DATA: FILE = "mode-data-mplus-ready_c97c109838d8a433fc3c2c2577596b0f.dat";
+VARIABLE:   NAMES = personid hov sov walk bike transit other;
+            IDVAR = personid;
+            USEVAR = hov sov walk bike transit other;
+            CATEGORICAL = hov sov walk bike transit other;
+            MISSING=.;
+            CLASSES = c(7);
+ANALYSIS: TYPE = MIXTURE;
+          PROCESSORS = 6(STARTS);
+!          STSCALE = 20;
+          STARTS = 1000 250;
+!          STARTS = 0;
+!          OPTSEED = ;
+!          K-1STARTS = 500 125;
+!          LRTSTARTS = 0 0 200 50;
+
+PLOT: TYPE=PLOT3;
+      SERIES = hov sov walk bike transit other(*);
+OUTPUT: TECH11;
+!OUTPUT: TECH14;
+!SAVEDATA:	FILE IS lpa_mode_c7_save.txt;
+!			SAVE IS CPROB;
+!            MISSFLAG=9999;
+!			FORMAT IS FREE;
