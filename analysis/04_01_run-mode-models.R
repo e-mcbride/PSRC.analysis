@@ -4,7 +4,7 @@ library(here)
 library(MplusAutomation)
 
 MplusAutomation::runModels(
-  here("analysis/03_Mplus/mode/",
-       recursive=TRUE))
+  here("analysis/03_Mplus/mode/"),
+       recursive=FALSE)
 
 
