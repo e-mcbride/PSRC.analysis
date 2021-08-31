@@ -36,7 +36,8 @@ mode <- trdat %>%
   clean_names() %>%
 
   # Adding people who did not travel:
-    bind_rows(notrav)
+    bind_rows(notrav) %>%
+  select(personid, sov, hov, transit, everything())
 
 # Create model syntax ##################################################################
 
@@ -65,15 +66,12 @@ create_model_dirs <- function(model_name) {
 }
 
 
-model_name <- "TEST"
+model_name <- "mode"
 
 create_model_dirs(model_name)
 
 model_path <- paste0("analysis/03_Mplus/", model_name, "/")
 model_template <-  paste0(model_path, "template/")
-
-
-
 
 write_mplus_data(df = mode,
                  wd_for_analysis = here(model_path),
