@@ -8,18 +8,6 @@ devtools::load_all()
 model_name <- "mode"
 
 
-allOut <- readModels(here("analysis/03_Mplus/"), recursive = TRUE)
-
-shorten <- allOut %>%
-  names() %>%
-  str_split(".03_Mplus.") %>%
-  map(~.x[2])
-names(allOut) <- shorten
-
-allOut_mode <- allOut %>%
-  keep(str_detect(names(.), pattern = model_name))
-
-
 # Get the table of values =====
 
 #make into fn
@@ -43,6 +31,19 @@ fitind <- function(outfiles) {
               t11_km1ll = map(summaries, "T11_KM1LL")
     )
 }
+
+
+allOut <- readModels(here("analysis/03_Mplus/"), recursive = TRUE)
+
+shorten <- allOut %>%
+  names() %>%
+  str_split(".03_Mplus.") %>%
+  map(~.x[2])
+names(allOut) <- shorten
+
+allOut_mode <- allOut %>%
+  keep(str_detect(names(.), pattern = model_name))
+
 
 fitind_mode <- fitind(allOut_mode)
 
