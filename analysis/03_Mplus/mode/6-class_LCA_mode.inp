@@ -8,12 +8,12 @@ VARIABLE:   NAMES = personid hov sov walk bike transit other;
             CLASSES = c(6);
 ANALYSIS: TYPE = MIXTURE;
           PROCESSORS = 6(STARTS);
-          STSCALE = 10;
-          STARTS = 8000 2000;
-!          STARTS = 0;
-!          OPTSEED = ;
-!          K-1STARTS = 500 125;
-!          LRTSTARTS = 0 0 200 50;
+!          STSCALE = 10;
+!          STARTS = 8000 2000;
+          STARTS = 0;
+          OPTSEED = 932539; ! for NO stscale change; OPTSEED = 431344; ! for stscale = 10
+          K-1STARTS = 1500 375;
+          LRTSTARTS = 0 0 16000 4000;
 
 PLOT: TYPE=PLOT3;
       SERIES = hov sov walk bike transit other(*);
