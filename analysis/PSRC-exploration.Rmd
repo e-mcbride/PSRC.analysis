@@ -565,8 +565,9 @@ modedat <- trdat %>%
 ```
 
 
+### Multi-mode travel
 ```{r}
-walk2bus <- trdat %>% 
+walk2bus <- modedat %>% 
   filter(str_detect(mode_1, "Walk")) %>% 
   filter(str_detect(mode_2, regex("bus", ignore_case = TRUE)) | 
            str_detect(mode_2, regex("rail", ignore_case = TRUE)) 
@@ -618,8 +619,51 @@ multmode %>%
 ```
 
 
+### Combine `main_mode` and `mode_simple` and `driver`
+Combining these because I want drive alone, drive others, and passenger separated
 
-## First travel beh LPA: Main mode
+```{r}
+trdat %>% 
+  select(mode_simple, main_mode) %>% 
+  mutate(samemode = mode_simple == main_mode) %>% 
+  filter(!samemode) %>% 
+  group_by(main_mode, mode_simple) %>% 
+  summarise(n())
+```
+
+The only difference between `mode_simple` and `main_mode` is in the SOV vs HOV and driving. Must use `driver` variable to determine if someone is a driver
+
+```{r}
+trdat %>% 
+  # select(mode_simple, main_mode, driver) %>% 
+  group_by(driver) %>% 
+  # filter(main_mode == "HOV") %>% 
+  # group_by(main_mode) %>% 
+  summarise(n())
+```
+
+
+```{r}
+mode_comb <- trdat %>% 
+  # select(mode_simple, main_mode, driver) %>% 
+  mutate(mode_combine = 
+           case_when(
+             main_mode == "HOV" & driver == "Driver"  ~ "DrOth",
+             main_mode == "HOV" & driver == "Passenger" ~ "Pass",
+             TRUE                                        ~ main_mode
+           )
+         )
+```
+
+
+```{r}
+mode_comb %>% 
+  select(main_mode, driver, mode_combine) %>% 
+  View()
+```
+
+
+## First travel beh LCA: Main mode
 
 ```{r}
 trdat %>% 
@@ -644,3 +688,6 @@ This is done in `analysis/04_prep-mode-data.r`
 
 
 
+
+
+## Second travel beh LCA: modified main mode
