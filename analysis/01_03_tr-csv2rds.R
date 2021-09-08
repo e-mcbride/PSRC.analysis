@@ -6,10 +6,10 @@ raw_tr <- read_csv(here("analysis/data/raw_data/2017-2019-pr2-5-Trip.csv"),
                    guess_max = 63000)
 
 
-trdat <- raw_tr %>% 
+trdat <- raw_tr %>%
   # get the columns mode_1 thru mode_4
   mutate(
-    across(mode_1:mode_4, 
+    across(mode_1:mode_4,
            ~ factor(.x,
              c("Walk (or jog/wheelchair)",
              "Bicycle or e-bike (rSurvey only)",
@@ -69,7 +69,25 @@ trdat <- raw_tr %>%
                         "Got dropped off",
                         "Took a taxi (e.g., Yellow Cab)",
                         "Took ride-share/other hired car service (e.g., Lyft, Uber)",
-                        "Other"))
+                        "Other")),
+
+    # There are NAs in the modes that shouldn't be. this fixes it:
+    main_mode =
+      if_else(
+        str_detect(mode_1, regex("Bicycle", ignore_case = TRUE)),
+        "Bike",
+        main_mode),
+    main_mode =
+      if_else(
+        !is.na(mode_1) & is.na(main_mode),
+        "Other",
+        main_mode
+      ),
+    mode_simple =
+             if_else(is.na(mode_simple) & !is.na(main_mode),
+                     main_mode,
+                     mode_simple
+             )
   )
 
 
