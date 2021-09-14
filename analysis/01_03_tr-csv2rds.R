@@ -71,6 +71,11 @@ trdat <- raw_tr %>%
                         "Took ride-share/other hired car service (e.g., Lyft, Uber)",
                         "Other")),
 
+    driver = factor(driver,
+                    c("Driver",
+                      "Passenger",
+                      "Both (switched drivers during trip)")),
+
     # There are NAs in the modes that shouldn't be. this fixes it:
     main_mode =
       if_else(
@@ -87,8 +92,20 @@ trdat <- raw_tr %>%
              if_else(is.na(mode_simple) & !is.na(main_mode),
                      main_mode,
                      mode_simple
+             ),
+
+    # Now, must make a variable that includes driving alone, passenger, and drive others separate
+    # Make a new variable called `mode_full_EM` - indicates it's a variable made by me
+
+    mode_full_EM =
+             case_when(
+               main_mode == "HOV" & driver == "Driver"  ~ "DrOth",
+               main_mode == "HOV" & driver == "Passenger" ~ "Pass",
+               TRUE                                        ~ main_mode
              )
+
   )
+
 
 
 write_rds(trdat, here("analysis/data/derived_data/trdat.rds"))
