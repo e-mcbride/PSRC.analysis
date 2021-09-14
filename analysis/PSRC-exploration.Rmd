@@ -15,9 +15,6 @@ editor_options:
 
 This document will be checking out the PSRC data.
 
-
-# Initialization
-
 ```{r, setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, include = TRUE, root.dir = here::here())
 ```
@@ -28,7 +25,7 @@ library(here)
 library(janitor)
 ```
 
-## Code for building tables, etc.
+# Code for building tables, etc.
 
 #### Summary table:
 ```{r, sumtable}
@@ -313,7 +310,7 @@ prdat %>%
 prdat %>% 
   filter(age == "16-17 years" | age_category != "Under 18 years") %>% 
   filter(worker == "No jobs") %>%
-  select(hhid, person_id, age, employment, jobs_count, worker) %>% 
+  select(hhid, personid, age, employment, jobs_count, worker) %>% 
   View(title = "non-workers")
 ```
 
@@ -662,6 +659,7 @@ mode_comb %>%
   View()
 ```
 
+This combined variable has now been added to `trdat` under the name `mode_full_EM` to indicate that I have created a variable that manipulated the mode to be more detailed.
 
 ## First travel beh LCA: Main mode
 
@@ -682,7 +680,7 @@ Get all the modes used by each person . Should look like this:
 | 23456       | 0       | 1       | 1         | 0       | 1       | 0         |
 
 
-This is done in `analysis/04_prep-mode-data.r`
+This is done in `analysis/02_01_prep-mode-data.r`
 
 
 
@@ -691,3 +689,4 @@ This is done in `analysis/04_prep-mode-data.r`
 
 
 ## Second travel beh LCA: modified main mode
+

@@ -6,6 +6,7 @@ raw_pr <- read_csv(here("analysis/data/raw_data/2017-2019-pr2-2-Person.csv"),
                    guess_max = 7000) #`guess_max` increases max # rows looked at to determine col type
 
 prdat <- raw_pr %>%
+  rename(personid = person_id) %>%
   mutate(age = ordered(age,
                        c("Under 5 years old",
                          "5-11 years",
@@ -115,8 +116,8 @@ prdat <- raw_pr %>%
                                       "Less than monthly",
                                       "Never",
                                       "Not applicable")),
-         across(starts_with("mode_freq_"), 
-                ~ ordered(.x, 
+         across(starts_with("mode_freq_"),
+                ~ ordered(.x,
                           c("6-7 days/week",
                             "5 days/week",
                             "2-4 days/week",
@@ -134,17 +135,6 @@ prdat <- raw_pr %>%
                             "Not Applicable")))
          )
 
-# prdat %>% 
-#   select(starts_with("mode_freq_")) %>% 
-#   View()
-# 
-# prdat %>% 
-#   select(starts_with("wbt_")) %>% 
-#   View(title = "prdat")
-# 
-# raw_pr %>% 
-#   select(starts_with("wbt_")) %>% 
-#   View(title = "raw_pr")
 
 write_rds(prdat, here("analysis/data/derived_data/prdat.rds"))
 
