@@ -5,6 +5,8 @@ library(here)
 library(janitor)
 library(MplusAutomation)
 
+devtools::load_all(helpers = FALSE)
+
 trdat <- read_rds(here("analysis/data/derived_data/trdat.rds"))
 
 
@@ -16,8 +18,8 @@ trpid <- trdat %>%
   unique()
 
 notrav <- prdat %>%
-  filter(!(person_id %in% trpid)) %>%
-  select(personid = person_id) %>%
+  filter(!(personid %in% trpid)) %>%
+  select(personid) %>%
   mutate(hov = 0,
          sov = 0,
          walk = 0,
@@ -39,6 +41,7 @@ mode <- trdat %>%
     bind_rows(notrav) %>%
   select(personid, sov, hov, transit, everything())
 
+
 # Create model syntax ##################################################################
 
 #import my function to write mplus data to file in the right file location
@@ -46,7 +49,6 @@ devtools::load_all()
 
 # if the mplus folder does not exist in /analysis/, then create it
 dir.create(here("analysis/03_Mplus/"))
-
 
 create_model_dirs <- function(model_name) {
   analysis_relPath <- paste0("analysis/03_Mplus/", model_name, "/")
@@ -68,11 +70,13 @@ create_model_dirs <- function(model_name) {
 
 model_name <- "mode"
 
+
 create_model_dirs(model_name)
 
 model_path <- paste0("analysis/03_Mplus/", model_name, "/")
 model_template <-  paste0(model_path, "template/")
 
+# my function to write mplus data to file in the right file location:
 write_mplus_data(df = mode,
                  wd_for_analysis = here(model_path),
                  filename = paste0(model_name, "-data-mplus-ready.dat"),
