@@ -13,39 +13,12 @@ trdat <- read_rds(here("analysis/data/derived_data/trdat.rds"))
 # people who made no trips are missing from the `travel` data, so I add them in with the following
 prdat <- read_rds(here("analysis/data/derived_data/prdat.rds"))
 
-trpid <- trdat %>%
-  pull(personid) %>%
-  unique()
-
-notrav <- prdat %>%
-  filter(!(personid %in% trpid)) %>%
-  select(personid) %>%
-  mutate(hov = 0,
-         sov = 0,
-         walk = 0,
-         bike = 0,
-         transit = 0,
-         other = 0)
-
-
+# Function version of above ############################################
 mode <- trdat %>%
-  select(personid, main_mode) %>%
-  filter(!is.na(main_mode)) %>%
-  mutate(vals = 1) %>%
-  distinct() %>%
-  # group_by(personid) %>%
-  pivot_wider(id_cols = personid, names_from = main_mode, values_from = vals, values_fill = 0) %>%
-  clean_names() %>%
-
-  # Adding people who did not travel:
-    bind_rows(notrav) %>%
+  add_nontravelers(prdat, main_mode) %>% # my function to add non-travelers
   select(personid, sov, hov, transit, everything())
 
-
 # Create model syntax ##################################################################
-
-#import my function to write mplus data to file in the right file location
-devtools::load_all()
 
 # if the mplus folder does not exist in /analysis/, then create it
 dir.create(here("analysis/03_Mplus/"))
