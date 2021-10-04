@@ -7,11 +7,12 @@ library(MplusAutomation)
 
 devtools::load_all(helpers = FALSE)
 
-trdat <- read_rds(here("analysis/data/derived_data/trdat.rds"))
+library(PSRC.data)
+trdat <- PSRC.data::trdat #read_rds(here("analysis/data/derived_data/trdat.rds"))
 
 
 # people who made no trips are missing from the `travel` data, so I add them in with the following
-prdat <- read_rds(here("analysis/data/derived_data/prdat.rds"))
+prdat <- PSRC.data::prdat #read_rds(here("analysis/data/derived_data/prdat.rds"))
 
 trpid <- trdat %>%
   pull(personid) %>%
