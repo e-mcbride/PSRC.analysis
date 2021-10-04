@@ -126,12 +126,23 @@ newtimes <- tr %>%
          arr_datetime_chr = paste(enddate, arrival_time_hhmm),
          arr_datetime = ymd_hms(arr_datetime_chr)
   ) %>%
-  select(trip_id, dep_datetime, arr_datetime)
-
+  # do something like "start time" which will always be traveldate of first trip on each day (min(tripno)) paste 3am, so we can subtract
+  group_by(personid, daynum) %>%
+  mutate(
+    # daytrip1 = min(tripnum),
+         diarydate = first(startdate)) %>%
+  ungroup() %>%
+  # make minutes after 3am vars `ma3am`
+  mutate(start_datetime = paste(diarydate, time0300) %>% ymd_hms(),
+         dep_ma3am = (dep_datetime - start_datetime) %>% as.period() %>% as.numeric("minutes"),
+         arr_ma3am = (arr_datetime - start_datetime) %>% as.period() %>% as.numeric("minutes")
+         ) %>%
+  # select(personid, trip_id, daynum, diarydate, tripnum, startdate, enddate, dep_datetime, arr_datetime, start_datetime)
+  select(trip_id, dep_datetime, arr_datetime, dep_ma3am, arr_ma3am)
 
 tr_datetimes <- tr %>% left_join(newtimes, by = "trip_id")
 
 # # check the end date variable
 # newtimes %>% filter(startdate != enddate) %>% View() # looks good!
 
-readr::write_csv(tr_datetimes, "analysis/data/derived_data/tr_datetimes.Rds")
+readr::write_rds(tr_datetimes, "analysis/data/derived_data/tr_datetimes.Rds")
