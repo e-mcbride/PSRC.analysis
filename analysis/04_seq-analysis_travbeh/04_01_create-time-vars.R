@@ -15,7 +15,7 @@ trdat <- PSRC.data::trdat %>%
 # trdat <- trdat_raw %>%
 #   transmute(depart_time_hhmm, depclassdifftime = hms::as_hms(depart_time_hhmm))
 
-# FIRST: remove the hhs that have messed up time/date combos that aren't fixable
+# FIRST: remove the hhs that have messed up time/date combos that aren't fixable ========================
 rollovers <- trdat %>%
   filter(depart_time_hhmm > arrival_time_hhmm) %>%
   select(personid, traveldate, rollovers = tripnum) %>%
@@ -74,7 +74,7 @@ hid_badtrips <- c(hid_some_badtrips, hhids_unfixable, hids_dep_arrNA) %>% unique
 ### HOW DO I FIND trips that start on normal day and then END after midnight?
 #### IF depart_time > arrival_time, full datetime is +1 to the date
 
-## take the depart_time, add the date to it using lubridate. This should always be correct
+## take the depart_time, add the date to it using lubridate. This should always be correct ===============
 #### IF depart_time > arrival_time, full datetime is +1 to the arrival_time date
 
 tr <- trdat %>%
@@ -130,17 +130,44 @@ newtimes <- tr %>%
   group_by(personid, daynum) %>%
   mutate(
     # daytrip1 = min(tripnum),
-         diarydate = first(startdate)) %>%
+         diarystartdate = first(startdate),
+         diaryenddate = diarystartdate + days(1)) %>%
   ungroup() %>%
   # make minutes after 3am vars `ma3am`
-  mutate(start_datetime = paste(diarydate, time0300) %>% ymd_hms(),
+  mutate(start_datetime = paste(diarystartdate, time0300) %>% ymd_hms(),
+
+         dep_datetime = if_else((dep_datetime - start_datetime) %>% as.period() %>% as.numeric("minutes") < 0 ,
+                                dep_datetime + days(1),
+                                dep_datetime),
+
+
+         end_datetime = paste(diaryenddate, time0300) %>% ymd_hms(),
          dep_ma3am = (dep_datetime - start_datetime) %>% as.period() %>% as.numeric("minutes"),
-         arr_ma3am = (arr_datetime - start_datetime) %>% as.period() %>% as.numeric("minutes")
+         dep_ma3am = if_else(dep_ma3am == 0, 1, dep_ma3am),
+
+         arr_ma3am = (arr_datetime - start_datetime) %>% as.period() %>% as.numeric("minutes"),
+         arr_ma3am = if_else(arr_ma3am > 1440, 1440, arr_ma3am),
+         arr_ma3am = if_else(arr_ma3am < 1, 1, arr_ma3am)
          ) %>%
-  # select(personid, trip_id, daynum, diarydate, tripnum, startdate, enddate, dep_datetime, arr_datetime, start_datetime)
-  select(trip_id, dep_datetime, arr_datetime, dep_ma3am, arr_ma3am)
+
+  # select(personid, trip_id, daynum, diarystartdate, tripnum, startdate, enddate, dep_datetime, arr_datetime, start_datetime)
+  select(trip_id, dep_datetime, arr_datetime, dep_ma3am, arr_ma3am, start_datetime, end_datetime)
 
 tr_datetimes <- tr %>% left_join(newtimes, by = "trip_id")
+
+# # checking arrival and departure time fixes
+tr_datetimes %>%
+  filter(daynum == 1) %>%
+  select(personid, daynum, tripnum, dep_ma3am, arr_ma3am, dep_datetime, arr_datetime, start_datetime, traveldate) %>%
+  group_by(personid) %>%
+  mutate(mindep = min(dep_ma3am),
+         maxdep = max(dep_ma3am),
+         minarr = min(arr_ma3am),
+         maxarr = max(arr_ma3am),
+) %>%
+  ungroup() %>%
+  View()
+
 
 # # check the end date variable
 # newtimes %>% filter(startdate != enddate) %>% View() # looks good!
