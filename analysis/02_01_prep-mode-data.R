@@ -23,28 +23,10 @@ mode <- trdat %>%
 # if the mplus folder does not exist in /analysis/, then create it
 dir.create(here("analysis/03_Mplus/"))
 
-create_model_dirs <- function(model_name) {
-  analysis_relPath <- paste0("analysis/03_Mplus/", model_name, "/")
-  template_relPath <- paste0(analysis_relPath, "template/")
-
-  analysis_path <- here(analysis_relPath)
-  template_path <- here(template_relPath)
-  if(dir.exists(analysis_path)) {
-    message("Model root folder already exists")
-  }
-  dir.create(analysis_path)
-
-  if(dir.exists(template_path)) {
-    message("Template folder already exists within model root folder")
-  }
-  dir.create(template_path)
-}
-
-
 model_name <- "mode"
 
-
 create_model_dirs(model_name)
+
 
 model_path <- paste0("analysis/03_Mplus/", model_name, "/")
 model_template <-  paste0(model_path, "template/")
@@ -57,19 +39,21 @@ write_mplus_data(df = mode,
                  hashfilename = TRUE)
 
 
-# create blank template file
-
-templatefile_path <- paste0(model_template, model_name, "_template.txt")
-
-if(file.exists(templatefile_path)) {
-  message("File already exists")
-} else {
-  file.create(templatefile_path)
-}
+# # create blank template file
+#
+# templatefile_path <- paste0(model_template, model_name, "_template.txt")
+#
+# if(file.exists(templatefile_path)) {
+#   message("Template file already exists")
+# } else {
+#   file.create(templatefile_path)
+# }
 
 
 # THEN: manually write template file before running the following: ----------------
 #  This section could become a function on its own
+templatefile_path <- paste0(model_template, model_name, "_template.txt")
+
 MplusAutomation::createModels(templatefile = templatefile_path)
 
 
