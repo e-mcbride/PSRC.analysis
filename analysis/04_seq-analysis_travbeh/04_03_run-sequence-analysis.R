@@ -1,11 +1,10 @@
 # Run sequence analysis
-library(dplyr)
+library(tidyverse)
 library(TraMineR)
 
 place_dat <- read_rds(here::here("analysis/data/derived_data/place_dat.rds"))
 
 # =====
-# I use the following to check the whole thing works
 
 pl.labels <- seqstatl(place_dat$place_type)
 
@@ -40,3 +39,5 @@ pl.seq <- place_dat %>% data.frame() %>%
 print(pl.seq[1000:1015, ], format = "SPS")
 
 print(pl.seq[1:15, ], format = "SPS")
+
+write_rds(pl.seq, here::here("analysis/data/derived_data/pl_seq.rds"))
