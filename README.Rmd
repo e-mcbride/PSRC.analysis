@@ -57,12 +57,20 @@ language R. To work with the compendium, you will need
 installed on your computer the [R software](https://cloud.r-project.org/)
 itself and optionally [RStudio Desktop](https://rstudio.com/products/rstudio/download/).
 
-You can download the compendium as a zip from from this URL:
-[master.zip](/archive/master.zip). After unzipping:
-- open the `.Rproj` file in RStudio
-- run `devtools::install()` to ensure you have the packages this analysis depends on (also listed in the
+(@) Clone this repository
+(@) Clone my other repository called PSRC.data
+(@) In RStudio, open the PSRC.data `.Rproj` file (NOT PSRC.analysis yet)
+(@) Click "Build" in the top toolbar, then click "Install and Restart"
+(@) Now, open the PSRC.analysis `.Rproj` file in RStudio
+(@) Run `devtools::install()` to ensure you have the packages this analysis depends on (also listed in the
 [DESCRIPTION](/DESCRIPTION) file).
-- finally, open `analysis/paper/paper.Rmd` and knit to produce the `paper.docx`, or run `rmarkdown::render("analysis/paper/paper.Rmd")` in the R console
+
+
+<!-- You can download the compendium as a zip from from this URL: -->
+<!-- [master.zip](/archive/master.zip). After unzipping: -->
+- 
+
+<!-- - finally, open `analysis/paper/paper.Rmd` and knit to produce the `paper.docx`, or run `rmarkdown::render("analysis/paper/paper.Rmd")` in the R console -->
 
 ### Licenses
 
