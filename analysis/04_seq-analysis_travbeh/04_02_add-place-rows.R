@@ -40,7 +40,7 @@ trips <- tr_datetimes %>%
 
 pl_nest <- trips %>%
   mutate(tripnum = as.character(tripnum)) %>%
-  select(personid, tripnum, dep_ma3am, arr_ma3am, pltype, place_type, oplace_type, dplace_type, activity_type) %>%
+  select(hhid, personid, trip_id, tripnum, dep_ma3am, arr_ma3am, pltype, place_type, oplace_type, dplace_type, activity_type) %>%
   group_by(personid) %>%
   nest()
 
@@ -104,14 +104,25 @@ place_added_mini <- plnest_mini %>%
 pl_dat_mini <- place_added_mini %>%
   select(-data, -place) %>%
   unnest(newrows) %>%
-  rename(starttime = dep_ma3am, endtime = arr_ma3am) %>%
-  arrange(personid, starttime)
+  arrange(personid, dep_ma3am)
 
 
 # running function above to add the new set of rows that contain travel
 place_added <- pl_nest %>% mutate(place = map(data, PlaceRows))
 
+# Add 1st and last places =====
+## first row:
+# start time = 1 (not 0 to appease)
+# end time = start time when first(tripnum) == 1
+# place_type = oplace_type of first(tripnum) == 1
+
+# last row:
+# start time = end time of last trip
+# end time = 1440
+# place_type = dplace_type of last trip
+
 place_dat <- place_added %>%
+
   mutate(newrows = map(place, ~ add_row(.x,
                                         dep_ma3am = 1,
                                         arr_ma3am = .x[[1, "dep_ma3am"]],
@@ -125,43 +136,44 @@ place_dat <- place_added %>%
          )) %>%
   select(-data, -place) %>%
   unnest(newrows) %>%
-  rename(starttime = dep_ma3am, endtime = arr_ma3am) %>%
-  arrange(personid, starttime)
+  arrange(personid, dep_ma3am)
+
+# trips %>%
+#   filter(arr_ma3am < dep_ma3am) %>%
+#   select(dep_ma3am, arr_ma3am, depart_time_hhmm, arrival_time_hhmm, dep_datetime, arr_datetime, start_datetime, end_datetime, date_extracted) %>%
+#   View()
+
+place_dat %>%
+  filter(arr_ma3am < dep_ma3am) %>%
+  arrange(personid, dep_ma3am) %>%
+  View("end < start")
+
+pids_endvstart <- place_dat %>%
+  filter(arr_ma3am < dep_ma3am) %>%
+  pull(personid) %>%
+  unique()
 
 
-# Add 1st and last places =====
-## first row:
-  # start time = 1 (not 0 to appease)
-  # end time = start time when first(tripnum) == 1
-  # place_type = oplace_type of first(tripnum) == 1
 
-# last row:
-  # start time = end time of last trip
-  # end time = 1440
-  # place_type = dplace_type of last trip
+place_dat %>%
+  filter(personid %in% pids_endvstart) %>%
+  # arrange(personid, dep_ma3am) %>%
+  View("end < start allrecs")
 
-function(df) {
-  index_r1 <-  which(tripnum == 1)
+trips %>%
+  filter(personid %in% pids_endvstart) %>%
+  View("wholrecs")
 
-firstpl <- place_dat %>%
-  group_by(personid) %>%
-  mutate(which(tripnum == 1))
+trips %>%
+  filter(dep_ma3am == arr_ma3am) %>%
+  select(dep_ma3am, arr_ma3am, dep_datetime, arr_datetime, depart_time_hhmm, arrival_time_hhmm) %>%
+  View()
 
-}
+# make an if/else for if departtime == lead arrtime
+# make an if/else for if departtime == lead arrtime. look at dep_ma3am == arr_ma3am ppl
 
-firstpl <- place_dat %>%
-  group_by(personid) %>%
-  mutate(if_else(tripnum == 1,
 
-  )
-    which(tripnum == 1))
+write_rds(place_dat, here::here("analysis/data/derived_data/place_dat.rds"))
 
-# =====
-#
-# activ_dat <- place_dat %>%
-#   mutate(starttime =  if_else(condition = (place_type == "T"), true =  dep_ma3am, false = arr_ma3am),
-#          endtime =    if_else(condition = (place_type == "T"), true =  arr_ma3am, false = dep_ma3am))
-#
-# sorted <- activ_dat[
-#   with(activ_dat, order(personid, starttime)),]
-# sorted$duration <- sorted$endtime-sorted$starttime
+
+
