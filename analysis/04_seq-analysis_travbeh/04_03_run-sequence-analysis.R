@@ -29,7 +29,7 @@ min2TOD = function(dayminutes) {
 }
 
 # from Elissa
-time <- min2TOD(seq(1,1440))
+time <- min2TOD(seq(0,1439))
 
 # Running sequence analysis:
 pl.seq <- place_dat %>% data.frame() %>%
