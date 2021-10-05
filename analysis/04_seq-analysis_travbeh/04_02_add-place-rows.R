@@ -6,7 +6,7 @@ tr_datetimes <- read_rds('analysis/data/derived_data/tr_datetimes.Rds')
 
 trips <- tr_datetimes %>%
   filter(daynum == 1) %>% #EM: COULD smash together daynum and pid to use all of the days `pdayid`
-  mutate(place_type = "T",
+  mutate(place_type = "Travel",
          oplace_type =
            case_when(
              origin_purpose == "Went home"  ~ "Home",
@@ -26,8 +26,8 @@ trips <- tr_datetimes %>%
              TRUE ~ "Other"
            ),
 
-         pltype = oplace_type,
-         activity_type = oplace_type
+         pltype = "T",
+         activity_type = "Travel"
   )
 
 # ========
@@ -79,22 +79,31 @@ PlaceRows <- function(x) {
   placedf = tibble(PLANO, dep_ma3am, arr_ma3am, pltype, place_type, destination, activity_type) %>%
     filter(!is.na(PLANO))
 
-  combodf <- placedf %>% bind_rows(x) %>% arrange(starttime)
+  combodf <- placedf %>% bind_rows(x) %>% arrange(dep_ma3am)
 
 
   return(combodf)
 }
 
 place_added_mini <- plnest_mini %>%
-  mutate(place = map(data, PlaceRows))
-,
-         newrows = map(place, ~ .x["arr_ma3am"]))
-           # map(place, ~ add_row(.x, dep_ma3am = 1, arr_ma3am, .before = 1))
+  mutate(place = map(data, PlaceRows),
+         # newrows = map(place, ~ .x[1, "dep_ma3am"]))
+         newrows = map(place, ~ add_row(.x,
+                                        dep_ma3am = 1,
+                                        arr_ma3am = .x[[1, "dep_ma3am"]],
+                                        place_type = .x[[1, "oplace_type"]],
+                                        .before = 1)),
+         newrows = map(newrows, ~ add_row(.x,
+                                        dep_ma3am = .x[[nrow(.x), "arr_ma3am"]],
+                                        arr_ma3am = 1440,
+                                        place_type = .x[[nrow(.x), "dplace_type"]],
+                                        .after = nrow(.x)))
+         )
 
 
 pl_dat_mini <- place_added_mini %>%
-  select(-data) %>%
-  unnest(place) %>%
+  select(-data, -place) %>%
+  unnest(newrows) %>%
   rename(starttime = dep_ma3am, endtime = arr_ma3am) %>%
   arrange(personid, starttime)
 
@@ -103,12 +112,19 @@ pl_dat_mini <- place_added_mini %>%
 place_added <- pl_nest %>% mutate(place = map(data, PlaceRows))
 
 place_dat <- place_added %>%
-  mutate(newrows = map(place, ~ add_row(.x, dep_ma3am = 1, .before = 1)),
-         newrows = map(newrows, ~ add_row(.x, .after = nrow(.x))))
-
-%>%
-  select(-data) %>%
-  unnest(place) %>%
+  mutate(newrows = map(place, ~ add_row(.x,
+                                        dep_ma3am = 1,
+                                        arr_ma3am = .x[[1, "dep_ma3am"]],
+                                        place_type = .x[[1, "oplace_type"]],
+                                        .before = 1)),
+         newrows = map(newrows, ~ add_row(.x,
+                                          dep_ma3am = .x[[nrow(.x), "arr_ma3am"]],
+                                          arr_ma3am = 1440,
+                                          place_type = .x[[nrow(.x), "dplace_type"]],
+                                          .after = nrow(.x))
+         )) %>%
+  select(-data, -place) %>%
+  unnest(newrows) %>%
   rename(starttime = dep_ma3am, endtime = arr_ma3am) %>%
   arrange(personid, starttime)
 

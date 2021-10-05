@@ -156,17 +156,17 @@ newtimes <- tr %>%
 tr_datetimes <- tr %>% left_join(newtimes, by = "trip_id")
 
 # # checking arrival and departure time fixes
-tr_datetimes %>%
-  filter(daynum == 1) %>%
-  select(personid, daynum, tripnum, dep_ma3am, arr_ma3am, dep_datetime, arr_datetime, start_datetime, traveldate) %>%
-  group_by(personid) %>%
-  mutate(mindep = min(dep_ma3am),
-         maxdep = max(dep_ma3am),
-         minarr = min(arr_ma3am),
-         maxarr = max(arr_ma3am),
-) %>%
-  ungroup() %>%
-  View()
+# tr_datetimes %>%
+#   filter(daynum == 1) %>%
+#   select(personid, daynum, tripnum, dep_ma3am, arr_ma3am, dep_datetime, arr_datetime, start_datetime, traveldate) %>%
+#   group_by(personid) %>%
+#   mutate(mindep = min(dep_ma3am),
+#          maxdep = max(dep_ma3am),
+#          minarr = min(arr_ma3am),
+#          maxarr = max(arr_ma3am),
+# ) %>%
+#   ungroup() %>%
+#   View()
 
 
 # # check the end date variable
