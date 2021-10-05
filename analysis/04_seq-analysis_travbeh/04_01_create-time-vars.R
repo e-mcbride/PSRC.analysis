@@ -65,7 +65,12 @@ hids_dep_arrNA <- trdat %>%
   pull(hhid) %>%
   unique()
 
-hid_badtrips <- c(hid_some_badtrips, hhids_unfixable, hids_dep_arrNA) %>% unique()
+# manually identified to be problematic
+hid_manual <- c("17101379", "17148555", "17151187", # times after noon were incorrectly coded (e.g. 1:00 instead of 13:00)
+                "17108877", "17139169", "17141482" # all kinds of messed up stuff in these records
+                )
+
+hid_badtrips <- c(hid_some_badtrips, hhids_unfixable, hids_dep_arrNA, hid_manual) %>% unique()
 
 
 
@@ -120,7 +125,10 @@ newtimes <- tr %>%
   mutate(arrival_time_hhmm = if_else(is.na(arrival_time_hhmm) & maxdaytrnum == tripnum, time0300, arrival_time_hhmm),
          depart_time_hhmm = if_else((tripnum == 1 & is.na(depart_time_hhmm)), time0300, depart_time_hhmm), # if tripnum is 1 and depart time is NA, set depart time to 03:00
          startdate = traveldate %>% mdy_hms() %>% date(),
+
          enddate = if_else(depart_time_hhmm > arrival_time_hhmm, (startdate + 1), startdate),
+
+
          dep_datetime_chr = paste(startdate, depart_time_hhmm),
          dep_datetime = ymd_hms(dep_datetime_chr),
          arr_datetime_chr = paste(enddate, arrival_time_hhmm),
@@ -136,16 +144,20 @@ newtimes <- tr %>%
   # make minutes after 3am vars `ma3am`
   mutate(start_datetime = paste(diarystartdate, time0300) %>% ymd_hms(),
 
+         arr_datetime = if_else((dep_datetime - start_datetime) %>% as.period() %>% as.numeric("minutes") < 0 ,  #has to come first cuz problem fixed in next line
+                                arr_datetime + days(1),
+                                arr_datetime),
+
          dep_datetime = if_else((dep_datetime - start_datetime) %>% as.period() %>% as.numeric("minutes") < 0 ,
                                 dep_datetime + days(1),
                                 dep_datetime),
 
-
          end_datetime = paste(diaryenddate, time0300) %>% ymd_hms(),
+
          dep_ma3am = (dep_datetime - start_datetime) %>% as.period() %>% as.numeric("minutes"),
+         arr_ma3am = (arr_datetime - start_datetime) %>% as.period() %>% as.numeric("minutes"),
          dep_ma3am = if_else(dep_ma3am == 0, 1, dep_ma3am),
 
-         arr_ma3am = (arr_datetime - start_datetime) %>% as.period() %>% as.numeric("minutes"),
          arr_ma3am = if_else(arr_ma3am > 1440, 1440, arr_ma3am),
          arr_ma3am = if_else(arr_ma3am < 1, 1, arr_ma3am)
          ) %>%
@@ -155,6 +167,11 @@ newtimes <- tr %>%
 
 tr_datetimes <- tr %>% left_join(newtimes, by = "trip_id")
 
+
+tr_datetimes %>%
+  filter(arr_ma3am < dep_ma3am) %>%
+  select(starts_with("dep"), starts_with("arr")) %>%
+  View("ends < starts")
 # # checking arrival and departure time fixes
 # tr_datetimes %>%
 #   filter(daynum == 1) %>%
