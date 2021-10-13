@@ -1,0 +1,214 @@
+# building table with grouping variables, entropy, and turbulence
+
+# we want all these in the same table because ...? EM!
+
+library(tidyverse)
+library(here)
+library(tidyxl)
+library(unpivotr)
+# NOTES ==============================
+# will need to get day of week from trdat!
+
+
+
+# 1. building SES grouping variables
+hhdat <- PSRC.data::hhdat
+
+prraw <- PSRC.data::prdat
+
+# # when at least 2 race categories are selected, what is race_category? ======
+#
+# prraw %>% pull(race_category) %>% unique()
+# race <- prraw %>%
+#   select(starts_with("race")) %>%
+#   # mutate(across(starts_with("race") & !contains("race_category"),
+#   #               ~ factor(.x, c("Not Selected", "Selected")))
+#   #        )
+#   mutate(across(starts_with("race") & !contains("race_category"),
+#                 ~ if_else(.x == "Selected", TRUE, FALSE))
+#          ) %>%
+#   mutate(total_cats = (race_afam + race_aiak + race_asian + race_hapi + race_hisp + race_white + race_other)) %>%
+#   arrange(desc(total_cats))
+#
+#
+# # FROM THIS I LEARNED: if more than 1 race cat is selected, if 2 are selected and 1 is white, then the
+# # non-white race is the one that they are labeled as. Otherwise, they are categorized as "Other"
+
+# Person level to household level =========================================
+
+## Agegroups ------------------------------------------------------------------------------------------------------------
+prraw$age %>% unique()
+prraw$age_category %>% unique()
+
+hh_Agegrp_count <- prraw %>%
+  # mutate(AgeGrp = case_when(
+  #   age == "Under 5 years old" ~ "Age00-04",
+  #   age >= "5-11 years" & age < "18-24 years" ~ "Age05-17",
+  #   age >= "18-24 years" ~"Age18-99"
+  # )) %>%
+  group_by(hhid) %>%
+  summarise(Age00_04 = sum(age == "Under 5 years old", na.rm = TRUE),
+            Age05_17 = sum(age >= "5-11 years" & age < "18-24 years", na.rm = TRUE),
+            Age18_99 = sum(age >= "18-24 years", na.rm = TRUE)
+            )
+
+
+
+
+## Income ------------------------------------------------------------------------------------------------------------
+
+# first: numeric versions of income values
+incomevals <- hhdat %>%
+  select(hhincome_detailed) %>%
+  unique() %>%
+  mutate(renameinc = str_replace(hhincome_detailed, "Under ", "$0-"),
+         renameinc = str_replace(renameinc, "or more", "-$999,999"),
+
+         renameinc = if_else(renameinc == "Prefer not to answer", NA_character_, renameinc),
+         renameinc = str_remove_all(renameinc,c("\\$|\\,"))) %>%
+  tidyr::separate(col = renameinc, into = c("inc_lo", "inc_hi"), sep = "-", remove = TRUE) %>%
+  mutate(inc_lo = as.numeric(inc_lo),
+         inc_hi = as.numeric(inc_hi)
+         ) %>%
+  arrange(inc_lo)
+
+
+# For the poverty lines: Using the Washington State self-sufficiency standard of 2017
+# LINK TO PAGE: http://www.selfsufficiencystandard.org/washington
+# 2017 DOCUMENT: http://selfsufficiencystandard.org/sites/default/files/selfsuff/docs/WA2017_SSS.pdf
+
+# infant, preschooler, school-age, teenager, adult defined ages from document above:
+# infants: 0-2 yrs
+# presch: 3-5 yrs
+# school: 6-12 yrs
+# teen: 13-18 yrs
+
+# Infants: under 5 years old and not in preschool
+# Preschoolers: under 5 years old and in preschool
+# school-age: 5-11 yrs
+# teen: 12-15 yrs & 16-17 yrs
+# adult: >= 18-24 yrs
+famcode <- prraw %>%
+  group_by(hhid) %>%
+  summarise(infant = sum(age == "Under 5 years old" & schooltype != "Preschool", na.rm = TRUE),
+            preschool = sum(age == "Under 5 years old" & schooltype == "Preschool", na.rm = TRUE),
+            schoolage = sum(age == "5-11 years", na.rm = TRUE),
+            teen = sum(age >= "12-15 years" & age < "18-24 years", na.rm = TRUE),
+            adult = sum(age >= "18-24 years", na.rm = TRUE)
+  ) %>%
+  mutate(adl = paste0("a", adult),
+         inf = paste0("i", infant),
+         pre = paste0("p", preschool),
+         sch = paste0("s", schoolage),
+         tee = paste0("t", teen),
+
+         famcode = paste0(adl, inf, pre, sch, tee)
+         ) %>%
+  select(hhid, famcode)
+
+# download poverty table of 2017, pull sheet named "SSS"
+raw <- "WA2017_all_families.xlsb"
+
+RawPath <- here::here(paste0("analysis/data/raw_data/", raw))
+
+SelfSuffDataURL <- "http://selfsufficiencystandard.org/sites/default/files/selfsuff/docs/WA2017_all_families.xlsb"
+
+if(!file.exists(RawPath)) {
+    download.file(SelfSuffDataURL, RawPath, mode = "wb")
+}
+rm(SelfSuffDataURL, raw, RawPath)
+
+# read in table using tidyxl
+
+# UNFORTUNATELY a manual step is necessary.
+# 1. Open `WA2017_all_families.xlsb` you just downloaded
+# 2. Save As type .xlsx
+
+raw.xlsx <- "WA2017_all_families.xlsx"
+raw.xlsx.path <- here::here(paste0("analysis/data/raw_data/", raw.xlsx))
+file.exists(raw.xlsx.path)
+# tidyxl::xlsx_sheet_names(raw.xlsx.path)
+
+sss_cells <- tidyxl::xlsx_cells(raw.xlsx.path, sheets = "SSS")
+
+# clean up table using unpivotr
+sss_clean <- sss_cells %>%
+  filter(row > 8, # removing unnecessary rows at the top
+         col != 2, # clearing column 2 that is unnecessary
+         !(row == 9 & col == 1), # clear the name "famcode" from the top of the column of counties
+         !is_blank) %>%
+  select(row, col, data_type, character, numeric) %>%
+  behead("up", famcode) %>%
+  behead("left", county) %>%
+  rename(sss = numeric) %>%
+  select(-row, -col, -character)
+
+# fix counties with multiple numbers (average them)
+
+##' 1. which counties are included in PSTP
+pstp.cnt.regex <- hhdat %>% pull(sample_county) %>% unique() %>% str_c(collapse="|")
+### King, Pierce, Kitsap, Snohomish
+
+##' 2. pull those counties from sss_clean, see how many different values there are for each county
+countysel <- sss_clean %>%
+  filter(grepl(pstp.cnt.regex, county)) %>%
+  pull(county) %>%
+  unique()
+
+##' 3. average the amounts for each famcode category
+
+sss_cntyAvgs <- sss_clean %>%
+  filter(county %in% countysel) %>%
+  # create new var with shortened county names
+  mutate(cnty = str_extract(county, "[:alpha:]+")) %>%
+  # use new var as grouping var plus the famcode, get the mean of each group
+  group_by(cnty, famcode) %>%
+  summarise(county_mean_sss = mean(sss)) %>%
+  rename(county = cnty)
+
+# link money amount to each hh based on their county and their famcode
+# hh_sss <- hhdat %>%
+#   select(hhid, sample_county) %>%
+#   left_join(famcode, by = "hhid") %>%
+#   left_join(sss_cntyAvgs, by = c("sample_county" = "county", "famcode"))
+
+# is their income above or below this number
+
+hh_incvars <- hhdat %>%
+  select(hhid, sample_county, hhincome_detailed) %>%
+  left_join(incomevals, by = "hhincome_detailed") %>%
+  left_join(famcode, by = "hhid") %>%
+  left_join(sss_cntyAvgs, by = c("sample_county" = "county", "famcode")) %>%
+  mutate(inc_lvl =
+           case_when(
+             inc_hi >= county_mean_sss ~ "Above SSS",
+             inc_lo >= county_mean_sss & inc_hi <= county_mean_sss ~ "Around SSS",
+             inc_lo < county_mean_sss ~ "Below SSS"
+           ),
+         inc_lvl = ordered(inc_lvl, levels = c("Below SSS", "Around SSS", "Above SSS"))
+  ) %>%
+  select(hhid, famcode, inc_lvl)
+
+
+
+
+
+hhvars <- hhdat %>%
+  select(hhid, hhsize, lifecycle, numworkers, numadults, numchildren, hhincome_broad, hhincome_detailed, hhincome_followup) %>%
+  left_join(hh_Agegrp_count, by = "hhid") %>%
+  left_join(hh_incvars, by = "hhid") %>%
+  # rename(across(-starts_with("hh"), ~ paste0("HH_", .) ))
+  rename_at(.vars = vars(-starts_with("hh")), list(~paste0("HH_", .)))
+
+
+# NOW apparently joining hhvars to person-lvl ==============================================================
+
+prdat <- PSRC.data::prdat %>%
+  select(personid, hhid, pernum, age, age_category, gender, employment, worker, student, education, license, starts_with("race"), race_category)
+
+grpvars <- prdat %>%
+  left_join(hhvars, by = "hhid")
+
+
+
+write_rds(grpvars, here("analysis/data/derived_data/grouping-variables.rds"))
