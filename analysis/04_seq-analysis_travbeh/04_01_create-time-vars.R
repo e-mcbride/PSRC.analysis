@@ -189,4 +189,10 @@ tr_datetimes %>%
 # # check the end date variable
 # newtimes %>% filter(startdate != enddate) %>% View() # looks good!
 
+clean_pids <- tr_datetimes %>% pull(personid) %>% unique()
+readr::write_rds(clean_pids, here::here("analysis/data/derived_data/clean_pids.rds"))
+
+clean_hids <- tr_datetimes %>% pull(hhid) %>% unique()
+readr::write_rds(clean_hids, here::here("analysis/data/derived_data/clean_hids.rds"))
+
 readr::write_rds(tr_datetimes, "analysis/data/derived_data/tr_datetimes.Rds")
