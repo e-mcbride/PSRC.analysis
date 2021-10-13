@@ -26,8 +26,8 @@ hhids <- hh_pr_ids %>%
 #   # filter(SAMPN %in% hhids) %>%
 #   select(-hhid)
 
-#' Make data "long" so ggplot likes it
-#' this also includes adding the better time names
+# Make data "long" so ggplot likes it
+# this also includes adding the better time names
 
 timetable <- tibble(times = colnames(pl_seq %>% select(-personid)), mins = c(seq(from=1, to=1440, by=1)))
 
@@ -41,11 +41,11 @@ seq_long <- pl_seq %>%
 # arrange(pid, time)
 
 
-##' 4. Make x axis labels (times)
+## 4. Make x axis labels (times)
 timelabs <- c(seq(3,21,3) %>% str_pad(width = 2,side = "left", pad = "0") %>% paste0(":00"), "00:00", "02:59")
 
 
-#' MAKE FIGURE w/ `ggplot2`
+# MAKE FIGURE w/ `ggplot2`
 
 seq_long %>%
   #filter(cluster == "School Day") %>%
