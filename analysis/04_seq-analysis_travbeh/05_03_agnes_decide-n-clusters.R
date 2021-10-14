@@ -11,61 +11,102 @@ grp_en_tu <- read_rds(here::here("analysis/data/derived_data/grouping-variables.
 
 pl.seq <- read_rds(here::here("analysis/data/derived_data/pl_seq.rds"))
 
+##' Rename the columns for the minute of the day (avoids issues with plotting)
+colnames(pl.seq) <- seq(1,1440) #paste0("y", seq(1,1440))
+
+
 column.5min <- seq(from = 1, to = 1440, by = 5)
 pl.seq.5min <- pl.seq[, column.5min]
 rm(pl.seq)
 
-# reduce so it's only every 5 minutes
-
-
 
 # plot(clusterward, which.plots = 2, rotate = TRUE)
-plot(clusterward)
+# plot(clusterward)
 
 
-# final clustering decision ================================
-cluster <- cutree(clusterward, k = 9) %>%
-  factor(labels=paste("Type", 1:9))
-
-level_key <- list(`Type 1` = "Home Day",
-                  `Type 2` = "School Day",
-                  `Type 3` = "Typical Work Day",
-                  `Type 4` = "Errands Type 1",
-                  `Type 5` = "Mostly Out of Home",
-                  `Type 6` = "Errands Type 2",
-                  `Type 7` = "Non-typical Work Day",
-                  `Type 8` = "Leave Home",
-                  `Type 9` = "Traveling")
-
-
-
-# Testing different number of clusters by changing everywhere it says `10` to change n clusters ==============
-
-# allclusters <- clusterward %>% map(1:10, ~cutree(.x))
-
+# build all cluster sizes that are potentially useable =========================
 allclusters <- cutree(clusterward, 1:10)
 
-cl6 <- factor(cutree(clusterward, 6), labels = paste0("type", 1:6))
+colnames(allclusters) <- paste0("nclust", colnames(allclusters))
 
-table(cl6)
+alldata <- cbind(grp_en_tu, allclusters)
+
+cluster_id <- alldata %>% select(personid, starts_with("nclust"))
 
 
-# cutree(clusterward, k = 10)
 
-# cutree_list <- function(agnes_obj, max_k = 5) {
-#   clust_list <- list()
-#   for(i in 1:max_k) {
-#     clust_list[[i]] <- cutree(clusterward, i)
-#   }
-#   return(clust_list)
-# }
+# try plotting k=2
 
-allclusters <- cutree_list(clusterward, max_k = 10) %>%
-  as_tibble(.name_repair = make.names)
+# join cluster ids to the sequences by pid. make data "long" for ggplot
 
-seqplot <- seqfplot(pl.seq.5min, group = cl6)
+#
+# cl_choice <- cluster_id %>%
+#   select(personid, nclust2)
 
-seqplot
+seq_clust_long <- pl.seq.5min %>%
+  as_tibble(rownames = "personid") %>%
+  left_join(cluster_id, by = "personid") %>%
+  gather(key = "minute", value = "state", -personid, -nclust1, -nclust2, -nclust3, -nclust4,-nclust5,-nclust6,-nclust7,-nclust8, -nclust9, -nclust10) %>%
+  mutate(minute = as.numeric(minute)) %>%
+           arrange(personid, minute)
+
+## 4. Make x axis labels (times)
+# timelabs <- c(seq(3,21,3) %>% str_pad(width = 2,side = "left", pad = "0") %>% paste0(":00"), "00:00", "02:59") # 9 labels
+
+timelabs <- c(seq(3,23,4) %>% str_pad(width = 2,side = "left", pad = "0") %>% paste0(":00"), "02:55")
+
+
+plot_by_cluster <- function(ggobj, nclust) {
+  ggobj +
+    geom_area(stat = "bin", binwidth = 1, position = "fill", na.rm = TRUE) +
+    scale_x_continuous("Time of Day",
+                       breaks = seq(1, 1620, by = 240),
+                       minor_breaks = seq(1, 1441, by = 60),
+                       labels = timelabs) +
+    scale_y_continuous(name = "Frequency") +
+    scale_fill_brewer(palette = "Accent", name = "State") +
+    facet_wrap(vars({{nclust}}), scale = "free_x", dir="v")
+}
+
+
+seq_clust_gg <- seq_clust_long %>%
+  ggplot(aes(x = minute, fill = state))
+
+plot_c2 <- plot_by_cluster(ggobj = seq_clust_gg, nclust = nclust2)
+plot_c2
+
+
+plot_c3 <- plot_by_cluster(seq_clust_gg, nclust3)
+plot_c3
+
+plot_c4 <- plot_by_cluster(seq_clust_gg, nclust4)
+plot_c4
+
+plot_c5 <- plot_by_cluster(seq_clust_gg, nclust5)
+plot_c5
+
+
+plot_c6 <- plot_by_cluster(seq_clust_gg, nclust6)
+plot_c6
+
+plot_c7 <- plot_by_cluster(seq_clust_gg, nclust7)
+plot_c7
+
+plot_c8 <- plot_by_cluster(seq_clust_gg, nclust8)
+plot_c8
+
+ggsave(filename = here::here("analysis/figures/plot_2clust.png"), plot_c2)
+ggsave(filename = here::here("analysis/figures/plot_3clust.png"), plot_c3)
+ggsave(filename = here::here("analysis/figures/plot_4clust.png"), plot_c4)
+ggsave(filename = here::here("analysis/figures/plot_5clust.png"), plot_c5)
+ggsave(filename = here::here("analysis/figures/plot_6clust.png"), plot_c6)
+ggsave(filename = here::here("analysis/figures/plot_7clust.png"), plot_c7)
+ggsave(filename = here::here("analysis/figures/plot_8clust.png"), plot_c8)
+
+
+# seqplot <- seqfplot(pl.seq.5min, group = cl6)
+#
+# seqplot
 #
 # seqmtplot(pl.seq.5min, group = cl6)
 
