@@ -1,4 +1,4 @@
-# model_path <- paste0("analysis/03_Mplus/", model_name, "/")
+# model_path <- paste0("analysis/Mplus/", model_name, "/")
 
 # assign(paste0("allOut_", model_name),
 #        value = readModels(
@@ -13,7 +13,7 @@
 #
 # allOut <- list()
 # allOut[[model_name]] <- readModels(here(model_path),
-#   # here("analysis/03_Mplus/attitudes/"),
+#   # here("analysis/Mplus/attitudes/"),
 #   recursive = FALSE)
 
 

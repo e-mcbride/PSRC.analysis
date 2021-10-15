@@ -21,14 +21,14 @@ mode <- trdat %>%
 # Create model syntax ##################################################################
 
 # if the mplus folder does not exist in /analysis/, then create it
-dir.create(here("analysis/03_Mplus/"))
+dir.create(here("analysis/Mplus/"))
 
 model_name <- "mode"
 
 create_model_dirs(model_name)
 
 
-model_path <- paste0("analysis/03_Mplus/", model_name, "/")
+model_path <- paste0("analysis/Mplus/", model_name, "/")
 model_template <-  paste0(model_path, "template/")
 
 # my function to write mplus data to file in the right file location:

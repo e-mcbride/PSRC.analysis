@@ -5,7 +5,7 @@
 #' @return This function creates folders in the right places, or lets you know if the directory structure already exists. This includes creating a blank template file in the correct place if it does not already exist.
 #' @export
 create_model_dirs <- function(model_name) {
-  analysis_relPath <- paste0("analysis/03_Mplus/", model_name, "/")
+  analysis_relPath <- paste0("analysis/Mplus/", model_name, "/")
   template_relPath <- paste0(analysis_relPath, "template/")
 
   analysis_path <- here::here(analysis_relPath)

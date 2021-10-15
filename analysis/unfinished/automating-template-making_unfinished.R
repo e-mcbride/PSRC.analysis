@@ -4,7 +4,7 @@ library(here)
 
 model_name <- "TEST"
 
-model_path <- paste0("analysis/03_Mplus/", model_name, "/")
+model_path <- paste0("analysis/Mplus/", model_name, "/")
 model_template <-  paste0(model_path, "template/")
 
 templatefile_path <- paste0(model_template, model_name, "_template.txt")

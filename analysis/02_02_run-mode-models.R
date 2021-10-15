@@ -4,7 +4,7 @@ library(here)
 library(MplusAutomation)
 
 model_name <- "mode"
-model_path <- paste0("analysis/03_Mplus/", model_name, "/")
+model_path <- paste0("analysis/Mplus/", model_name, "/")
 
 MplusAutomation::runModels(
   here(model_path),
