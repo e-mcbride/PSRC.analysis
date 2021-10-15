@@ -10,7 +10,7 @@ create_model_dirs(model_name)
 \item{model_name}{A string that will be used to name the analysis folder where all model}
 }
 \value{
-This function creates folders in the right places, or lets you know if the directory structure already exists.
+This function creates folders in the right places, or lets you know if the directory structure already exists. This includes creating a blank template file in the correct place if it does not already exist.
 }
 \description{
 Uses a string to create a directory structure for running Mplus models.

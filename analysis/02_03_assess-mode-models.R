@@ -39,6 +39,7 @@ shorten <- allOut %>%
   names() %>%
   str_split(".03_Mplus.") %>%
   map(~.x[2])
+
 names(allOut) <- shorten
 
 allOut_mode <- allOut %>%
@@ -52,6 +53,9 @@ fitind_mode %>% ggplot(aes(x = as.numeric(nclasses))) +
   geom_line(aes(y = as.numeric(ABIC), color = "red")) +
   geom_line(aes(y = as.numeric(BIC), color = "blue")) +
   scale_color_discrete(name = "Legend", labels = c("ABIC", "BIC"))
+
+# Very clearly from the elbow plot of ABIC and BIC, the 3-class model is where the elbow is
+
 
 fitstats_tbl_mode <- fitind_mode %>%
   select(-name, -LLRepTbl, -summaries, -llnreps, -optseed, -seedused, -t11_km1ll) %>%

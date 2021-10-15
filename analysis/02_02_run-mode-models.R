@@ -1,4 +1,4 @@
-# 04_01 Run models
+# 02_02 Run models
 
 library(here)
 library(MplusAutomation)

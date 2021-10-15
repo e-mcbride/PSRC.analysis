@@ -39,18 +39,7 @@ write_mplus_data(df = mode,
                  hashfilename = TRUE)
 
 
-# # create blank template file
-#
-# templatefile_path <- paste0(model_template, model_name, "_template.txt")
-#
-# if(file.exists(templatefile_path)) {
-#   message("Template file already exists")
-# } else {
-#   file.create(templatefile_path)
-# }
-
-
-# THEN: manually write template file before running the following: ----------------
+# THEN: MANUALLY write template file before running the following: ----------------
 #  This section could become a function on its own
 templatefile_path <- paste0(model_template, model_name, "_template.txt")
 

@@ -2,7 +2,7 @@
 #'
 #' Uses a string to create a directory structure for running Mplus models.
 #' @param model_name A string that will be used to name the analysis folder where all model
-#' @return This function creates folders in the right places, or lets you know if the directory structure already exists.
+#' @return This function creates folders in the right places, or lets you know if the directory structure already exists. This includes creating a blank template file in the correct place if it does not already exist.
 #' @export
 create_model_dirs <- function(model_name) {
   analysis_relPath <- paste0("analysis/03_Mplus/", model_name, "/")
