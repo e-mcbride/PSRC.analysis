@@ -1,0 +1,26 @@
+TITLE: 4-class LCA: mode_cleaned
+DATA: FILE = "mode_cleaned-data-mplus-ready_d3d2731fc338fa42907d1955b5c58f29.dat";
+VARIABLE:   NAMES = personid sov hov transit walk bike other;
+            IDVAR = personid;
+            USEVAR = sov hov transit walk bike other;
+            CATEGORICAL = sov hov transit walk bike other;
+            MISSING=.;
+            CLASSES = c(4);
+ANALYSIS: TYPE = MIXTURE;
+          PROCESSORS = 6(STARTS);
+          STSCALE = 10;
+!          STARTS = 800 200;
+          STARTS = 0;
+!          OPTSEED = 259507; 260601 ! for NO stscale
+          OPTSEED = 533738; !stscale 10... wait what less weird: 533738
+!          K-1STARTS = 200 50;
+          LRTSTARTS = 0 0 1400 350;
+
+PLOT: TYPE=PLOT3;
+      SERIES = sov hov transit walk bike other(*);
+OUTPUT: TECH11;
+OUTPUT: TECH14;
+!SAVEDATA:	FILE IS lpa_mode_cleaned_c4_save.txt;
+!			SAVE IS CPROB;
+!            MISSFLAG=9999;
+!			FORMAT IS FREE;
