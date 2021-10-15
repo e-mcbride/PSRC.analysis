@@ -7,7 +7,6 @@ library(MplusAutomation)
 
 devtools::load_all(helpers = FALSE)
 
-library(PSRC.data)
 trdat <- PSRC.data::trdat #read_rds(here("analysis/data/derived_data/trdat.rds"))
 
 
