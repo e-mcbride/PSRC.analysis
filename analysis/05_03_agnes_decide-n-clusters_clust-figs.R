@@ -1,4 +1,4 @@
-# Building the data with the desired number of clusters to examine
+# Deciding the number of clusters to use
 
 library(tidyverse)
 library(TraMineR)
@@ -19,6 +19,7 @@ column.5min <- seq(from = 1, to = 1440, by = 5)
 pl.seq.5min <- pl.seq[, column.5min]
 rm(pl.seq)
 
+write_rds(pl.seq.5min, here::here("analysis/data/derived_data/pl_seq_5min.rds"))
 
 # plot(clusterward, which.plots = 2, rotate = TRUE)
 # plot(clusterward)
@@ -100,32 +101,4 @@ ggsave(filename = here::here("analysis/figures/plot_6clust.png"), plot_c6)
 ggsave(filename = here::here("analysis/figures/plot_7clust.png"), plot_c7)
 ggsave(filename = here::here("analysis/figures/plot_8clust.png"), plot_c8)
 
-
-# six cluster decision ==========================================================
-level_key <- list(type1 = "Home Day",
-                  type2 = "Typical Work Day",
-                  type3 = "School Day",
-                  type4 = "Other Outings Day",
-                  type5 = "Atypical Work Day",
-                  type6 = "Traveling")
-
-sixclust <- cluster_id %>% select(personid, c6 = nclust6) %>%
-  mutate(c6str = factor(c6, labels = paste0("type", 1:6))) %>%
-  mutate(namedcluster = recode_factor(c6str, !!!level_key)) %>%
-  select(-c6str)
-
-write_rds(sixclust, here::here("analysis/data/derived_data/six-cluster-by-pids.rds"))
-
-# cluster <- cutree(clusterward, 6)%>%
-#   factor(labels=paste0("type", 1:6))
-#
-# alldata <- cbind(grp_en_tu, cluster) %>%
-#   mutate(namedcluster = recode_factor(cluster, !!!level_key))
-
-# seqplot <- seqfplot(pl.seq.5min, group = cl6)
-#
-# seqplot
-#
-# seqmtplot(pl.seq.5min, group = cl6)
-
-
+# =================================== DECISION MADE: 6 clusters ===========================================
