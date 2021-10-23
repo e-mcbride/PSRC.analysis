@@ -168,7 +168,7 @@ ipps_mode <- create_ipps.probscale(outfile = allOut_mode,
 
 ipps_mode + scale_x_discrete(labels = str_wrap(unname(modeOrder), width = 11))
 
-# ggsave(plot = ipps_mode,"analysis/figures/ipps_mode.png", width = 6.5, height = 4.5)
+# ggsave(plot = ipps_mode,"analysis/figures/all_ipps_mode_clean_notr.png", width = 6.5, height = 4.5)
 
 
 # mode_className <- c("Active Mode Users",

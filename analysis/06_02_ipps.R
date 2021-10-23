@@ -183,7 +183,7 @@ ggsave(plot = ipps_mode,"analysis/figures/all_ipps_mode-cleaned.png", width = 6.
 
 
 
-
+# IPP for selected number of classes ===================================================
 
 # for 5 class
 c <- 5 # final n classes selected
@@ -193,7 +193,7 @@ mode_className <- c('Diverse Mode Users',
                     'Non-Driver, Transit users',
                     'Non-Driver, Walkers')
 
-# # for 6 class
+# # for 6 class. Un-comment this and run instead of 5 class above
 # c <- 6 # final n classes selected
 # mode_className <- c('Non-Driver, Transit users',
 #                     'Non-Driver, Walkers',
@@ -206,7 +206,7 @@ classCounts <- allOut_mode[[c]]$class_counts$mostLikely
 
 classProp <- round(classCounts$proportion * 100, digits = 1)
 
-classname_count_labels <- paste0(mode_className, " (n=", classCounts_c6$count, ")")
+classname_count_labels <- paste0(mode_className, " (n=", classCounts$count, ")")
 
 classname_prop_labels <- paste0(mode_className, " (", classProp, "%)")
 
@@ -222,36 +222,9 @@ ipp <- allOut_mode[c] %>%
 
 ipp
 
-
-# Adding class names, counts, then resaving. Not done yet for this model
-# mode_className <- c("Active Mode Users",
-#                     "Carpool Drivers",
-#                     'Non-Drivers',
-#                     'Home Schoolers / Workers',
-#                     'Solitary Drivers')
+ggsave(plot = ipp, paste0("analysis/figures/ipp_mode-clean_c", c, ".png"), width = 6.5, height = 3)
 
 
-# classCounts_mode5 <- allOut_mode[["X5.class_lca_modeused_elim.out"]]$class_counts$mostLikely
-#
-# classProp_mode5 <- round(classCounts_mode5$proportion * 100, digits = 1)
-#
-# classname_count_labels <- paste0(mode_className, " (n=", classCounts_mode5$count, ")")
-#
-# classname_prop_labels <- paste0(mode_className, " (", classProp_mode5, "%)")
-#
-# ipp_mode5 <- allOut_mode["X5.class_lca_modeused_elim.out"] %>%
-#   create_ipps.probscale(coefficients = "probability.scale",
-#                         paramCat = 2,
-#                         paramOrder = names(modeOrder)) +
-#   scale_x_discrete(labels = str_wrap(unname(modeOrder), width = 11)) +
-#   ylab("Estimated Probabilities") +
-#   scale_colour_discrete(labels = str_wrap(classname_prop_labels, width = 16)) +
-#   geom_hline(yintercept = 0.70, linetype = "dashed", color = "gray47") +
-#   geom_hline(yintercept = 0.30, linetype = "dashed", color = "gray47")
-#
-# ipp_mode5
-#
-# ggsave(plot = ipp_mode5, "analysis/figures/ipp_mode5.png", width = 6.5, height = 3)
 
 
 
