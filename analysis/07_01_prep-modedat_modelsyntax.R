@@ -4,7 +4,7 @@
 library(tidyverse)
 library(here)
 library(janitor)
-# library(MplusAutomation)
+library(MplusAutomation)
 
 devtools::load_all(helpers = FALSE)
 
@@ -14,56 +14,63 @@ trraw <- PSRC.data::trdat #read_rds(here("analysis/data/derived_data/trdat.rds")
 prraw <- PSRC.data::prdat #read_rds(here("analysis/data/derived_data/prdat.rds"))
 
 
-#
-# # Bring in ids that are NOT in OG trdat =======================================================
-#
-# tr_pid <- trraw %>%
-#   dplyr::pull(personid) %>%
-#   unique()
-#
-#
-# # 1.  Get pids of all hh members where whole hh was missing from trraw
-# ### Get the hhids that are not present in trraw. These are hhs w/ nobody who traveled
-# tr_hid <- trraw %>%
-#   pull(hhid) %>%
-#   unique()
-#
-# pr_hid <- prraw %>%
-#   pull(hhid) %>%
-#   unique()
-#
-# hhs_notr_hid <- pr_hid[!(pr_hid %in% tr_hid)] # hhids
-#
-#
-# ### get pids
-# hhs_notr_pid <- prraw %>%
-#   filter(hhid %in% hhs_notr_hid) %>%
-#   pull(personid) %>%
-#   unique()
-# # ^ these can be safely added to the travel data
-#
-#
-# # 2. Get the records where somebody from a hh in trdat ("clean" dataset) didn't travel.
-# clean_hids <- read_rds(here("analysis/data/derived_data/clean_hids.rds"))
-#
-# # get pids of ppl who didn't record travel
-# pr_notr_pid  <- prraw %>%
-#   filter(!(personid %in% tr_pid)) %>%
-#   filter(hhid %in% clean_hids) %>%
-#   pull(personid) %>%
-#   unique()
-#
-# # 3. Combine people whose entire hh is not present in trdat + ppl who do come from hhs with travelers
-#
-# notr_pid_combo <- c( hhs_notr_pid, pr_notr_pid) %>% unique()
-#
-# rm(list = setdiff(ls(), c("prraw", "trraw", "notr_pid_combo")))
-#
-# #  ===============================================================
+
+# Bring in ids that are NOT in OG trdat =======================================================
+
+tr_pid <- trraw %>%
+  dplyr::pull(personid) %>%
+  unique()
+
+
+# 1.  Get pids of all hh members where whole hh was missing from trraw
+### Get the hhids that are not present in trraw. These are hhs w/ nobody who traveled
+tr_hid <- trraw %>%
+  pull(hhid) %>%
+  unique()
+
+pr_hid <- prraw %>%
+  pull(hhid) %>%
+  unique()
+
+hhs_notr_hid <- pr_hid[!(pr_hid %in% tr_hid)] # hhids
+
+
+### get pids
+hhs_notr_pid <- prraw %>%
+  filter(hhid %in% hhs_notr_hid) %>%
+  pull(personid) %>%
+  unique()
+# ^ these can be safely added to the travel data
+
+
+# 2. Get the records where somebody from a hh in trdat ("clean" dataset) didn't travel.
+clean_hids <- read_rds(here("analysis/data/derived_data/clean_hids.rds"))
+
+# get pids of ppl who didn't record travel
+pr_notr_pid  <- prraw %>%
+  filter(!(personid %in% tr_pid)) %>%
+  filter(hhid %in% clean_hids) %>%
+  pull(personid) %>%
+  unique()
+
+# 3. Combine people whose entire hh is not present in trdat + ppl who do come from hhs with travelers
+
+notr_pid_combo <- c( hhs_notr_pid, pr_notr_pid) %>% unique()
+
+rm(list = setdiff(ls(), c("prraw", "trraw", "notr_pid_combo")))
+
+#  ===============================================================
 
 # import clean pids
 
-cleanpids <- read_rds(here("analysis/data/derived_data/clean_pids.rds"))
+cleanpids <- read_rds(here("analysis/data/derived_data/clean_pids.rds")) %>%
+  # add the new pid list to these
+  c(notr_pid_combo) %>%
+  unique()
+
+
+# Save person- and hh-lvl datasets (or ids) that has the new final list of ppl and hhs
+write_rds(cleanpids, here("analysis/data/derived_data/clean_pids_notr.rds"))
 
 # filter
 prdat <- prraw %>% filter(personid %in% cleanpids)
@@ -72,9 +79,20 @@ trdat <- trraw %>% filter(personid %in% cleanpids)
 
 mode <- trdat %>%
   # my function to make dummy variables from one variable in the dataset (`main_mode`)
-  make_dummies(main_mode)
+  make_dummies(main_mode) %>%
 
-rm(list=setdiff(ls(), "mode"))
+  # my fn to add the non-travelers to the dummy dataset
+  add_nontravelers(prraw = prraw, notr_pids = notr_pid_combo)
+
+rm(list=setdiff(ls(), c("prdat","mode")))
+
+
+# add covariates
+
+pr_cov <- prdat %>%
+  select(personid)
+
+mode_cov <- "this is final var name"
 
 # Create model syntax ##################################################################
 
@@ -95,7 +113,6 @@ write_mplus_data(df = mode,
                  filename = paste0(model_name, "-data-mplus-ready.dat"),
                  writeData = "ifmissing",
                  hashfilename = TRUE)
-
 
 # THEN: MANUALLY write template file ---------------------------
 
