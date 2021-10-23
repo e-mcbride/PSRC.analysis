@@ -18,20 +18,20 @@ Title <- "Title of your paper goes here"
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/e-mcbride/PSRC.analysis/master?urlpath=rstudio)
 
-This repository contains the data and code for our paper:
+<!-- This repository contains the data and code for our paper: -->
 
-> Authors, (YYYY). _`r Title`_. Name of journal/book <https://doi.org/xxx/xxx>
+<!-- > Authors, (YYYY). _`r Title`_. Name of journal/book <https://doi.org/xxx/xxx> -->
 
-Our pre-print is online here:
+<!-- Our pre-print is online here: -->
 
-> Authors, (YYYY). _`r Title`_. Name of journal/book, Accessed `r format(Sys.Date(), "%d %b %Y")`. Online at <https://doi.org/xxx/xxx>
+<!-- > Authors, (YYYY). _`r Title`_. Name of journal/book, Accessed `r format(Sys.Date(), "%d %b %Y")`. Online at <https://doi.org/xxx/xxx> -->
 
 
-### How to cite
+<!-- ### How to cite -->
 
-Please cite this compendium as:
+<!-- Please cite this compendium as: -->
 
-> Authors, (`r format(Sys.Date(), "%Y")`). _Compendium of R code and data for `r Title`_. Accessed `r format(Sys.Date(), "%d %b %Y")`. Online at <https://doi.org/xxx/xxx>
+<!-- > Authors, (`r format(Sys.Date(), "%Y")`). _Compendium of R code and data for `r Title`_. Accessed `r format(Sys.Date(), "%d %b %Y")`. Online at <https://doi.org/xxx/xxx> -->
 
 ## Contents
 
@@ -44,11 +44,9 @@ The **analysis** directory contains:
     and tables in this file)
   - [:file\_folder: data](/analysis/data): Data used in the analysis.
   - [:file\_folder: figures](/analysis/figures): Plots and other
-    illustrations
-  - [:file\_folder:
-    supplementary-materials](/analysis/supplementary-materials):
-    Supplementary materials including notes and other documents
-    prepared and collected during the analysis.
+    illustrations.
+  - [:file\_folder: Mplus](/analysis/Mplus): All syntax of models run in Mplus.
+  - [:file\_folder: supplementary-materials](/analysis/supplementary-materials): Supplementary materials including notes and other documents prepared and collected during the analysis.
 
 ## How to run in your broswer or download and run locally
 
@@ -60,7 +58,7 @@ itself and optionally [RStudio Desktop](https://rstudio.com/products/rstudio/dow
 (@) Clone this repository
 (@) Clone my other repository called PSRC.data
 (@) In RStudio, open the PSRC.data `.Rproj` file (NOT PSRC.analysis yet)
-(@) Click "Build" in the top toolbar, then click "Install and Restart"
+(@) Click the "Build" tab in the top toolbar, then click "Install and Restart"
 (@) Now, open the PSRC.analysis `.Rproj` file in RStudio
 (@) Run `devtools::install()` to ensure you have the packages this analysis depends on (also listed in the
 [DESCRIPTION](/DESCRIPTION) file).
