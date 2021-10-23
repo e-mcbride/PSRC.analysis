@@ -5,24 +5,13 @@
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/e-mcbride/PSRC.analysis/master?urlpath=rstudio)
 
-This repository contains the data and code for our paper:
-
-> Authors, (YYYY). *Title of your paper goes here*. Name of journal/book
-> <https://doi.org/xxx/xxx>
-
-Our pre-print is online here:
-
-> Authors, (YYYY). *Title of your paper goes here*. Name of
-> journal/book, Accessed 23 Oct 2021. Online at
-> <https://doi.org/xxx/xxx>
-
-### How to cite
-
-Please cite this compendium as:
-
-> Authors, (2021). *Compendium of R code and data for Title of your
-> paper goes here*. Accessed 23 Oct 2021. Online at
-> <https://doi.org/xxx/xxx>
+<!-- This repository contains the data and code for our paper: -->
+<!-- > Authors, (YYYY). _Analysis of PSRC Travel Diary Data_. Name of journal/book <https://doi.org/xxx/xxx> -->
+<!-- Our pre-print is online here: -->
+<!-- > Authors, (YYYY). _Analysis of PSRC Travel Diary Data_. Name of journal/book, Accessed 23 Oct 2021. Online at <https://doi.org/xxx/xxx> -->
+<!-- ### How to cite -->
+<!-- Please cite this compendium as: -->
+<!-- > Authors, (2021). _Compendium of R code and data for Analysis of PSRC Travel Diary Data_. Accessed 23 Oct 2021. Online at <https://doi.org/xxx/xxx> -->
 
 ## Contents
 
