@@ -84,22 +84,36 @@ mode <- trdat %>%
   # my fn to add the non-travelers to the dummy dataset
   add_nontravelers(prraw = prraw, notr_pids = notr_pid_combo)
 
-rm(list=setdiff(ls(), c("prdat","mode")))
+rm(list=setdiff(ls(), c("prdat","mode", "notr_pid_combo", "cleanpids")))
 
 
 # add covariates
 
-pr_cov <- prdat %>%
-  select(personid)
+grpvars <- read_rds(here("analysis/data/derived_data/grouping-variables.rds")) %>%
+  filter(personid %in% cleanpids)
 
-mode_cov <- "this is final var name"
+
+mode_cov <- grpvars %>%
+  mutate(hhinclv =
+           factor(HH_inc_lvl, ordered = FALSE) %>%
+           # janitor::make_clean_names(unique_sep = NULL)
+           make.names() %>%
+           tolower() %>%
+          str_replace("\\.", "_")
+
+  ) %>%
+  select(personid, hhinclv) %>%
+  left_join(mode, by = "personid") %>%
+  select(personid, hov:other, everything()) %>%
+  janitor::clean_names()
+
 
 # Create model syntax ##################################################################
 
 # if the mplus folder does not exist in /analysis/, then create it
 dir.create(here("analysis/Mplus/"))
 
-model_name <- "mode_cleaned"
+model_name <- "mode_cleaned_notr"
 
 create_model_dirs(model_name)
 
@@ -108,11 +122,13 @@ model_path <- paste0("analysis/Mplus/", model_name, "/")
 model_template <-  paste0(model_path, "template/")
 
 # my function to write mplus data to file in the right file location:
-write_mplus_data(df = mode,
+write_mplus_data(df = mode_cov,
                  wd_for_analysis = here(model_path),
                  filename = paste0(model_name, "-data-mplus-ready.dat"),
                  writeData = "ifmissing",
-                 hashfilename = TRUE)
+                 hashfilename = TRUE,
+                 dummyCode = c("hhinclv"))
+
 
 # THEN: MANUALLY write template file ---------------------------
 
