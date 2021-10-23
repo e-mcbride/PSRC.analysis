@@ -6,7 +6,7 @@ library(TraMineR)
 clusterward <- read_rds(here::here("analysis/data/derived_data/cluster-ward_5min.rds"))
 clust_pids <- clusterward$order.lab # pull the pids of the ppl who made it to the clustering
 
-grp_en_tu <- read_rds(here::here("analysis/data/derived_data/grouping-variables.rds")) %>%
+grp_en_tu <- read_rds(here::here("analysis/data/derived_data/grouping-entropy-turbulence.rds")) %>%
   filter(personid %in% clust_pids) # filter so the ppl included in clustering are only ones here
 
 pl.seq <- read_rds(here::here("analysis/data/derived_data/pl_seq.rds"))
