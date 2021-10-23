@@ -54,7 +54,7 @@ sum_by_year <- function(data, sumvar) {
 
 Import household data:
 ```{r, message=FALSE}
-hhdat <- read_rds(here("analysis/data/derived_data/hhdat.rds"))
+hhdat <- PSRC.data::hhdat
 ```
 
 ## other stuff
@@ -220,7 +220,7 @@ What do we have in the person-level data?
 
 Import Person Data
 ```{r}
-prdat <- read_rds(here("analysis/data/derived_data/prdat.rds"))
+prdat <- PSRC.data::prdat
 ```
 
 ## Other stuff
@@ -533,7 +533,7 @@ prdat %>%
 
 Import Trip-level Data
 ```{r}
-trdat <- read_rds(here("analysis/data/derived_data/trdat.rds"))
+trdat <- PSRC.data::trdat
 ```
 
 

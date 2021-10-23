@@ -26,7 +26,7 @@ library(here)
 
 
 ```{r}
-prdat <- read_rds(here("analysis/data/derived_data/prdat.rds"))
+prdat <- PSRC.data::prdat
 ```
 
 # Intention {.tabset .tabset-fade .tabset-pills}
