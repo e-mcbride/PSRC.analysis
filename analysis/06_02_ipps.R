@@ -6,12 +6,24 @@ library(MplusAutomation)
 library(ggrepel)
 devtools::load_all()
 
+model_name <- "mode_cleaned"
 
 # Item Probability Plots (IPPs)==================
 ## Fn: Plot mixtures for LCA probability scale --------------------------
 
 # This fn taken and edited from source code for MplusAutomation::plotMixtures().
 # I had to do this to get it to plot the line graphs for LCA probability scale
+
+
+# # TEMP create_ipps.probscale inputs:
+# modelList = allOut_mode
+# coefficients = "probability.scale"
+# paramCat = 2
+# paramOrder = names(modeOrder)
+#
+# x = 6
+# data.frame(Title = modelList[[x]]$input$title, plotdat[[x]])
+
 
 plotMixtures.probscale <- function(modelList,
                                    coefficients,
@@ -79,6 +91,8 @@ create_ipps <- function(outfile, parameter = "Means") {
           text = element_text(size = 8, family = "serif"))
 }
 
+
+
 create_ipps.probscale <- function(outfile,
                                   coefficients,
                                   paramCat,
@@ -142,16 +156,16 @@ names(allOut) <- shorten
 
 ### Travel Mode -------------------------------------------------------------
 
-model_name <- "mode"
+
 
 allOut_mode <- allOut %>%
-  keep(str_detect(names(.), pattern = model_name))
+  keep(str_detect(names(.), pattern = paste0(model_name, "\\.(?=[:digit:])")))
 
-modeOrder <- c('hov' = "High Occupancy Vehicle",
-               'sov' = "Single Occupancy Vehicle",
+modeOrder <- c('sov' = "Single Occupancy Vehicle",
+               'hov' = "High Occupancy Vehicle",
+               'transit' = "Taking Transit",
                'walk' = "Walking",
                'bike' = "Biking",
-               'transit' = "Taking Transit",
                'other' = "Using Other Modes")
 
 
@@ -161,13 +175,55 @@ modeOrder <- c('hov' = "High Occupancy Vehicle",
 ipps_mode <- create_ipps.probscale(outfile = allOut_mode,
                                    coefficients = "probability.scale",
                                    paramCat = 2,
-                                   paramOrder = names(modeOrder))
+                                   paramOrder = names(modeOrder)) +
+  scale_x_discrete(labels = str_wrap(unname(modeOrder), width = 11))
 
-ipps_mode + scale_x_discrete(labels = str_wrap(unname(modeOrder), width = 11))
+ipps_mode
+ggsave(plot = ipps_mode,"analysis/figures/all_ipps_mode-cleaned.png", width = 6.5, height = 4.5)
 
-# ggsave(plot = ipps_mode,"analysis/figures/ipps_mode.png", width = 6.5, height = 4.5)
 
 
+
+
+# for 5 class
+c <- 5 # final n classes selected
+mode_className <- c('Diverse Mode Users',
+                    'Carpoolers',
+                    'Solitary Drivers',
+                    'Non-Driver, Transit users',
+                    'Non-Driver, Walkers')
+
+# # for 6 class
+# c <- 6 # final n classes selected
+# mode_className <- c('Non-Driver, Transit users',
+#                     'Non-Driver, Walkers',
+#                     'Diverse Mode Users',
+#                     'Carpoolers',
+#                     'Bicycle Users',
+#                     'Solitary Drivers')
+
+classCounts <- allOut_mode[[c]]$class_counts$mostLikely
+
+classProp <- round(classCounts$proportion * 100, digits = 1)
+
+classname_count_labels <- paste0(mode_className, " (n=", classCounts_c6$count, ")")
+
+classname_prop_labels <- paste0(mode_className, " (", classProp, "%)")
+
+ipp <- allOut_mode[c] %>%
+  create_ipps.probscale(coefficients = "probability.scale",
+                        paramCat = 2,
+                        paramOrder = names(modeOrder)) +
+  scale_x_discrete(labels = str_wrap(unname(modeOrder), width = 11)) +
+  ylab("Estimated Probabilities") +
+  scale_colour_discrete(labels = str_wrap(classname_prop_labels, width = 16)) +
+  geom_hline(yintercept = 0.70, linetype = "dashed", color = "gray47") +
+  geom_hline(yintercept = 0.30, linetype = "dashed", color = "gray47")
+
+ipp
+
+
+# Adding class names, counts, then resaving. Not done yet for this model
 # mode_className <- c("Active Mode Users",
 #                     "Carpool Drivers",
 #                     'Non-Drivers',

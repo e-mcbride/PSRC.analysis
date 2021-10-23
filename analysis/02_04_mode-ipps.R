@@ -7,6 +7,8 @@ library(ggrepel)
 devtools::load_all()
 
 
+model_name <- "mode"
+
 # Item Probability Plots (IPPs)==================
 ## Fn: Plot mixtures for LCA probability scale --------------------------
 
@@ -142,7 +144,6 @@ names(allOut) <- shorten
 
 ### Travel Mode(cleaned) -------------------------------------------------------------
 
-model_name <- "mode_cleaned"
 
 allOut_mode <- allOut %>%
   keep(str_detect(names(.), pattern = model_name))
