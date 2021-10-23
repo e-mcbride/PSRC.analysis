@@ -1,4 +1,4 @@
-# Deciding the number of clusters to use
+# Deciding the number of clusters to use, creating figures for all those
 
 library(tidyverse)
 library(TraMineR)
@@ -34,6 +34,7 @@ alldata <- cbind(grp_en_tu, allclusters)
 
 cluster_id <- alldata %>% select(personid, starts_with("nclust"))
 
+write_rds(cluster_id, here::here("analysis/data/derived_data/all-clusters-by-pid.rds"))
 
 
 # try plotting k=2
