@@ -84,18 +84,19 @@ mode <- trdat %>%
   # my fn to add the non-travelers to the dummy dataset
   add_nontravelers(prraw = prraw, notr_pids = notr_pid_combo)
 
+rm(list=setdiff(ls(), "mode"))
 
 # Create model syntax ##################################################################
 
 # if the mplus folder does not exist in /analysis/, then create it
-dir.create(here("analysis/03_Mplus/"))
+dir.create(here("analysis/Mplus/"))
 
-model_name <- "mode_cleaned"
+model_name <- "mode_cleaned_notr"
 
 create_model_dirs(model_name)
 
 
-model_path <- paste0("analysis/03_Mplus/", model_name, "/")
+model_path <- paste0("analysis/Mplus/", model_name, "/")
 model_template <-  paste0(model_path, "template/")
 
 # my function to write mplus data to file in the right file location:
@@ -104,6 +105,9 @@ write_mplus_data(df = mode,
                  filename = paste0(model_name, "-data-mplus-ready.dat"),
                  writeData = "ifmissing",
                  hashfilename = TRUE)
+
+
+dir.exists(here(model_path))
 
 
 # THEN: MANUALLY write template file ---------------------------

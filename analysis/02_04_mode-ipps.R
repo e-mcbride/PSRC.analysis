@@ -130,11 +130,11 @@ add_estcount <- function(outfile) {
 ## Exec IPP creation -------------------------------
 
 ## Import allOut ------
-allOut <- readModels(here("analysis/03_Mplus/"), recursive = TRUE)
+allOut <- readModels(here("analysis/Mplus/"), recursive = TRUE)
 
 shorten <- allOut %>%
   names() %>%
-  str_split(".03_Mplus.") %>%
+  str_split(".Mplus.") %>%
   map(~.x[2])
 names(allOut) <- shorten
 
