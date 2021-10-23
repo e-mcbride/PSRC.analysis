@@ -4,7 +4,7 @@
 \alias{write_mplus_data}
 \title{Write data file for Mplus, including setting working directory}
 \usage{
-write_mplus_data(df, wd_for_analysis, filename, writeData, hashfilename)
+write_mplus_data(df, wd_for_analysis, filename, writeData, hashfilename, ...)
 }
 \arguments{
 \item{df}{Argument used by \code{MplusAutomation::prepareMplusData}. From the \code{prepareMplusData} documentation: The \code{R} data.frame to be prepared for Mplus.}
@@ -16,6 +16,8 @@ write_mplus_data(df, wd_for_analysis, filename, writeData, hashfilename)
 \item{writeData}{Argument used by \code{MplusAutomation::prepareMplusData}. From the \code{prepareMplusData} documentation: A character vector, one of 'always', 'ifmissing', 'never' indicating whether the data files (*.dat) should be written to disk. Defaults to ‘always’ for consistency with previous behavior. See details for further information.}
 
 \item{hashfilename}{Argument used by \code{MplusAutomation::prepareMplusData}. From the \code{prepareMplusData} documentation: A logical whether or not to add a hash of the raw data to the data file name. Defaults to \code{FALSE} for consistency with previous behavior where this feature was not available.}
+
+\item{...}{Optional arguments passed on to \code{MplusAutomation::prepareMplusData()}}
 }
 \value{
 Writes .dat file formatted for Mplus to the proper working directory. It also returns the Mplus syntax to copy/paste into a .inp file that goes into the same working directory.

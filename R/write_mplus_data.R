@@ -7,13 +7,15 @@
 #'@param filename Argument used by \code{MplusAutomation::prepareMplusData}. From the \code{prepareMplusData} documentation: The filename for the tab-delimited data file for use with Mplus.
 #'@param writeData Argument used by \code{MplusAutomation::prepareMplusData}. From the \code{prepareMplusData} documentation: A character vector, one of 'always', 'ifmissing', 'never' indicating whether the data files (*.dat) should be written to disk. Defaults to ‘always’ for consistency with previous behavior. See details for further information.
 #'@param hashfilename Argument used by \code{MplusAutomation::prepareMplusData}. From the \code{prepareMplusData} documentation: A logical whether or not to add a hash of the raw data to the data file name. Defaults to \code{FALSE} for consistency with previous behavior where this feature was not available.
+#'@param ... Optional arguments passed on to `MplusAutomation::prepareMplusData()`
 #'@return Writes .dat file formatted for Mplus to the proper working directory. It also returns the Mplus syntax to copy/paste into a .inp file that goes into the same working directory.
 #'@export
 write_mplus_data <- function(df,
                              wd_for_analysis,
                              filename,
                              writeData,
-                             hashfilename) {
+                             hashfilename,
+                             ...) {
   if (getwd() != wd_for_analysis) {
     setwd(wd_for_analysis)
   }
@@ -23,7 +25,8 @@ write_mplus_data <- function(df,
       MplusAutomation::prepareMplusData(
         filename = filename,
         writeData = writeData,
-        hashfilename = hashfilename);
+        hashfilename = hashfilename,
+        ...);
     message(paste0("Mplus data has been written to ", wd_for_analysis, "/", filename))
   })
   setwd(here())
