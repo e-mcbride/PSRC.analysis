@@ -1,0 +1,25 @@
+TITLE: 2-class LCA: mode_cleaned_notr
+DATA: FILE = "mode_cleaned_notr-data-mplus-ready_d88636d9dc8404ebd0d98a54ddd676b7.dat";
+VARIABLE:   NAMES = personid hov sov walk bike transit other incabove incbelow incna;
+            IDVAR = personid;
+            USEVAR = sov hov transit walk bike other;
+            CATEGORICAL = sov hov transit walk bike other;
+            MISSING=.;
+            CLASSES = c(2);
+ANALYSIS: TYPE = MIXTURE;
+          PROCESSORS = 6(STARTS);
+!          STSCALE = 20;
+          STARTS = 500 125;
+!          STARTS = 0;
+!          OPTSEED = ;
+!          K-1STARTS = 500 125;
+!          LRTSTARTS = 0 0 200 50;
+
+PLOT: TYPE=PLOT3;
+      SERIES = sov hov transit walk bike other(*);
+OUTPUT: TECH11;
+!OUTPUT: TECH14;
+!SAVEDATA:	FILE IS LCA_mode_cleaned_notr_c2_save.txt;
+!			SAVE IS CPROB;
+!            MISSFLAG=9999;
+!			FORMAT IS FREE;

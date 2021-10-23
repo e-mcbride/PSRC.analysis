@@ -1,0 +1,40 @@
+[[init]]
+iterators = classes;
+modeltype = LCA;
+classes = 1:8;
+modelName = mode_cleaned_notr;
+outputDirectory = "analysis/Mplus/[[modelName]]/template/";
+filename = "[[classes]]-class_[[modeltype]]_[[modelName]].inp";
+[[/init]]
+TITLE: [[classes]]-class [[modeltype]]: [[modelName]]
+DATA: FILE = "mode_cleaned_notr-data-mplus-ready_d88636d9dc8404ebd0d98a54ddd676b7.dat";
+VARIABLE:   NAMES = personid hov sov walk bike transit other incabove incbelow incna;
+            IDVAR = personid;
+            USEVAR = sov hov transit walk bike other;
+            CATEGORICAL = sov hov transit walk bike other;
+            MISSING=.;
+            CLASSES = c([[classes]]);
+ANALYSIS: TYPE = MIXTURE;
+          PROCESSORS = 6(STARTS);
+!          STSCALE = 20;
+          [[classes < 3]]
+          STARTS = 500 125;
+          [[/classes < 3]]
+          [[classes > 2]]
+          STARTS = 1000 250;
+          [[/classes > 2]]
+!          STARTS = 0;
+!          OPTSEED = ;
+!          K-1STARTS = 500 125;
+!          LRTSTARTS = 0 0 200 50;
+
+PLOT: TYPE=PLOT3;
+      SERIES = sov hov transit walk bike other(*);
+[[classes > 1]]
+OUTPUT: TECH11;
+!OUTPUT: TECH14;
+[[/classes > 1]]
+!SAVEDATA:	FILE IS [[modeltype]]_[[modelName]]_c[[classes]]_save.txt;
+!			SAVE IS CPROB;
+!            MISSFLAG=9999;
+!			FORMAT IS FREE;
