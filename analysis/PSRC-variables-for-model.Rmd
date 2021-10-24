@@ -26,7 +26,7 @@ library(here)
 
 
 ```{r}
-prdat <- PSRC.data::prdat
+prdat <- PSRCData::prdat
 ```
 
 # Intention {.tabset .tabset-fade .tabset-pills}
@@ -58,6 +58,15 @@ HOWEVER: should `mode_freq` variables instead be used for **Habit**?
 
 
 ## Social Factors
+
+### Role
+There is the `relationship` variable, which could be used to define their role
+
+```{r}
+prdat %>% select(relationship) %>% unique()
+```
+
+Or the life cycle stage variable `
 
 ## Affect
 

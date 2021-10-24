@@ -47,6 +47,7 @@ The **analysis** directory contains:
     illustrations.
   - [:file\_folder: Mplus](/analysis/Mplus): All syntax of models run in Mplus.
   - [:file\_folder: supplementary-materials](/analysis/supplementary-materials): Supplementary materials including notes and other documents prepared and collected during the analysis.
+  - [:file\_folder: unfinished](/analysis/unfinished): Scripts that I am not done writing and cannot yet run, or things I have removed from the main analysis workflow, but I want to keep a record of.
 
 ## How to run in your broswer or download and run locally
 
@@ -56,8 +57,8 @@ installed on your computer the [R software](https://cloud.r-project.org/)
 itself and optionally [RStudio Desktop](https://rstudio.com/products/rstudio/download/).
 
 (@) Clone this repository
-(@) Clone my other repository called PSRC.data
-(@) In RStudio, open the PSRC.data `.Rproj` file (NOT PSRC.analysis yet)
+(@) Clone my other repository called PSRCData
+(@) In RStudio, open the PSRCData `.Rproj` file (NOT PSRC.analysis yet)
 (@) Click the "Build" tab in the top toolbar, then click "Install and Restart"
 (@) Now, open the PSRC.analysis `.Rproj` file in RStudio
 (@) Run `devtools::install()` to ensure you have the packages this analysis depends on (also listed in the

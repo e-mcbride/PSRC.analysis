@@ -31,6 +31,9 @@ The **analysis** directory contains:
     supplementary-materials](/analysis/supplementary-materials):
     Supplementary materials including notes and other documents prepared
     and collected during the analysis.
+-   [:file\_folder: unfinished](/analysis/unfinished): Scripts that I am
+    not done writing and cannot yet run, or things I have removed from
+    the main analysis workflow, but I want to keep a record of.
 
 ## How to run in your broswer or download and run locally
 
@@ -41,8 +44,8 @@ software](https://cloud.r-project.org/) itself and optionally [RStudio
 Desktop](https://rstudio.com/products/rstudio/download/).
 
 1.  Clone this repository
-2.  Clone my other repository called PSRC.data
-3.  In RStudio, open the PSRC.data `.Rproj` file (NOT PSRC.analysis yet)
+2.  Clone my other repository called PSRCData
+3.  In RStudio, open the PSRCData `.Rproj` file (NOT PSRC.analysis yet)
 4.  Click the “Build” tab in the top toolbar, then click “Install and
     Restart”
 5.  Now, open the PSRC.analysis `.Rproj` file in RStudio

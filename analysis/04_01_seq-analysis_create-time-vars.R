@@ -1,8 +1,8 @@
 library(dplyr)
 library(lubridate)
 
-library(PSRC.data)
-trdat <- PSRC.data::trdat %>%
+library(PSRCData)
+trdat <- PSRCData::trdat %>%
   mutate(depart_time_hhmm = hms::as_hms(depart_time_hhmm),
          arrival_time_hhmm = hms::as_hms(arrival_time_hhmm))
 

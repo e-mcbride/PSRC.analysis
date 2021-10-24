@@ -12,9 +12,9 @@ library(unpivotr)
 
 
 # 1. building SES grouping variables
-hhdat <- PSRC.data::hhdat
+hhdat <- PSRCData::hhdat
 
-prraw <- PSRC.data::prdat
+prraw <- PSRCData::prdat
 
 # # when at least 2 race categories are selected, what is race_category? ======
 #
@@ -203,7 +203,7 @@ hhvars <- hhdat %>%
 
 # NOW apparently joining hhvars to person-lvl ==============================================================
 
-prdat <- PSRC.data::prdat %>%
+prdat <- PSRCData::prdat %>%
   select(personid, hhid, pernum, age, age_category, gender, employment, worker, student, education, license, starts_with("race"), race_category)
 
 grpvars <- prdat %>%

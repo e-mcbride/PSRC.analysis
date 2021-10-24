@@ -6,7 +6,7 @@ pl_seq <- read_rds(here::here("analysis/data/derived_data/pl_seq.rds")) %>%
   as_tibble(rownames = "personid") %>%
   mutate(personid = as.numeric(personid))
 
-hh_pr_ids <- PSRC.data::prdat %>%
+hh_pr_ids <- PSRCData::prdat %>%
   select(hhid, personid)
 
 hhids <- hh_pr_ids %>%

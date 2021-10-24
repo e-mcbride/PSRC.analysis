@@ -8,58 +8,10 @@ library(janitor)
 
 devtools::load_all(helpers = FALSE)
 
-trraw <- PSRC.data::trdat #read_rds(here("analysis/data/derived_data/trdat.rds"))
+trraw <- PSRCData::trdat #read_rds(here("analysis/data/derived_data/trdat.rds"))
+prraw <- PSRCData::prdat
 
-# people who made no trips are missing from the `travel` data, so I add them in with the following
-prraw <- PSRC.data::prdat #read_rds(here("analysis/data/derived_data/prdat.rds"))
-
-
-#
-# # Bring in ids that are NOT in OG trdat =======================================================
-#
-# tr_pid <- trraw %>%
-#   dplyr::pull(personid) %>%
-#   unique()
-#
-#
-# # 1.  Get pids of all hh members where whole hh was missing from trraw
-# ### Get the hhids that are not present in trraw. These are hhs w/ nobody who traveled
-# tr_hid <- trraw %>%
-#   pull(hhid) %>%
-#   unique()
-#
-# pr_hid <- prraw %>%
-#   pull(hhid) %>%
-#   unique()
-#
-# hhs_notr_hid <- pr_hid[!(pr_hid %in% tr_hid)] # hhids
-#
-#
-# ### get pids
-# hhs_notr_pid <- prraw %>%
-#   filter(hhid %in% hhs_notr_hid) %>%
-#   pull(personid) %>%
-#   unique()
-# # ^ these can be safely added to the travel data
-#
-#
-# # 2. Get the records where somebody from a hh in trdat ("clean" dataset) didn't travel.
-# clean_hids <- read_rds(here("analysis/data/derived_data/clean_hids.rds"))
-#
-# # get pids of ppl who didn't record travel
-# pr_notr_pid  <- prraw %>%
-#   filter(!(personid %in% tr_pid)) %>%
-#   filter(hhid %in% clean_hids) %>%
-#   pull(personid) %>%
-#   unique()
-#
-# # 3. Combine people whose entire hh is not present in trdat + ppl who do come from hhs with travelers
-#
-# notr_pid_combo <- c( hhs_notr_pid, pr_notr_pid) %>% unique()
-#
-# rm(list = setdiff(ls(), c("prraw", "trraw", "notr_pid_combo")))
-#
-# #  ===============================================================
+model_name <- "mode_cleaned"
 
 # import clean pids
 
@@ -69,22 +21,18 @@ cleanpids <- read_rds(here("analysis/data/derived_data/clean_pids.rds"))
 prdat <- prraw %>% filter(personid %in% cleanpids)
 trdat <- trraw %>% filter(personid %in% cleanpids)
 
-
 mode <- trdat %>%
   # my function to make dummy variables from one variable in the dataset (`main_mode`)
   make_dummies(main_mode)
 
-rm(list=setdiff(ls(), "mode"))
+rm(list=setdiff(ls(), "mode", "model_name"))
 
 # Create model syntax ##################################################################
 
 # if the mplus folder does not exist in /analysis/, then create it
 dir.create(here("analysis/Mplus/"))
 
-model_name <- "mode_cleaned"
-
 create_model_dirs(model_name)
-
 
 model_path <- paste0("analysis/Mplus/", model_name, "/")
 model_template <-  paste0(model_path, "template/")
