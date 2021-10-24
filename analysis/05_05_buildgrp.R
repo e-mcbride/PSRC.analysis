@@ -21,7 +21,7 @@ write_rds(sixclust, here::here("analysis/data/derived_data/six-cluster-by-pids.r
 # cluster <- cutree(clusterward, 6)%>%
 #   factor(labels=paste0("type", 1:6))
 #
-# alldata <- cbind(grp_en_tu, cluster) %>%
+# alldata <- cbind(aux_en_tu, cluster) %>%
 #   mutate(namedcluster = recode_factor(cluster, !!!level_key))
 
 # seqplot <- seqfplot(pl.seq.5min, group = cl6)

@@ -1,6 +1,7 @@
-# building table with grouping variables, entropy, and turbulence
+# Building auxiliary variables
 
-# we want all these in the same table because ...? EM!
+# we want all these in the same table
+## to use them for analyzing their relationships to the model results
 
 library(tidyverse)
 library(here)
@@ -11,7 +12,7 @@ library(unpivotr)
 
 
 
-# 1. building SES grouping variables
+# 1. building SES auxiliary variables
 hhdat <- PSRCData::hhdat
 
 prraw <- PSRCData::prdat
@@ -190,25 +191,25 @@ hh_incvars <- hhdat %>%
   select(hhid, famcode, inc_lvl)
 
 
-
+# Final hhvar ######################################################################################################
 
 
 hhvars <- hhdat %>%
-  select(hhid, hhsize, lifecycle, numworkers, numadults, numchildren, hhincome_broad, hhincome_detailed, hhincome_followup) %>%
+  select(hhid, hhsize, lifecycle, numworkers, numadults, numchildren, lifecycle, hhincome_broad, hhincome_detailed, hhincome_followup) %>%
   left_join(hh_Agegrp_count, by = "hhid") %>%
   left_join(hh_incvars, by = "hhid") %>%
   # rename(across(-starts_with("hh"), ~ paste0("HH_", .) ))
   rename_at(.vars = vars(-starts_with("hh")), list(~paste0("HH_", .)))
 
 
-# NOW apparently joining hhvars to person-lvl ==============================================================
+# NOW joining hhvars to person-lvl ==============================================================
 
-prdat <- PSRCData::prdat %>%
+prsel <- prraw %>%
   select(personid, hhid, pernum, age, age_category, gender, employment, worker, student, education, license, starts_with("race"), race_category)
 
-grpvars <- prdat %>%
+auxvars <- prsel %>%
   left_join(hhvars, by = "hhid")
 
 
 
-write_rds(grpvars, here("analysis/data/derived_data/grouping-variables.rds"))
+write_rds(auxvars, here("analysis/data/derived_data/auxiliary-variables.rds"))

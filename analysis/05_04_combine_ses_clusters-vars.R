@@ -38,19 +38,19 @@ sixclust <- read_rds(here::here("analysis/data/derived_data/six-cluster-by-pids.
 frag_vars <- minbystate %>%
   left_join(sixclust, by = "personid")
 
-grp_en_tu <- read_rds(here::here("analysis/data/derived_data/grouping-entropy-turbulence.rds"))
+aux_en_tu <- read_rds(here::here("analysis/data/derived_data/auxiliary-entropy-turbulence.rds"))
 
-grp_frag_trav <- grp_en_tu %>%
+aux_frag_trav <- aux_en_tu %>%
   left_join(frag_vars, by = "personid")
 
-write_rds(grp_frag_trav, here::here("analysis/data/derived_data/grouping_ent-tur_traveldat.rds"))
+write_rds(aux_frag_trav, here::here("analysis/data/derived_data/auxiliary_ent-tur_traveldat.rds"))
 
 # make dataset with factors converted to numeric
-factors2numeric <- grp_frag_trav %>%
+factors2numeric <- aux_frag_trav %>%
   mutate(across(where(is.factor), ~ as.numeric(.x)))
 
-# data.frame(levels(grp_frag_trav$employment), as.num)
+# data.frame(levels(aux_frag_trav$employment), as.num)
 #
-# x <- levels(grp_frag_trav$employment) %>%
+# x <- levels(aux_frag_trav$employment) %>%
 #   as_tibble()
-# grp
+# aux

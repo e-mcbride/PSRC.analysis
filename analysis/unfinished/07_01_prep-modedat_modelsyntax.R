@@ -91,11 +91,11 @@ rm(list=setdiff(ls(), c("prdat","mode", "notr_pid_combo", "cleanpids")))
 
 # add covariates
 
-grpvars <- read_rds(here("analysis/data/derived_data/grouping-variables.rds")) %>%
+auxvars <- read_rds(here("analysis/data/derived_data/auxiliary-variables.rds")) %>%
   filter(personid %in% cleanpids)
 
 
-mode_cov <- grpvars %>%
+mode_cov <- auxvars %>%
   mutate(hhinclv =
            factor(HH_inc_lvl, ordered = FALSE) %>%
            # janitor::make_clean_names(unique_sep = NULL)
