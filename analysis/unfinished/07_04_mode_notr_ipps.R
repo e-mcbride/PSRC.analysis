@@ -148,7 +148,7 @@ names(allOut) <- shorten
 
 
 allOut_mode <- allOut %>%
-  keep(str_detect(names(.), pattern = model_name))
+  keep(str_detect(names(.), pattern = paste0(model_name, "\\.(?=[:digit:])")))
 
 modeOrder <- c('hov' = "High Occupancy Vehicle",
                'sov' = "Single Occupancy Vehicle",

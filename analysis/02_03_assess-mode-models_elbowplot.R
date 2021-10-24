@@ -46,7 +46,8 @@ shorten <- allOut %>%
 names(allOut) <- shorten
 
 allOut_mode <- allOut %>%
-  keep(str_detect(names(.), pattern = model_name))
+  keep(str_detect(names(.), pattern = paste0(model_name, "\\.(?=[:digit:])")))
+  # keep(str_detect(names(.), pattern = model_name))
 
 
 fitind_mode <- fitind(allOut_mode)

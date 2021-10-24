@@ -8,6 +8,8 @@ library(MplusAutomation)
 
 devtools::load_all(helpers = FALSE)
 
+model_name <- "mode_cleaned_notr"
+
 trraw <- PSRCData::trdat #read_rds(here("analysis/data/derived_data/trdat.rds"))
 
 # people who made no trips are missing from the `travel` data, so I add them in with the following
@@ -112,8 +114,6 @@ mode_cov <- grpvars %>%
 
 # if the mplus folder does not exist in /analysis/, then create it
 dir.create(here("analysis/Mplus/"))
-
-model_name <- "mode_cleaned_notr"
 
 create_model_dirs(model_name)
 
