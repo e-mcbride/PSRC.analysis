@@ -16,7 +16,31 @@ sixclust <- cluster_id %>% select(personid, c6 = nclust6) %>%
   mutate(namedcluster = recode_factor(c6str, !!!level_key)) %>%
   select(-c6str)
 
-write_rds(sixclust, here::here("analysis/data/derived_data/six-cluster-by-pids.rds"))
+
+# minutes by state ########################################################################
+
+pl.seq.5min <- read_rds(here::here("analysis/data/derived_data/pl_seq_5min.rds"))
+
+minbystate <- pl.seq.5min %>%
+  as_tibble(rownames = "personid") %>%
+  gather(-personid, key = "time", value = "place") %>%
+  group_by(personid, place) %>%
+  count(name = "minutes") %>%
+  ungroup() %>%
+  spread(key = place, value = "minutes", fill = 0) %>%
+  rename(min_NA = `*`, min_G = "Gshop", min_H = "Home", min_O = "Other", min_S = "School", min_T = "Travel", min_W = "Work")
+
+# sixclust <- read_rds(here::here("analysis/data/derived_data/six-cluster-by-pids.rds")) %>%
+#   rename(clustnum = c6)
+
+frag_vars <- minbystate %>%
+  left_join(sixclust, by = "personid")
+
+write_rds(frag_vars, here::here("analysis/data/derived_data/frag_6clust_by_pid.rds"))
+
+
+
+# write_rds(sixclust, here::here("analysis/data/derived_data/six-cluster-by-pids.rds"))
 
 # unused, but preserved for now ########################################
 # cluster <- cutree(clusterward, 6)%>%
