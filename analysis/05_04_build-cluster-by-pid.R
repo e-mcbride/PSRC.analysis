@@ -18,6 +18,7 @@ sixclust <- cluster_id %>% select(personid, c6 = nclust6) %>%
 
 write_rds(sixclust, here::here("analysis/data/derived_data/six-cluster-by-pids.rds"))
 
+# unused, but preserved for now ########################################
 # cluster <- cutree(clusterward, 6)%>%
 #   factor(labels=paste0("type", 1:6))
 #
