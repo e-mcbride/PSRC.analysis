@@ -48,7 +48,8 @@ hh_Agegrp_count <- prraw %>%
   # )) %>%
   group_by(hhid) %>%
   summarise(Age00_04 = sum(age == "Under 5 years old", na.rm = TRUE),
-            Age05_17 = sum(age >= "5-11 years" & age < "18-24 years", na.rm = TRUE),
+            Age05_15 = sum(age >= "5-11 years" & age < "16-17 years", na.rm = TRUE),
+            Age16_17 = sum(age == "16-17 years", na.rm = TRUE),
             Age18_99 = sum(age >= "18-24 years", na.rm = TRUE)
             )
 
@@ -240,11 +241,25 @@ hhvars <- hhdat %>%
 ## person vars ==========================================================================
 
 prsel <- prraw %>%
-  select(personid, hhid, pernum, age, age_category, gender, employment, worker, student, education, license,
+  mutate(agegrp =
+           case_when( # under 5, 5-15, 16-17, 18-34, 35-64,65+
+             age == "Under 5 years old" ~ "age00_04",
+             age <= "12-15 years" ~ "age05_15",
+             age <= "16-17 years" ~ "age16_17",
+             age <= "25-34 years" ~ "age18_34",
+             age <= "55-64 years" ~ "age35_64",
+             age > "55-64 years" ~ "age65_99"
+           )) %>%
+  select(personid, hhid, pernum, age, agegrp, gender, employment, worker, student, education, license,
          starts_with("race"), race_category,
          starts_with("wbt_"),
          relationship,
          starts_with("mode_freq"))
+
+
+# # check `agegrp` var
+# prsel %>% group_by(age) %>% summarise(n = n())
+# prsel %>% group_by(agegrp) %>% summarise(n = n())
 
 
 ## joining hhvars to person-lvl ==============================================================
