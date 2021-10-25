@@ -1,6 +1,6 @@
 # cluster-timealloc_by-pid
-library(dplyr)
-library(readr)
+library(tidyverse)
+
 cluster_id <- read_rds(here::here("analysis/data/derived_data/pid_all-clusters.rds"))
 
 
@@ -15,7 +15,8 @@ level_key <- list(type1 = "Home Day",
 sixclust <- cluster_id %>% select(personid, c6 = nclust6) %>%
   mutate(c6str = factor(c6, labels = paste0("type", 1:6))) %>%
   mutate(namedcluster = recode_factor(c6str, !!!level_key)) %>%
-  select(-c6str)
+  select(-c6str) %>%
+  rename(clustno = c6)
 
 
 # minutes by state ########################################################################

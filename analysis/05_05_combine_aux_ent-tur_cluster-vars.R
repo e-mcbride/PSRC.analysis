@@ -19,6 +19,38 @@ all_aux_vars <-  sesvars %>%
   left_join(seq_vars, by = "personid")
 
 
+curated_auxvars <- all_aux_vars %>%
+  select(personid,
+         # Intention #####################################################################
+         ## Attitude =====================================================================
+         ### Preferences --------------------------------------------
+         starts_with("wbt_"),
+
+         ### Values and Beliefs
+         starts_with("HH_res_factors"),
+
+         ## Social Factors ===============================================================
+         relationship,
+
+         # Habit #########################################################################
+         starts_with("mode_freq"), # do they have habits besides car use
+
+         # Context/Facilitating Conditions ###############################################
+         ## Socioeconomic Status =========================================================
+         race_category,
+         gender,
+         student,
+         worker,
+         license,
+
+         ## Spatiotemporal Structures ====================================================
+         C,
+         clustno
+  )
+
+
+write_rds(curated_auxvars, here::here("analysis/data/derived_data/curated-auxiliary-vars.rds"))
+
 
 # ERASE
 # Building cluster variables and modifying SES variables, then combining
