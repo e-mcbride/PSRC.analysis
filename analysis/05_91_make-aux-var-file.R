@@ -8,5 +8,3 @@ for(i in 1:length(filelist)) {
   message(paste0("File ", i, " successfully run"))
 }
 
-
-

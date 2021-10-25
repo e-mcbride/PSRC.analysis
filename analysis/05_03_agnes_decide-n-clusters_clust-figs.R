@@ -6,8 +6,12 @@ library(TraMineR)
 clusterward <- read_rds(here::here("analysis/data/derived_data/cluster-ward_5min.rds"))
 clust_pids <- clusterward$order.lab # pull the pids of the ppl who made it to the clustering
 
-aux_en_tu <- read_rds(here::here("analysis/data/derived_data/auxiliary-entropy-turbulence.rds")) %>%
-  filter(personid %in% clust_pids) # filter so the ppl included in clustering are only ones here
+pid_df <- PSRCData::prdat %>%
+  filter(personid %in% clust_pids) %>%
+  select(personid)
+
+# ses_en_tu <- read_rds(here::here("analysis/data/derived_data/auxiliary-entropy-turbulence.rds")) %>%
+#   filter(personid %in% clust_pids) # filter so the ppl included in clustering are only ones here
 
 pl.seq <- read_rds(here::here("analysis/data/derived_data/pl_seq.rds"))
 
@@ -19,7 +23,7 @@ column.5min <- seq(from = 1, to = 1440, by = 5)
 pl.seq.5min <- pl.seq[, column.5min]
 rm(pl.seq)
 
-write_rds(pl.seq.5min, here::here("analysis/data/derived_data/pl_seq_5min.rds"))
+
 
 # plot(clusterward, which.plots = 2, rotate = TRUE)
 # plot(clusterward)
@@ -30,14 +34,16 @@ allclusters <- cutree(clusterward, 1:10)
 
 colnames(allclusters) <- paste0("nclust", colnames(allclusters))
 
-alldata <- cbind(aux_en_tu, allclusters)
+alldata <- cbind(pid_df, allclusters)
 
 cluster_id <- alldata %>% select(personid, starts_with("nclust"))
 
-write_rds(cluster_id, here::here("analysis/data/derived_data/all-clusters-by-pid.rds"))
+
+write_rds(pl.seq.5min, here::here("analysis/data/derived_data/pl_seq_5min.rds"))
+write_rds(cluster_id, here::here("analysis/data/derived_data/pid_all-clusters.rds"))
 
 
-# try plotting k=2
+# plotting, deciding n clusters ############################################
 
 # join cluster ids to the sequences by pid. make data "long" for ggplot
 #

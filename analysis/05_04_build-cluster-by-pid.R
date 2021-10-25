@@ -1,6 +1,7 @@
+# cluster-timealloc_by-pid
 library(dplyr)
 library(readr)
-cluster_id <- read_rds(here::here("analysis/data/derived_data/all-clusters-by-pid.rds"))
+cluster_id <- read_rds(here::here("analysis/data/derived_data/pid_all-clusters.rds"))
 
 
 # six cluster decision ==========================================================
@@ -30,13 +31,10 @@ minbystate <- pl.seq.5min %>%
   spread(key = place, value = "minutes", fill = 0) %>%
   rename(min_NA = `*`, min_G = "Gshop", min_H = "Home", min_O = "Other", min_S = "School", min_T = "Travel", min_W = "Work")
 
-# sixclust <- read_rds(here::here("analysis/data/derived_data/six-cluster-by-pids.rds")) %>%
-#   rename(clustnum = c6)
-
-frag_vars <- minbystate %>%
+seq_vars <- minbystate %>%
   left_join(sixclust, by = "personid")
 
-write_rds(frag_vars, here::here("analysis/data/derived_data/frag_6clust_by_pid.rds"))
+write_rds(seq_vars, here::here("analysis/data/derived_data/pid_timealloc-6clust.rds"))
 
 
 
@@ -46,7 +44,7 @@ write_rds(frag_vars, here::here("analysis/data/derived_data/frag_6clust_by_pid.r
 # cluster <- cutree(clusterward, 6)%>%
 #   factor(labels=paste0("type", 1:6))
 #
-# alldata <- cbind(aux_en_tu, cluster) %>%
+# alldata <- cbind(ses_en_tu, cluster) %>%
 #   mutate(namedcluster = recode_factor(cluster, !!!level_key))
 
 # seqplot <- seqfplot(pl.seq.5min, group = cl6)

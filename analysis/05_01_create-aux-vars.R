@@ -248,9 +248,9 @@ prsel <- prraw %>%
 
 
 ## joining hhvars to person-lvl ==============================================================
-auxvars <- prsel %>%
+sesvars <- prsel %>%
   left_join(hhvars, by = "hhid")
 
 
 
-write_rds(auxvars, here("analysis/data/derived_data/auxiliary-variables.rds"))
+write_rds(sesvars, here("analysis/data/derived_data/pid_SES.rds"))
