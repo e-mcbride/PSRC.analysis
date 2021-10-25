@@ -7,17 +7,16 @@ library(tidyverse)
 library(here)
 library(tidyxl)
 library(unpivotr)
-# NOTES ==============================
+# NOTES ##################################################################################
 # will need to get day of week from trdat!
 
 
 
 # 1. building SES auxiliary variables
 hhdat <- PSRCData::hhdat
-
 prraw <- PSRCData::prdat
 
-# # when at least 2 race categories are selected, what is race_category? ======
+# ## when at least 2 race categories are selected, what is race_category?
 #
 # prraw %>% pull(race_category) %>% unique()
 # race <- prraw %>%
@@ -35,9 +34,9 @@ prraw <- PSRCData::prdat
 # # FROM THIS I LEARNED: if more than 1 race cat is selected, if 2 are selected and 1 is white, then the
 # # non-white race is the one that they are labeled as. Otherwise, they are categorized as "Other"
 
-# Person level to household level =========================================
+# Person level to household level ########################################################################
 
-## Agegroups ------------------------------------------------------------------------------------------------------------
+## Agegroups -------------------------------------------------------------------------------------------
 prraw$age %>% unique()
 prraw$age_category %>% unique()
 
@@ -72,6 +71,20 @@ incomevals <- hhdat %>%
          inc_hi = as.numeric(inc_hi)
          ) %>%
   arrange(inc_lo)
+
+incomevals_broad <- hhdat %>%
+  select(hhincome_broad) %>%
+  unique() %>%
+  mutate(rninc_broad = str_replace(hhincome_broad, "Under ", "$0-"),
+         rninc_broad = str_replace(rninc_broad, "or more", "-$999,999"),
+         rninc_broad = if_else(rninc_broad == "Prefer not to answer", NA_character_, rninc_broad),
+         rninc_broad = str_remove_all(rninc_broad,c("\\$|\\,"))
+  ) %>%
+  tidyr::separate(col = rninc_broad, into = c("inc_lo_b", "inc_hi_b"), sep = "-", remove = TRUE) %>%
+  mutate(inc_lo_b = as.numeric(inc_lo_b),
+         inc_hi_b = as.numeric(inc_hi_b)
+  ) %>%
+  arrange(inc_lo_b)
 
 
 # For the poverty lines: Using the Washington State self-sufficiency standard of 2017
@@ -146,17 +159,17 @@ sss_clean <- sss_cells %>%
 
 # fix counties with multiple numbers (average them)
 
-##' 1. which counties are included in PSTP
+## 1. which counties are included in PSTP
 pstp.cnt.regex <- hhdat %>% pull(sample_county) %>% unique() %>% str_c(collapse="|")
 ### King, Pierce, Kitsap, Snohomish
 
-##' 2. pull those counties from sss_clean, see how many different values there are for each county
+## 2. pull those counties from sss_clean, see how many different values there are for each county
 countysel <- sss_clean %>%
   filter(grepl(pstp.cnt.regex, county)) %>%
   pull(county) %>%
   unique()
 
-##' 3. average the amounts for each famcode category
+## 3. average the amounts for each famcode category
 
 sss_cntyAvgs <- sss_clean %>%
   filter(county %in% countysel) %>%
@@ -173,40 +186,68 @@ sss_cntyAvgs <- sss_clean %>%
 #   left_join(famcode, by = "hhid") %>%
 #   left_join(sss_cntyAvgs, by = c("sample_county" = "county", "famcode"))
 
-# is their income above or below this number
+# is their income above, below, or around this number
 
 hh_incvars <- hhdat %>%
-  select(hhid, sample_county, hhincome_detailed) %>%
+  select(hhid, sample_county, hhincome_detailed, hhincome_broad, hhincome_followup) %>%
   left_join(incomevals, by = "hhincome_detailed") %>%
   left_join(famcode, by = "hhid") %>%
   left_join(sss_cntyAvgs, by = c("sample_county" = "county", "famcode")) %>%
+  mutate(inc_lvl_det =
+           case_when(
+             # inc_hi >= county_mean_sss ~ "Above SSS",
+             inc_lo >= county_mean_sss & inc_hi >= county_mean_sss ~ "Above SSS",
+             inc_lo <= county_mean_sss & inc_hi >= county_mean_sss ~ "Around SSS",
+             inc_lo <= county_mean_sss & inc_hi <= county_mean_sss ~ "Below SSS"
+             # inc_lo >= county_mean_sss & inc_hi <= county_mean_sss ~ "Around SSS",
+             # inc_lo < county_mean_sss ~ "Below SSS"
+           )
+  ) %>%
+
+  # for those who prefer not to answer the "detailed" category:
+  left_join(incomevals_broad, by = "hhincome_broad") %>%
   mutate(inc_lvl =
            case_when(
-             inc_hi >= county_mean_sss ~ "Above SSS",
-             inc_lo >= county_mean_sss & inc_hi <= county_mean_sss ~ "Around SSS",
-             inc_lo < county_mean_sss ~ "Below SSS"
-           ),
-         inc_lvl = ordered(inc_lvl, levels = c("Below SSS", "Around SSS", "Above SSS"))
+             !is.na(inc_lvl_det) ~ inc_lvl_det,
+             inc_lo_b >= county_mean_sss & inc_hi_b >= county_mean_sss ~ "Above SSS",
+             inc_lo_b <= county_mean_sss & inc_hi_b >= county_mean_sss ~ "Around SSS",
+             inc_lo_b <= county_mean_sss & inc_hi_b <= county_mean_sss ~ "Below SSS"
+             # is.na(inc_lv_det) & !(hhincome_broad %in% "Prefer not to answer")
+           )
+  ) %>%
+  mutate(inc_lvl =
+           ordered(inc_lvl, levels = c("Below SSS", "Around SSS", "Above SSS"))
   ) %>%
   select(hhid, famcode, inc_lvl)
 
+hh_incvars %>% group_by(inc_lvl) %>% summarise(n = n())
 
-# Final hhvar ######################################################################################################
+# Final Vars ##################################################################################
+
+## hh vars =============================================================================
 
 
 hhvars <- hhdat %>%
-  select(hhid, hhsize, lifecycle, numworkers, numadults, numchildren, lifecycle, hhincome_broad, hhincome_detailed, hhincome_followup) %>%
+  select(hhid, hhsize, lifecycle, numworkers, numadults, numchildren, lifecycle, hhincome_broad, hhincome_detailed,
+         starts_with("res_factors")
+         ) %>%
   left_join(hh_Agegrp_count, by = "hhid") %>%
   left_join(hh_incvars, by = "hhid") %>%
   # rename(across(-starts_with("hh"), ~ paste0("HH_", .) ))
   rename_at(.vars = vars(-starts_with("hh")), list(~paste0("HH_", .)))
 
 
-# NOW joining hhvars to person-lvl ==============================================================
+## person vars ==========================================================================
 
 prsel <- prraw %>%
-  select(personid, hhid, pernum, age, age_category, gender, employment, worker, student, education, license, starts_with("race"), race_category)
+  select(personid, hhid, pernum, age, age_category, gender, employment, worker, student, education, license,
+         starts_with("race"), race_category,
+         starts_with("wbt_"),
+         relationship,
+         starts_with("mode_freq"))
 
+
+## joining hhvars to person-lvl ==============================================================
 auxvars <- prsel %>%
   left_join(hhvars, by = "hhid")
 
