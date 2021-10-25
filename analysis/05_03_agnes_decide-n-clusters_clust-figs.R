@@ -40,66 +40,66 @@ write_rds(cluster_id, here::here("analysis/data/derived_data/all-clusters-by-pid
 # try plotting k=2
 
 # join cluster ids to the sequences by pid. make data "long" for ggplot
-
-
-seq_clust_long <- pl.seq.5min %>%
-  as_tibble(rownames = "personid") %>%
-  left_join(cluster_id, by = "personid") %>%
-  gather(key = "minute", value = "state", -personid, -nclust1, -nclust2, -nclust3, -nclust4,-nclust5,-nclust6,-nclust7,-nclust8, -nclust9, -nclust10) %>%
-  mutate(minute = as.numeric(minute)) %>%
-           arrange(personid, minute)
-
-## 4. Make x axis labels (times)
-# timelabs <- c(seq(3,21,3) %>% str_pad(width = 2,side = "left", pad = "0") %>% paste0(":00"), "00:00", "02:59") # 9 labels
-
-timelabs <- c(seq(3,23,4) %>% str_pad(width = 2,side = "left", pad = "0") %>% paste0(":00"), "02:55")
-
-
-plot_by_cluster <- function(ggobj, nclust) {
-  ggobj +
-    geom_area(stat = "bin", binwidth = 1, position = "fill", na.rm = TRUE) +
-    scale_x_continuous("Time of Day",
-                       breaks = seq(1, 1620, by = 240),
-                       minor_breaks = seq(1, 1441, by = 60),
-                       labels = timelabs) +
-    scale_y_continuous(name = "Frequency") +
-    scale_fill_brewer(palette = "Accent", name = "State") +
-    facet_wrap(vars({{nclust}}), scale = "free_x", dir="v")
-}
-
-
-seq_clust_gg <- seq_clust_long %>%
-  ggplot(aes(x = minute, fill = state))
-
-plot_c2 <- plot_by_cluster(ggobj = seq_clust_gg, nclust = nclust2)
-plot_c2
-
-
-plot_c3 <- plot_by_cluster(seq_clust_gg, nclust3)
-plot_c3
-
-plot_c4 <- plot_by_cluster(seq_clust_gg, nclust4)
-plot_c4
-
-plot_c5 <- plot_by_cluster(seq_clust_gg, nclust5)
-plot_c5
-
-
-plot_c6 <- plot_by_cluster(seq_clust_gg, nclust6)
-plot_c6
-
-plot_c7 <- plot_by_cluster(seq_clust_gg, nclust7)
-plot_c7
-
-plot_c8 <- plot_by_cluster(seq_clust_gg, nclust8)
-plot_c8
-
-ggsave(filename = here::here("analysis/figures/plot_2clust.png"), plot_c2)
-ggsave(filename = here::here("analysis/figures/plot_3clust.png"), plot_c3)
-ggsave(filename = here::here("analysis/figures/plot_4clust.png"), plot_c4)
-ggsave(filename = here::here("analysis/figures/plot_5clust.png"), plot_c5)
-ggsave(filename = here::here("analysis/figures/plot_6clust.png"), plot_c6)
-ggsave(filename = here::here("analysis/figures/plot_7clust.png"), plot_c7)
-ggsave(filename = here::here("analysis/figures/plot_8clust.png"), plot_c8)
+#
+#
+# seq_clust_long <- pl.seq.5min %>%
+#   as_tibble(rownames = "personid") %>%
+#   left_join(cluster_id, by = "personid") %>%
+#   gather(key = "minute", value = "state", -personid, -nclust1, -nclust2, -nclust3, -nclust4,-nclust5,-nclust6,-nclust7,-nclust8, -nclust9, -nclust10) %>%
+#   mutate(minute = as.numeric(minute)) %>%
+#            arrange(personid, minute)
+#
+# ## 4. Make x axis labels (times)
+# # timelabs <- c(seq(3,21,3) %>% str_pad(width = 2,side = "left", pad = "0") %>% paste0(":00"), "00:00", "02:59") # 9 labels
+#
+# timelabs <- c(seq(3,23,4) %>% str_pad(width = 2,side = "left", pad = "0") %>% paste0(":00"), "02:55")
+#
+#
+# plot_by_cluster <- function(ggobj, nclust) {
+#   ggobj +
+#     geom_area(stat = "bin", binwidth = 1, position = "fill", na.rm = TRUE) +
+#     scale_x_continuous("Time of Day",
+#                        breaks = seq(1, 1620, by = 240),
+#                        minor_breaks = seq(1, 1441, by = 60),
+#                        labels = timelabs) +
+#     scale_y_continuous(name = "Frequency") +
+#     scale_fill_brewer(palette = "Accent", name = "State") +
+#     facet_wrap(vars({{nclust}}), scale = "free_x", dir="v")
+# }
+#
+#
+# seq_clust_gg <- seq_clust_long %>%
+#   ggplot(aes(x = minute, fill = state))
+#
+# plot_c2 <- plot_by_cluster(ggobj = seq_clust_gg, nclust = nclust2)
+# plot_c2
+#
+#
+# plot_c3 <- plot_by_cluster(seq_clust_gg, nclust3)
+# plot_c3
+#
+# plot_c4 <- plot_by_cluster(seq_clust_gg, nclust4)
+# plot_c4
+#
+# plot_c5 <- plot_by_cluster(seq_clust_gg, nclust5)
+# plot_c5
+#
+#
+# plot_c6 <- plot_by_cluster(seq_clust_gg, nclust6)
+# plot_c6
+#
+# plot_c7 <- plot_by_cluster(seq_clust_gg, nclust7)
+# plot_c7
+#
+# plot_c8 <- plot_by_cluster(seq_clust_gg, nclust8)
+# plot_c8
+#
+# ggsave(filename = here::here("analysis/figures/plot_2clust.png"), plot_c2)
+# ggsave(filename = here::here("analysis/figures/plot_3clust.png"), plot_c3)
+# ggsave(filename = here::here("analysis/figures/plot_4clust.png"), plot_c4)
+# ggsave(filename = here::here("analysis/figures/plot_5clust.png"), plot_c5)
+# ggsave(filename = here::here("analysis/figures/plot_6clust.png"), plot_c6)
+# ggsave(filename = here::here("analysis/figures/plot_7clust.png"), plot_c7)
+# ggsave(filename = here::here("analysis/figures/plot_8clust.png"), plot_c8)
 
 # =================================== DECISION MADE: 6 clusters ===========================================
