@@ -37,16 +37,30 @@ curated_auxvars <- all_aux_vars %>%
 
          # Context/Facilitating Conditions ###############################################
          ## Socioeconomic Status =========================================================
+         agegrp,
          race_category,
          gender,
          student,
          worker,
+         starts_with("HH_Age"),
+         HH_inc_lvl,
+
+         ## Access to Modes ==============================================================
          license,
 
          ## Spatiotemporal Structures ====================================================
          C,
          clustno
-  )
+  ) %>%
+  janitor::clean_names() %>%
+  rename(cmplxty = c, race = race_category) %>%
+  rename_with(~ gsub("hh_age", "n", .x, fixed = TRUE)) %>%
+  rename_with(~ gsub("hh_res_factors_", "res", .x, fixed = TRUE)) %>%
+  rename_with(~ gsub("wbt_transitmore_", "usetrn", .x, fixed = TRUE)) %>%
+  rename_with(~ gsub("wbt_bikemore_", "usebik", .x, fixed = TRUE)) %>%
+  rename_with(~ gsub("mode_freq_", "modefr", .x, fixed = TRUE)) %>%
+  rename_with(gsub, hh_inc_lvl, pattern = "_", replacement = "", fixed = TRUE) %>%
+  rename_with(stringr::str_trunc, everything(), width = 7, side = "right", ellipsis = "")
 
 
 write_rds(curated_auxvars, here::here("analysis/data/derived_data/curated-auxiliary-vars.rds"))

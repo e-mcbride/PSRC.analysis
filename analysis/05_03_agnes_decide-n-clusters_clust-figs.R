@@ -1,7 +1,7 @@
 # Deciding the number of clusters to use, creating figures for all those
 
 library(tidyverse)
-library(TraMineR)
+
 
 clusterward <- read_rds(here::here("analysis/data/derived_data/cluster-ward_5min.rds"))
 clust_pids <- clusterward$order.lab # pull the pids of the ppl who made it to the clustering
@@ -44,9 +44,7 @@ write_rds(cluster_id, here::here("analysis/data/derived_data/pid_all-clusters.rd
 
 
 # plotting, deciding n clusters ############################################
-
 # join cluster ids to the sequences by pid. make data "long" for ggplot
-#
 #
 # seq_clust_long <- pl.seq.5min %>%
 #   as_tibble(rownames = "personid") %>%
