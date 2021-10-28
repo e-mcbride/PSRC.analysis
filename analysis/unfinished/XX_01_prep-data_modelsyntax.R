@@ -13,7 +13,7 @@ library(janitor)
 devtools::load_all(helpers = FALSE)
 
 trraw <- PSRCData::trdat #read_rds(here("analysis/data/derived_data/trdat.rds"))
-prraw <- PSRCData::prdat
+# prraw <- PSRCData::prdat
 
 model_name <- "mode_cleaned_aux"
 
@@ -22,37 +22,33 @@ model_name <- "mode_cleaned_aux"
 cleanpids <- read_rds(here("analysis/data/derived_data/clean_pids.rds"))
 
 # filter
-prdat <- prraw %>% filter(personid %in% cleanpids)
+# prdat <- prraw %>% filter(personid %in% cleanpids)
 trdat <- trraw %>% filter(personid %in% cleanpids)
 
 
 
 mode <- trdat %>%
   # my function to make dummy variables from one variable in the dataset (`main_mode`)
-  make_dummies(mode_full_EM)
+  make_dummies(mode_full_EM) # different mode var from previously: separates passengers from carpool drivers
 
 rm(list=setdiff(ls(), c("mode", "model_name", "cleanpids")))
 
 
 # add covariates ##################################################################
 
-grpvars <- read_rds(here("analysis/data/derived_data/grouping-variables.rds")) %>%
+auxvars <- read_rds(here("analysis/data/derived_data/curated-auxiliary-vars.rds")) %>%
+  mutate(across(where(is.ordered), ~ factor(.x, ordered = FALSE))) %>%
   filter(personid %in% cleanpids)
 
-
-mode_cov <- grpvars %>%
-  mutate(hhinclv =
-           factor(HH_inc_lvl, ordered = FALSE) %>%
-           # janitor::make_clean_names(unique_sep = NULL)
-           make.names() %>%
-           tolower() %>%
-           str_replace("\\.", "_")
-
-  ) %>%
-  select(personid, hhinclv) %>%
+mode_cov <- auxvars %>%
   left_join(mode, by = "personid") %>%
-  select(personid, hov:other, everything()) %>%
+  select(names(mode), everything()) %>%
+  mutate(personid = as.numeric(personid)) %>%
   janitor::clean_names()
+
+mode_cov_num <- mode_cov %>%
+  mutate(across(where(is.factor), as.numeric))
+
 
 
 # Create model syntax ##################################################################
@@ -65,13 +61,25 @@ create_model_dirs(model_name)
 model_path <- paste0("analysis/Mplus/", model_name, "/")
 model_template <-  paste0(model_path, "template/")
 
-# my function to write mplus data to file in the right file location:
-write_mplus_data(df = mode_cov,
+# # my function to write mplus data to file in the right file location:
+# write_mplus_data(df = mode_cov,
+#                  wd_for_analysis = here(model_path),
+#                  filename = paste0(model_name, "-data-mplus-ready.dat"),
+#                  writeData = "ifmissing",
+#                  hashfilename = TRUE,
+#                  dummyCode = c())
+
+
+names_fac_vars <- mode_cov %>%
+  dplyr::select((where(is.factor))) %>%
+  names()
+
+write_mplus_data(df = mode_cov_num,
                  wd_for_analysis = here(model_path),
                  filename = paste0(model_name, "-data-mplus-ready.dat"),
                  writeData = "ifmissing",
-                 hashfilename = TRUE)
-
+                 hashfilename = TRUE,
+                 dummyCode = names_fac_vars)
 
 # THEN: MANUALLY write template file ---------------------------
 
