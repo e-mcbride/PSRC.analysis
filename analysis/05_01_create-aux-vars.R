@@ -244,18 +244,34 @@ prsel <- prraw %>%
   mutate(agegrp =
            case_when( # under 5, 5-15, 16-17, 18-34, 35-64,65+
              age == "Under 5 years old" ~ "age00_04",
-             age <= "12-15 years" ~ "age05_15",
-             age <= "16-17 years" ~ "age16_17",
-             age <= "25-34 years" ~ "age18_34",
-             age <= "55-64 years" ~ "age35_64",
-             age > "55-64 years" ~ "age65_99"
-           )) %>%
-  select(personid, hhid, pernum, age, agegrp, gender, employment, worker, student, education, license,
+             age <= "12-15 years"       ~ "age05_15",
+             age <= "16-17 years"       ~ "age16_17",
+             age <= "25-34 years"       ~ "age18_34",
+             age <= "55-64 years"       ~ "age35_64",
+             age > "55-64 years"        ~ "age65_99"
+           ),
+         agegrp = ordered(agegrp, c("age00_04",
+                                    "age05_15",
+                                    "age16_17",
+                                    "age18_34",
+                                    "age35_64",
+                                    "age65_99"))) %>%
+  mutate(
+    schooltype = case_when(
+      schooltype == "None"                                      ~ "None (baby)",
+      schooltype <="K-12 home school (full-time or part-time)"  ~ "Daycare, preschool, K-12",
+      schooltype >= "College, graduate, or professional school" ~ "Upper education",
+      is.na(schooltype)                                         ~ "None (adult)"),
+    schooltype = as.factor(schooltype)
+  ) %>%  # schooltype = none (baby), k-12, upper education, none (adult)
+
+  select(personid, hhid, pernum, age, agegrp, gender, employment, worker, student, schooltype, education, license,
          starts_with("race"), race_category,
          starts_with("wbt_"),
          relationship,
          starts_with("mode_freq"))
 
+# prsel %>% select(starts_with("schooltype")) %>% View()
 
 # # check `agegrp` var
 # prsel %>% group_by(age) %>% summarise(n = n())
