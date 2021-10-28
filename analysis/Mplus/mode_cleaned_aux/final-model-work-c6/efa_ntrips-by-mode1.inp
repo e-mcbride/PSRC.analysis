@@ -1,0 +1,25 @@
+TITLE: EFA: mode usage habits
+DATA: FILE = "mode_cleaned_aux-data-mplus-ready_32f836dff2c967389fbcfbb0f6759204.dat";
+VARIABLE:
+  NAMES = personid pass sov dr_oth walk bike transit other usetrn1 usetrn2 usetrn3
+     usebik1 usebik2 usebik3 usebik4 usebik5 res30mi resaffo resclos reshhch reshwy
+     resscho resspac restran reswalk relatio modefr1 modefr2 modefr3 modefr4 modefr5
+     agegrp race gender student worker n00_04 n05_15 n16_17 n18_99 hhinclv license
+     cmplxty clustno;
+    
+    IDVAR = personid;
+    MISSING=.;
+
+    USEV = res30mi resaffo resclos reshhch reshwy
+     resscho resspac restran reswalk;
+
+ANALYSIS: 
+    TYPE = EFA 1 6;
+    Estimator = MLR;
+!    Rotation = Geomin;
+    parallel = 50;
+
+PLOT:
+    type = plot3;
+
+OUTPUT: sampstat;

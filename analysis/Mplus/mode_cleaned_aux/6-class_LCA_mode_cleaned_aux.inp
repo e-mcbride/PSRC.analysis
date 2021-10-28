@@ -1,0 +1,77 @@
+TITLE: 6-class LCA: mode_cleaned_aux
+DATA: FILE = "mode_cleaned_aux-data-mplus-ready_7755eef74ae9e1ad1b3c190ee2d0d5ea.dat";
+VARIABLE:
+  NAMES = personid pass sov dr_oth walk bike transit other n00_04 n05_15 n16_17 n18_99
+     cmplxt usetr1_1 usetr1_2 usetr1_3 usetr1_4 usetr1_5 usetr1_6 usetr1_NA usetr2_1
+     usetr2_2 usetr2_3 usetr2_4 usetr2_5 usetr2_6 usetr2_NA usetr3_1 usetr3_2
+     usetr3_3 usetr3_4 usetr3_5 usetr3_6 usetr3_NA usebk1_1 usebk1_2 usebk1_3
+     usebk1_4 usebk1_5 usebk1_6 usebk1_NA usebk2_1 usebk2_2 usebk2_3 usebk2_4
+     usebk2_5 usebk2_6 usebk2_NA usebk3_1 usebk3_2 usebk3_3 usebk3_4 usebk3_5
+     usebk3_6 usebk3_NA usebk4_1 usebk4_2 usebk4_3 usebk4_4 usebk4_5 usebk4_6
+     usebk4_NA usebk5_1 usebk5_2 usebk5_3 usebk5_4 usebk5_5 usebk5_6 usebk5_NA
+     res30m_1 res30m_2 res30m_3 res30m_4 res30m_5 resaff_1 resaff_2 resaff_3
+     resaff_4 resaff_5 resclo_1 resclo_2 resclo_3 resclo_4 resclo_5 reshhc_1
+     reshhc_2 reshhc_3 reshhc_4 reshhc_5 reshhc_NA reshwy_1 reshwy_2 reshwy_3
+     reshwy_4 reshwy_5 ressch_1 ressch_2 ressch_3 ressch_4 ressch_5 resspa_1
+     resspa_2 resspa_3 resspa_4 resspa_5 restra_1 restra_2 restra_3 restra_4
+     restra_5 reswal_1 reswal_2 reswal_3 reswal_4 reswal_5 relati_1 relati_2
+     relati_3 relati_4 relati_5 relati_6 relati_7 relati_8 relati_9 moden1_1
+     moden1_2 moden1_3 moden1_4 moden1_5 moden1_6 moden1_7 moden1_NA moden2_1
+     moden2_2 moden2_3 moden2_4 moden2_5 moden2_6 moden2_7 moden2_NA moden3_1
+     moden3_2 moden3_3 moden3_4 moden3_5 moden3_6 moden3_7 moden3_NA moden4_1
+     moden4_2 moden4_3 moden4_4 moden4_5 moden4_6 moden4_7 moden4_NA moden5_1
+     moden5_2 moden5_3 moden5_4 moden5_5 moden5_6 moden5_7 moden5_NA agegrp_1
+     agegrp_2 agegrp_3 agegrp_4 agegrp_5 agegrp_6 race_1 race_2 race_3 race_4 race_5
+     race_6 race_7 gender_1 gender_2 gender_3 gender_4 school_1 school_2 school_3
+     school_4 worker_1 worker_2 hhincl_1 hhincl_2 hhincl_3 hhincl_NA licens_1
+     licens_2 licens_3 licens_NA clustn_1 clustn_2 clustn_3 clustn_4 clustn_5
+     clustn_6 clustn_NA;
+  IDVAR = personid;
+  USEVAR =      sov dr_oth pass transit walk bike other;
+  CATEGORICAL = sov dr_oth pass transit walk bike other;
+  MISSING=.;
+  CLASSES = c(6);
+
+  Auxiliary = n00_04 n05_15 n16_17 n18_99
+     cmplxt usetr1_1 usetr1_2 usetr1_3 usetr1_4 usetr1_5 usetr1_6 usetr1_NA usetr2_1
+     usetr2_2 usetr2_3 usetr2_4 usetr2_5 usetr2_6 usetr2_NA usetr3_1 usetr3_2
+     usetr3_3 usetr3_4 usetr3_5 usetr3_6 usetr3_NA usebk1_1 usebk1_2 usebk1_3
+     usebk1_4 usebk1_5 usebk1_6 usebk1_NA usebk2_1 usebk2_2 usebk2_3 usebk2_4
+     usebk2_5 usebk2_6 usebk2_NA usebk3_1 usebk3_2 usebk3_3 usebk3_4 usebk3_5
+     usebk3_6 usebk3_NA usebk4_1 usebk4_2 usebk4_3 usebk4_4 usebk4_5 usebk4_6
+     usebk4_NA usebk5_1 usebk5_2 usebk5_3 usebk5_4 usebk5_5 usebk5_6 usebk5_NA
+     res30m_1 res30m_2 res30m_3 res30m_4 res30m_5 resaff_1 resaff_2 resaff_3
+     resaff_4 resaff_5 resclo_1 resclo_2 resclo_3 resclo_4 resclo_5 reshhc_1
+     reshhc_2 reshhc_3 reshhc_4 reshhc_5 reshhc_NA reshwy_1 reshwy_2 reshwy_3
+     reshwy_4 reshwy_5 ressch_1 ressch_2 ressch_3 ressch_4 ressch_5 resspa_1
+     resspa_2 resspa_3 resspa_4 resspa_5 restra_1 restra_2 restra_3 restra_4
+     restra_5 reswal_1 reswal_2 reswal_3 reswal_4 reswal_5 relati_1 relati_2
+     relati_3 relati_4 relati_5 relati_6 relati_7 relati_8 relati_9 moden1_1
+     moden1_2 moden1_3 moden1_4 moden1_5 moden1_6 moden1_7 moden1_NA moden2_1
+     moden2_2 moden2_3 moden2_4 moden2_5 moden2_6 moden2_7 moden2_NA moden3_1
+     moden3_2 moden3_3 moden3_4 moden3_5 moden3_6 moden3_7 moden3_NA moden4_1
+     moden4_2 moden4_3 moden4_4 moden4_5 moden4_6 moden4_7 moden4_NA moden5_1
+     moden5_2 moden5_3 moden5_4 moden5_5 moden5_6 moden5_7 moden5_NA agegrp_1
+     agegrp_2 agegrp_3 agegrp_4 agegrp_5 agegrp_6 race_1 race_2 race_3 race_4 race_5
+     race_6 race_7 gender_1 gender_2 gender_3 gender_4 school_1 school_2 school_3
+     school_4 worker_1 worker_2 hhincl_1 hhincl_2 hhincl_3 hhincl_NA licens_1
+     licens_2 licens_3 licens_NA clustn_1 clustn_2 clustn_3 clustn_4 clustn_5
+     clustn_6 clustn_NA;
+
+ANALYSIS: TYPE = MIXTURE;
+          PROCESSORS = 6(STARTS);
+          STSCALE = 10;
+!          STARTS = 2000 500;
+          STARTS = 0;
+          OPTSEED = 452606; !stscale = 10
+!          K-1STARTS = 500 125;
+          LRTSTARTS = 0 0 1000 250;
+
+PLOT: TYPE=PLOT3;
+      SERIES = sov dr_oth pass transit walk bike other(*);
+OUTPUT: TECH11;
+OUTPUT: TECH14;
+SAVEDATA:	FILE IS final-model-work-c6/LCA_mode_cleaned_aux_c6_save.txt;
+			SAVE IS CPROB;
+            MISSFLAG=9999;
+			FORMAT IS FREE;

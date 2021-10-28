@@ -1,0 +1,30 @@
+TITLE: 2-class LCA: mode_cleaned_aux
+DATA: FILE = "mode_cleaned_aux-data-mplus-ready_32f836dff2c967389fbcfbb0f6759204.dat";
+VARIABLE:
+  NAMES = personid pass sov dr_oth walk bike transit other usetrn1 usetrn2 usetrn3
+     usebik1 usebik2 usebik3 usebik4 usebik5 res30mi resaffo resclos reshhch reshwy
+     resscho resspac restran reswalk relatio modefr1 modefr2 modefr3 modefr4 modefr5
+     agegrp race gender student worker n00_04 n05_15 n16_17 n18_99 hhinclv license
+     cmplxty clustno;
+  IDVAR = personid;
+  USEVAR =      sov dr_oth pass transit walk bike other;
+  CATEGORICAL = sov dr_oth pass transit walk bike other;
+  MISSING=.;
+  CLASSES = c(2);
+ANALYSIS: TYPE = MIXTURE;
+          PROCESSORS = 6(STARTS);
+!          STSCALE = 20;
+          STARTS = 500 125;
+!          STARTS = 0;
+!          OPTSEED = 736574;
+!          K-1STARTS = 500 125;
+!          LRTSTARTS = 0 0 1000 250;
+
+PLOT: TYPE=PLOT3;
+      SERIES = sov dr_oth pass transit walk bike other(*);
+OUTPUT: TECH11;
+OUTPUT: TECH14;
+!SAVEDATA:	FILE IS LCA_mode_cleaned_aux_c2_save.txt;
+!			SAVE IS CPROB;
+!            MISSFLAG=9999;
+!			FORMAT IS FREE;

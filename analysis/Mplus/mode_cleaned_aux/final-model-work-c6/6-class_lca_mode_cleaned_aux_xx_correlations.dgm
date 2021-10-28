@@ -1,0 +1,642 @@
+VERSION 1.1.0
+INPUT
+TITLE:
+ 6-class LCA: mode_cleaned_aux
+DATA:
+ FILE = "LCA_mode_cleaned_aux_c6_save.txt";
+VARIABLE:
+  NAMES = SOV DR_OTH PASS TRANSIT WALK BIKE OTHER
+    N00_04 N05_15 N16_17 N18_99 CMPLXT CLUSTN
+    USETR1_1 USETR1_2 USETR1_3 USETR1_4 USETR1_5 USETR1_6 USETR1_N
+    USETR2_1 USETR2_2 USETR2_3 USETR2_4 USETR2_5 USETR2_6 USETR2_N
+    USETR3_1 USETR3_2 USETR3_3 USETR3_4 USETR3_5 USETR3_6 USETR3_N
+    USEBK1_1 USEBK1_2 USEBK1_3 USEBK1_4 USEBK1_5 USEBK1_6 USEBK1_N
+    USEBK2_1 USEBK2_2 USEBK2_3 USEBK2_4 USEBK2_5 USEBK2_6 USEBK2_N
+    USEBK3_1 USEBK3_2 USEBK3_3 USEBK3_4 USEBK3_5 USEBK3_6 USEBK3_N
+    USEBK4_1 USEBK4_2 USEBK4_3 USEBK4_4 USEBK4_5 USEBK4_6 USEBK4_N
+    USEBK5_1 USEBK5_2 USEBK5_3 USEBK5_4 USEBK5_5 USEBK5_6 USEBK5_N
+    RES30M_1 RES30M_2 RES30M_3 RES30M_4 RES30M_5
+    RESAFF_1 RESAFF_2 RESAFF_3 RESAFF_4 RESAFF_5
+    RESCLO_1 RESCLO_2 RESCLO_3 RESCLO_4 RESCLO_5
+    RESHHC_1 RESHHC_2 RESHHC_3 RESHHC_4 RESHHC_5
+    RESHHC_N RESHWY_1 RESHWY_2 RESHWY_3 RESHWY_4 RESHWY_5
+    RESSCH_1 RESSCH_2 RESSCH_3 RESSCH_4 RESSCH_5
+    RESSPA_1 RESSPA_2 RESSPA_3 RESSPA_4 RESSPA_5
+    RESTRA_1 RESTRA_2 RESTRA_3 RESTRA_4 RESTRA_5
+    RESWAL_1 RESWAL_2 RESWAL_3 RESWAL_4 RESWAL_5
+    RELATI_1 RELATI_2 RELATI_3 RELATI_4 RELATI_5 RELATI_6 RELATI_7 RELATI_8 RELATI_9
+    MODEN1_1 MODEN1_2 MODEN1_3 MODEN1_4 MODEN1_5 MODEN1_6 MODEN1_7 MODEN1_N
+    MODEN2_1 MODEN2_2 MODEN2_3 MODEN2_4 MODEN2_5 MODEN2_6 MODEN2_7 MODEN2_N
+    MODEN3_1 MODEN3_2 MODEN3_3 MODEN3_4 MODEN3_5 MODEN3_6 MODEN3_7 MODEN3_N
+    MODEN4_1 MODEN4_2 MODEN4_3 MODEN4_4 MODEN4_5 MODEN4_6 MODEN4_7 MODEN4_N
+    MODEN5_1 MODEN5_2 MODEN5_3 MODEN5_4 MODEN5_5 MODEN5_6 MODEN5_7 MODEN5_N
+    AGEGRP_1 AGEGRP_2 AGEGRP_3 AGEGRP_4 AGEGRP_5 AGEGRP_6
+    RACE_1 RACE_2 RACE_3 RACE_4 RACE_5 RACE_6 RACE_7
+    GENDER_1 GENDER_2 GENDER_3 GENDER_4
+    SCHOOL_1 SCHOOL_2 SCHOOL_3 SCHOOL_4
+    WORKER_1 WORKER_2
+    HHINCL_1 HHINCL_2 HHINCL_3 HHINCL_N
+    LICENS_1 LICENS_2 LICENS_3 LICENS_N
+    CPROB1 CPROB2 CPROB3 CPROB4 CPROB5 CPROB6 N PERSONID;
+  IDVAR = personid;
+  MISSING are all (9999);
+  usevar=   RELATI_1-RELATI_7
+            GENDER_1-GENDER_3
+            SCHOOL_1-SCHOOL_3
+            WORKER_1
+            AGEGRP_1-AGEGRP_5;
+ANALYSIS:
+ TYPE = GENERAL;
+          PROCESSORS = 6(STARTS);
+OUTPUT:
+ STDYX;
+MODEL:
+RELATI_1-RELATI_7 GENDER_1-GENDER_3 SCHOOL_1-SCHOOL_3 WORKER_1 AGEGRP_1-AGEGRP_5 with
+RELATI_1-RELATI_7 GENDER_1-GENDER_3 SCHOOL_1-SCHOOL_3 WORKER_1 AGEGRP_1-AGEGRP_5;
+INPUT_END
+2
+2
+0
+2
+ML
+1
+GENERAL
+0
+19
+0
+0
+relati_1 relati_2 relati_3 relati_4 relati_5 relati_6 relati_7 gender_1 gender_2 gender_3 school_1 school_2 school_3 worker_1 agegrp_1 agegrp_2 agegrp_3 agegrp_4 agegrp_5
+1
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0
+0
+2 1 relati_1 relati_2 -0.144 0.003
+2 1 relati_1 relati_3 -0.082 0.002
+2 1 relati_1 relati_4 -0.003 0.0003724565613
+2 1 relati_1 relati_5 -0.002 0.0003040341835
+2 1 relati_1 relati_6 -0.002 0.0002966999600
+2 1 relati_1 relati_7 -0.012 0.0007254182710
+2 1 relati_1 gender_1 0.0006352830096 0.002
+2 1 relati_1 gender_2 0.0004042426590 0.002
+2 1 relati_1 gender_3 0.0002618516446 0.0002960105485
+2 1 relati_1 school_1 -0.062 0.002
+2 1 relati_1 school_2 0.072 0.002
+2 1 relati_1 school_3 -0.013 0.0007300016587
+2 1 relati_1 worker_1 -0.059 0.002
+2 1 relati_1 agegrp_1 -0.026 0.001
+2 1 relati_1 agegrp_2 -0.042 0.001
+2 1 relati_1 agegrp_3 -0.006 0.0005057148519
+2 1 relati_1 agegrp_4 0.014 0.002
+2 1 relati_1 agegrp_5 0.041 0.002
+2 1 relati_2 relati_3 -0.038 0.002
+2 1 relati_2 relati_4 -0.002 0.0003271975438
+2 1 relati_2 relati_5 -0.001 0.0002673288109
+2 1 relati_2 relati_6 -.0009749198798 0.0002609023068
+2 1 relati_2 relati_7 -0.006 0.0006325124414
+2 1 relati_2 gender_1 -0.003 0.002
+2 1 relati_2 gender_2 0.005 0.002
+2 1 relati_2 gender_3 -.0001256229007 0.0002607332135
+2 1 relati_2 school_1 -0.029 0.001
+2 1 relati_2 school_2 0.036 0.002
+2 1 relati_2 school_3 -0.006 0.0006364267902
+2 1 relati_2 worker_1 -0.023 0.002
+2 1 relati_2 agegrp_1 -0.012 0.0009136435692
+2 1 relati_2 agegrp_2 -0.019 0.001
+2 1 relati_2 agegrp_3 -0.003 0.0004432583810
+2 1 relati_2 agegrp_4 0.008 0.002
+2 1 relati_2 agegrp_5 0.025 0.002
+2 1 relati_3 relati_4 -.0008768668631 0.0002649437520
+2 1 relati_3 relati_5 -.0005845779087 0.0002165037440
+2 1 relati_3 relati_6 -.0005567408516 0.0002113025548
+2 1 relati_3 relati_7 -0.003 0.0005114121595
+2 1 relati_3 gender_1 0.002 0.002
+2 1 relati_3 gender_2 -0.005 0.002
+2 1 relati_3 gender_3 -.0000849092103 0.0002112349466
+2 1 relati_3 school_1 0.092 0.001
+2 1 relati_3 school_2 -0.106 0.002
+2 1 relati_3 school_3 0.019 0.0005451092729
+2 1 relati_3 worker_1 0.083 0.002
+2 1 relati_3 agegrp_1 0.040 0.0008284936775
+2 1 relati_3 agegrp_2 0.062 0.001
+2 1 relati_3 agegrp_3 0.009 0.0003686095297
+2 1 relati_3 agegrp_4 -0.033 0.002
+2 1 relati_3 agegrp_5 -0.059 0.002
+2 1 relati_4 relati_5 -.0000235626412 0.0000469211373
+2 1 relati_4 relati_6 -.0000224406103 0.0000457946517
+2 1 relati_4 relati_7 -.0001335216366 0.0001106590207
+2 1 relati_4 gender_1 -.0007266572793 0.0003733362828
+2 1 relati_4 gender_2 0.0007534702308 0.0003734174534
+2 1 relati_4 gender_3 -.0000224406103 0.0000457946517
+2 1 relati_4 school_1 -.0006664861576 0.0002356966725
+2 1 relati_4 school_2 0.001 0.0002992316440
+2 1 relati_4 school_3 -.0001352046820 0.0001113382386
+2 1 relati_4 worker_1 0.001 0.0003546631197
+2 1 relati_4 agegrp_1 -.0002833127219 0.0001591141772
+2 1 relati_4 agegrp_2 -.0004443241050 0.0001964268595
+2 1 relati_4 agegrp_3 -.0000650777729 0.0000777059613
+2 1 relati_4 agegrp_4 -0.002 0.0003496057470
+2 1 relati_4 agegrp_5 0.0008147188346 0.0003684829862
+2 1 relati_5 relati_6 -.0000149604075 0.0000374282863
+2 1 relati_5 relati_7 -.0000890144220 0.0000904406479
+2 1 relati_5 gender_1 -.0001384282950 0.0003050799132
+2 1 relati_5 gender_2 0.0000304818295 0.0003051393433
+2 1 relati_5 gender_3 -.0000149604066 0.0000374282863
+2 1 relati_5 school_1 0.0000275075581 0.0001925647521
+2 1 relati_5 school_2 -.0009038223070 0.0002445394639
+2 1 relati_5 school_3 -.0000901364547 0.0000909957453
+2 1 relati_5 worker_1 0.0004349293013 0.0002896993246
+2 1 relati_5 agegrp_1 -.0001888751431 0.0001300391014
+2 1 relati_5 agegrp_2 -.0000131170709 0.0001605029247
+2 1 relati_5 agegrp_3 0.0001453474833 0.0000635234537
+2 1 relati_5 agegrp_4 0.001 0.0002855964121
+2 1 relati_5 agegrp_5 -.0009038044955 0.0003012233647
+2 1 relati_6 relati_7 -.0000847756382 0.0000882692038
+2 1 relati_6 gender_1 0.0000479089249 0.0002977531985
+2 1 relati_6 gender_2 -.0000653360185 0.0002978142293
+2 1 relati_6 gender_3 -.0000142480067 0.0000365297165
+2 1 relati_6 school_1 0.0008035965147 0.0001881036296
+2 1 relati_6 school_2 -0.001 0.0002388113789
+2 1 relati_6 school_3 0.0003859873977 0.0000888861759
+2 1 relati_6 worker_1 0.0008770627901 0.0002828426659
+2 1 relati_6 agegrp_1 0.0005750495475 0.0001270274515
+2 1 relati_6 agegrp_2 0.0003784537839 0.0001566927385
+2 1 relati_6 agegrp_3 0.0000530471116 0.0000619852362
+2 1 relati_6 agegrp_4 0.0003863792226 0.0002785054094
+2 1 relati_6 agegrp_5 -0.001 0.0002940317208
+2 1 relati_7 gender_1 0.001 0.0007195249200
+2 1 relati_7 gender_2 -.0009596655727 0.0007196611259
+2 1 relati_7 gender_3 0.0000095906898 0.0000882654131
+2 1 relati_7 school_1 -0.002 0.0004545541015
+2 1 relati_7 school_2 -.0007808085647 0.0005763683585
+2 1 relati_7 school_3 -.0005107732140 0.0002146400075
+2 1 relati_7 worker_1 -0.004 0.0006843363517
+2 1 relati_7 agegrp_1 -0.001 0.0003068130754
+2 1 relati_7 agegrp_2 -0.002 0.0003788219183
+2 1 relati_7 agegrp_3 -.0001514830219 0.0001497757039
+2 1 relati_7 agegrp_4 0.011 0.0006809823099
+2 1 relati_7 agegrp_5 -0.005 0.0007120253285
+2 1 gender_1 gender_2 -0.240 0.003
+2 1 gender_1 gender_3 -0.002 0.0002982885053
+2 1 gender_1 school_1 0.0002904990397 0.002
+2 1 gender_1 school_2 0.0009935759008 0.002
+2 1 gender_1 school_3 0.0006189334090 0.0007238942781
+2 1 gender_1 worker_1 -0.015 0.002
+2 1 gender_1 agegrp_1 0.0003689343284 0.001
+2 1 gender_1 agegrp_2 0.0000992997011 0.001
+2 1 gender_1 agegrp_3 0.0002333022130 0.0005052314373
+2 1 gender_1 agegrp_4 0.0003675451444 0.002
+2 1 gender_1 agegrp_5 0.0008295011357 0.002
+2 1 gender_2 gender_3 -0.002 0.0002983601589
+2 1 gender_2 school_1 -0.002 0.002
+2 1 gender_2 school_2 0.001 0.002
+2 1 gender_2 school_3 -0.001 0.0007240957348
+2 1 gender_2 worker_1 0.014 0.002
+2 1 gender_2 agegrp_1 -0.002 0.001
+2 1 gender_2 agegrp_2 -0.001 0.001
+2 1 gender_2 agegrp_3 -.0006707427092 0.0005053714267
+2 1 gender_2 agegrp_4 -.0000193416654 0.002
+2 1 gender_2 agegrp_5 0.0002461966651 0.002
+2 1 gender_3 school_1 0.0000486658500 0.0001879421761
+2 1 gender_3 school_2 -.0002811042650 0.0002385304542
+2 1 gender_3 school_3 -.0000858442436 0.0000888109716
+2 1 gender_3 worker_1 -.0005384321557 0.0002827626886
+2 1 gender_3 agegrp_1 -.0001798810845 0.0001269165950
+2 1 gender_3 agegrp_2 0.0000009884561 0.0001566496067
+2 1 gender_3 agegrp_3 0.0001474134478 0.0000619996354
+2 1 gender_3 agegrp_4 0.001 0.0002786657715
+2 1 gender_3 agegrp_5 -.0006360844709 0.0002939318074
+2 1 school_1 school_2 -0.090 0.002
+2 1 school_1 school_3 -0.003 0.0004575770872
+2 1 school_1 worker_1 0.070 0.002
+2 1 school_1 agegrp_1 0.019 0.0006780160475
+2 1 school_1 agegrp_2 0.066 0.001
+2 1 school_1 agegrp_3 0.009 0.0003313100024
+2 1 school_1 agegrp_4 -0.033 0.001
+2 1 school_1 agegrp_5 -0.047 0.002
+2 1 school_2 school_3 -0.018 0.0006061581080
+2 1 school_2 worker_1 -0.085 0.002
+2 1 school_2 agegrp_1 -0.037 0.0009049078217
+2 1 school_2 agegrp_2 -0.060 0.001
+2 1 school_2 agegrp_3 -0.009 0.0004131709284
+2 1 school_2 agegrp_4 0.013 0.002
+2 1 school_2 agegrp_5 0.069 0.002
+2 1 school_3 worker_1 0.015 0.0007022953941
+2 1 school_3 agegrp_1 0.021 0.0003708672011
+2 1 school_3 agegrp_2 -0.001 0.0003810806957
+2 1 school_3 agegrp_3 -.0000602156360 0.0001506887493
+2 1 school_3 agegrp_4 -0.007 0.0006807571626
+2 1 school_3 agegrp_5 -0.010 0.0007203802816
+2 1 worker_1 agegrp_1 0.031 0.001
+2 1 worker_1 agegrp_2 0.049 0.001
+2 1 worker_1 agegrp_3 0.004 0.0004814212443
+2 1 worker_1 agegrp_4 -0.071 0.002
+2 1 worker_1 agegrp_5 -0.068 0.002
+2 1 agegrp_1 agegrp_2 -0.004 0.0005453047925
+2 1 agegrp_1 agegrp_3 -.0005216551363 0.0002153910027
+2 1 agegrp_1 agegrp_4 -0.015 0.0009789109463
+2 1 agegrp_1 agegrp_5 -0.020 0.001
+2 1 agegrp_2 agegrp_3 -.0008181205485 0.0002659214952
+2 1 agegrp_2 agegrp_4 -0.024 0.001
+2 1 agegrp_2 agegrp_5 -0.031 0.001
+2 1 agegrp_3 agegrp_4 -0.004 0.0004737683339
+2 1 agegrp_3 agegrp_5 -0.005 0.0005006146384
+2 1 agegrp_4 agegrp_5 -0.135 0.003
+5 1 relati_1 0.247 0.003
+5 1 relati_2 0.192 0.003
+5 1 relati_3 0.126 0.002
+5 1 relati_4 0.006 0.0000811879436
+5 1 relati_5 0.004 0.0000542331945
+5 1 relati_6 0.004 0.0000516604487
+5 1 relati_7 0.022 0.0003016146657
+5 1 gender_1 0.250 0.003
+5 1 gender_2 0.250 0.003
+5 1 gender_3 0.004 0.0000516604487
+5 1 school_1 0.100 0.001
+5 1 school_2 0.160 0.002
+5 1 school_3 0.022 0.0003053280816
+5 1 worker_1 0.225 0.003
+5 1 agegrp_1 0.045 0.0006234853645
+5 1 agegrp_2 0.069 0.0009500149754
+5 1 agegrp_3 0.011 0.0001487367845
+5 1 agegrp_4 0.219 0.003
+5 1 agegrp_5 0.243 0.003
+12 1 relati_1 relati_2 -0.660 0.005
+12 1 relati_1 relati_3 -0.465 0.008
+12 1 relati_1 relati_4 -0.086 0.010
+12 1 relati_1 relati_5 -0.071 0.010
+12 1 relati_1 relati_6 -0.069 0.010
+12 1 relati_1 relati_7 -0.169 0.009
+12 1 relati_1 gender_1 0.003 0.010
+12 1 relati_1 gender_2 0.002 0.010
+12 1 relati_1 gender_3 0.009 0.010
+12 1 relati_1 school_1 -0.393 0.008
+12 1 relati_1 school_2 0.363 0.008
+12 1 relati_1 school_3 -0.171 0.009
+12 1 relati_1 worker_1 -0.248 0.009
+12 1 relati_1 agegrp_1 -0.250 0.009
+12 1 relati_1 agegrp_2 -0.318 0.009
+12 1 relati_1 agegrp_3 -0.118 0.010
+12 1 relati_1 agegrp_4 0.062 0.010
+12 1 relati_1 agegrp_5 0.167 0.009
+12 1 relati_2 relati_3 -0.245 0.009
+12 1 relati_2 relati_4 -0.046 0.010
+12 1 relati_2 relati_5 -0.037 0.010
+12 1 relati_2 relati_6 -0.036 0.010
+12 1 relati_2 relati_7 -0.089 0.010
+12 1 relati_2 gender_1 -0.014 0.010
+12 1 relati_2 gender_2 0.021 0.010
+12 1 relati_2 gender_3 -0.005 0.010
+12 1 relati_2 school_1 -0.209 0.009
+12 1 relati_2 school_2 0.203 0.009
+12 1 relati_2 school_3 -0.090 0.010
+12 1 relati_2 worker_1 -0.110 0.010
+12 1 relati_2 agegrp_1 -0.132 0.010
+12 1 relati_2 agegrp_2 -0.167 0.009
+12 1 relati_2 agegrp_3 -0.062 0.010
+12 1 relati_2 agegrp_4 0.039 0.010
+12 1 relati_2 agegrp_5 0.116 0.010
+12 1 relati_3 relati_4 -0.032 0.010
+12 1 relati_3 relati_5 -0.026 0.010
+12 1 relati_3 relati_6 -0.026 0.010
+12 1 relati_3 relati_7 -0.063 0.010
+12 1 relati_3 gender_1 0.012 0.010
+12 1 relati_3 gender_2 -0.027 0.010
+12 1 relati_3 gender_3 -0.004 0.010
+12 1 relati_3 school_1 0.822 0.003
+12 1 relati_3 school_2 -0.745 0.004
+12 1 relati_3 school_3 0.356 0.008
+12 1 relati_3 worker_1 0.493 0.007
+12 1 relati_3 agegrp_1 0.524 0.007
+12 1 relati_3 agegrp_2 0.668 0.005
+12 1 relati_3 agegrp_3 0.240 0.009
+12 1 relati_3 agegrp_4 -0.199 0.009
+12 1 relati_3 agegrp_5 -0.339 0.009
+12 1 relati_4 relati_5 -0.005 0.010
+12 1 relati_4 relati_6 -0.005 0.010
+12 1 relati_4 relati_7 -0.012 0.010
+12 1 relati_4 gender_1 -0.019 0.010
+12 1 relati_4 gender_2 0.020 0.010
+12 1 relati_4 gender_3 -0.005 0.010
+12 1 relati_4 school_1 -0.027 0.010
+12 1 relati_4 school_2 0.039 0.010
+12 1 relati_4 school_3 -0.012 0.010
+12 1 relati_4 worker_1 0.037 0.010
+12 1 relati_4 agegrp_1 -0.017 0.010
+12 1 relati_4 agegrp_2 -0.022 0.010
+12 1 relati_4 agegrp_3 -0.008 0.010
+12 1 relati_4 agegrp_4 -0.053 0.010
+12 1 relati_4 agegrp_5 0.021 0.010
+12 1 relati_5 relati_6 -0.004 0.010
+12 1 relati_5 relati_7 -0.010 0.010
+12 1 relati_5 gender_1 -0.004 0.010
+12 1 relati_5 gender_2 0.0009704018012 0.010
+12 1 relati_5 gender_3 -0.004 0.010
+12 1 relati_5 school_1 0.001 0.010
+12 1 relati_5 school_2 -0.036 0.010
+12 1 relati_5 school_3 -0.010 0.010
+12 1 relati_5 worker_1 0.015 0.010
+12 1 relati_5 agegrp_1 -0.014 0.010
+12 1 relati_5 agegrp_2 -.0007938941126 0.010
+12 1 relati_5 agegrp_3 0.022 0.010
+12 1 relati_5 agegrp_4 0.043 0.010
+12 1 relati_5 agegrp_5 -0.029 0.010
+12 1 relati_6 relati_7 -0.009 0.010
+12 1 relati_6 gender_1 0.002 0.010
+12 1 relati_6 gender_2 -0.002 0.010
+12 1 relati_6 gender_3 -0.004 0.010
+12 1 relati_6 school_1 0.042 0.010
+12 1 relati_6 school_2 -0.050 0.010
+12 1 relati_6 school_3 0.042 0.010
+12 1 relati_6 worker_1 0.030 0.010
+12 1 relati_6 agegrp_1 0.044 0.010
+12 1 relati_6 agegrp_2 0.023 0.010
+12 1 relati_6 agegrp_3 0.008 0.010
+12 1 relati_6 agegrp_4 0.013 0.010
+12 1 relati_6 agegrp_5 -0.034 0.010
+12 1 relati_7 gender_1 0.014 0.010
+12 1 relati_7 gender_2 -0.013 0.010
+12 1 relati_7 gender_3 0.001 0.010
+12 1 relati_7 school_1 -0.044 0.010
+12 1 relati_7 school_2 -0.013 0.010
+12 1 relati_7 school_3 -0.023 0.010
+12 1 relati_7 worker_1 -0.060 0.010
+12 1 relati_7 agegrp_1 -0.034 0.010
+12 1 relati_7 agegrp_2 -0.041 0.010
+12 1 relati_7 agegrp_3 -0.010 0.010
+12 1 relati_7 agegrp_4 0.156 0.009
+12 1 relati_7 agegrp_5 -0.074 0.010
+12 1 gender_1 gender_2 -0.960 0.0007607172010
+12 1 gender_1 gender_3 -0.060 0.010
+12 1 gender_1 school_1 0.002 0.010
+12 1 gender_1 school_2 0.005 0.010
+12 1 gender_1 school_3 0.008 0.010
+12 1 gender_1 worker_1 -0.064 0.010
+12 1 gender_1 agegrp_1 0.003 0.010
+12 1 gender_1 agegrp_2 0.0007554651820 0.010
+12 1 gender_1 agegrp_3 0.004 0.010
+12 1 gender_1 agegrp_4 0.002 0.010
+12 1 gender_1 agegrp_5 0.003 0.010
+12 1 gender_2 gender_3 -0.061 0.010
+12 1 gender_2 school_1 -0.015 0.010
+12 1 gender_2 school_2 0.006 0.010
+12 1 gender_2 school_3 -0.015 0.010
+12 1 gender_2 worker_1 0.059 0.010
+12 1 gender_2 agegrp_1 -0.015 0.010
+12 1 gender_2 agegrp_2 -0.009 0.010
+12 1 gender_2 agegrp_3 -0.013 0.010
+12 1 gender_2 agegrp_4 -.0000827574113 0.010
+12 1 gender_2 agegrp_5 0.0009982488118 0.010
+12 1 gender_3 school_1 0.003 0.010
+12 1 gender_3 school_2 -0.011 0.010
+12 1 gender_3 school_3 -0.009 0.010
+12 1 gender_3 worker_1 -0.019 0.010
+12 1 gender_3 agegrp_1 -0.014 0.010
+12 1 gender_3 agegrp_2 0.0000612966323 0.010
+12 1 gender_3 agegrp_3 0.023 0.010
+12 1 gender_3 agegrp_4 0.037 0.010
+12 1 gender_3 agegrp_5 -0.021 0.010
+12 1 school_1 school_2 -0.709 0.005
+12 1 school_1 school_3 -0.054 0.010
+12 1 school_1 worker_1 0.466 0.008
+12 1 school_1 agegrp_1 0.280 0.009
+12 1 school_1 agegrp_2 0.794 0.004
+12 1 school_1 agegrp_3 0.282 0.009
+12 1 school_1 agegrp_4 -0.223 0.009
+12 1 school_1 agegrp_5 -0.301 0.009
+12 1 school_2 school_3 -0.305 0.009
+12 1 school_2 worker_1 -0.448 0.008
+12 1 school_2 agegrp_1 -0.439 0.008
+12 1 school_2 agegrp_2 -0.566 0.007
+12 1 school_2 agegrp_3 -0.206 0.009
+12 1 school_2 agegrp_4 0.069 0.010
+12 1 school_2 agegrp_5 0.348 0.009
+12 1 school_3 worker_1 0.210 0.009
+12 1 school_3 agegrp_1 0.667 0.005
+12 1 school_3 agegrp_2 -0.036 0.010
+12 1 school_3 agegrp_3 -0.004 0.010
+12 1 school_3 agegrp_4 -0.105 0.010
+12 1 school_3 agegrp_5 -0.129 0.010
+12 1 worker_1 agegrp_1 0.310 0.009
+12 1 worker_1 agegrp_2 0.394 0.008
+12 1 worker_1 agegrp_3 0.085 0.010
+12 1 worker_1 agegrp_4 -0.321 0.009
+12 1 worker_1 agegrp_5 -0.290 0.009
+12 1 agegrp_1 agegrp_2 -0.064 0.010
+12 1 agegrp_1 agegrp_3 -0.024 0.010
+12 1 agegrp_1 agegrp_4 -0.154 0.009
+12 1 agegrp_1 agegrp_5 -0.190 0.009
+12 1 agegrp_2 agegrp_3 -0.030 0.010
+12 1 agegrp_2 agegrp_4 -0.196 0.009
+12 1 agegrp_2 agegrp_5 -0.241 0.009
+12 1 agegrp_3 agegrp_4 -0.073 0.010
+12 1 agegrp_3 agegrp_5 -0.089 0.010
+12 1 agegrp_4 agegrp_5 -0.586 0.006
+15 1 relati_1 1.000 0.0000000001000
+15 1 relati_2 1.000 0.0000000001000
+15 1 relati_3 1.000 0.0000000001000
+15 1 relati_4 1.000 0.0000000001000
+15 1 relati_5 1.000 0.0000000001000
+15 1 relati_6 1.000 0.0000000001000
+15 1 relati_7 1.000 0.0000000001000
+15 1 gender_1 1.000 0.0000000001000
+15 1 gender_2 1.000 0.0000000001000
+15 1 gender_3 1.000 0.0000000001000
+15 1 school_1 1.000 0.0000000001000
+15 1 school_2 1.000 0.0000000001000
+15 1 school_3 1.000 0.0000000001000
+15 1 worker_1 1.000 0.0000000001000
+15 1 agegrp_1 1.000 0.0000000001000
+15 1 agegrp_2 1.000 0.0000000001000
+15 1 agegrp_3 1.000 0.0000000001000
+15 1 agegrp_4 1.000 0.0000000001000
+15 1 agegrp_5 1.000 0.0000000001000
+32 1 relati_1 relati_2 -0.144 0.003
+32 1 relati_1 relati_3 -0.082 0.002
+32 1 relati_1 relati_4 -0.003 0.0003724565613
+32 1 relati_1 relati_5 -0.002 0.0003040341835
+32 1 relati_1 relati_6 -0.002 0.0002966999600
+32 1 relati_1 relati_7 -0.012 0.0007254182710
+32 1 relati_1 gender_1 0.0006352830096 0.002
+32 1 relati_1 gender_2 0.0004042426590 0.002
+32 1 relati_1 gender_3 0.0002618516446 0.0002960105485
+32 1 relati_1 school_1 -0.062 0.002
+32 1 relati_1 school_2 0.072 0.002
+32 1 relati_1 school_3 -0.013 0.0007300016587
+32 1 relati_1 worker_1 -0.059 0.002
+32 1 relati_1 agegrp_1 -0.026 0.001
+32 1 relati_1 agegrp_2 -0.042 0.001
+32 1 relati_1 agegrp_3 -0.006 0.0005057148519
+32 1 relati_1 agegrp_4 0.014 0.002
+32 1 relati_1 agegrp_5 0.041 0.002
+32 1 relati_2 relati_3 -0.038 0.002
+32 1 relati_2 relati_4 -0.002 0.0003271975438
+32 1 relati_2 relati_5 -0.001 0.0002673288109
+32 1 relati_2 relati_6 -.0009749198798 0.0002609023068
+32 1 relati_2 relati_7 -0.006 0.0006325124414
+32 1 relati_2 gender_1 -0.003 0.002
+32 1 relati_2 gender_2 0.005 0.002
+32 1 relati_2 gender_3 -.0001256229007 0.0002607332135
+32 1 relati_2 school_1 -0.029 0.001
+32 1 relati_2 school_2 0.036 0.002
+32 1 relati_2 school_3 -0.006 0.0006364267902
+32 1 relati_2 worker_1 -0.023 0.002
+32 1 relati_2 agegrp_1 -0.012 0.0009136435692
+32 1 relati_2 agegrp_2 -0.019 0.001
+32 1 relati_2 agegrp_3 -0.003 0.0004432583810
+32 1 relati_2 agegrp_4 0.008 0.002
+32 1 relati_2 agegrp_5 0.025 0.002
+32 1 relati_3 relati_4 -.0008768668631 0.0002649437520
+32 1 relati_3 relati_5 -.0005845779087 0.0002165037440
+32 1 relati_3 relati_6 -.0005567408516 0.0002113025548
+32 1 relati_3 relati_7 -0.003 0.0005114121595
+32 1 relati_3 gender_1 0.002 0.002
+32 1 relati_3 gender_2 -0.005 0.002
+32 1 relati_3 gender_3 -.0000849092103 0.0002112349466
+32 1 relati_3 school_1 0.092 0.001
+32 1 relati_3 school_2 -0.106 0.002
+32 1 relati_3 school_3 0.019 0.0005451092729
+32 1 relati_3 worker_1 0.083 0.002
+32 1 relati_3 agegrp_1 0.040 0.0008284936775
+32 1 relati_3 agegrp_2 0.062 0.001
+32 1 relati_3 agegrp_3 0.009 0.0003686095297
+32 1 relati_3 agegrp_4 -0.033 0.002
+32 1 relati_3 agegrp_5 -0.059 0.002
+32 1 relati_4 relati_5 -.0000235626412 0.0000469211373
+32 1 relati_4 relati_6 -.0000224406103 0.0000457946517
+32 1 relati_4 relati_7 -.0001335216366 0.0001106590207
+32 1 relati_4 gender_1 -.0007266572793 0.0003733362828
+32 1 relati_4 gender_2 0.0007534702308 0.0003734174534
+32 1 relati_4 gender_3 -.0000224406103 0.0000457946517
+32 1 relati_4 school_1 -.0006664861576 0.0002356966725
+32 1 relati_4 school_2 0.001 0.0002992316440
+32 1 relati_4 school_3 -.0001352046820 0.0001113382386
+32 1 relati_4 worker_1 0.001 0.0003546631197
+32 1 relati_4 agegrp_1 -.0002833127219 0.0001591141772
+32 1 relati_4 agegrp_2 -.0004443241050 0.0001964268595
+32 1 relati_4 agegrp_3 -.0000650777729 0.0000777059613
+32 1 relati_4 agegrp_4 -0.002 0.0003496057470
+32 1 relati_4 agegrp_5 0.0008147188346 0.0003684829862
+32 1 relati_5 relati_6 -.0000149604075 0.0000374282863
+32 1 relati_5 relati_7 -.0000890144220 0.0000904406479
+32 1 relati_5 gender_1 -.0001384282950 0.0003050799132
+32 1 relati_5 gender_2 0.0000304818295 0.0003051393433
+32 1 relati_5 gender_3 -.0000149604066 0.0000374282863
+32 1 relati_5 school_1 0.0000275075581 0.0001925647521
+32 1 relati_5 school_2 -.0009038223070 0.0002445394639
+32 1 relati_5 school_3 -.0000901364547 0.0000909957453
+32 1 relati_5 worker_1 0.0004349293013 0.0002896993246
+32 1 relati_5 agegrp_1 -.0001888751431 0.0001300391014
+32 1 relati_5 agegrp_2 -.0000131170709 0.0001605029247
+32 1 relati_5 agegrp_3 0.0001453474833 0.0000635234537
+32 1 relati_5 agegrp_4 0.001 0.0002855964121
+32 1 relati_5 agegrp_5 -.0009038044955 0.0003012233647
+32 1 relati_6 relati_7 -.0000847756382 0.0000882692038
+32 1 relati_6 gender_1 0.0000479089249 0.0002977531985
+32 1 relati_6 gender_2 -.0000653360185 0.0002978142293
+32 1 relati_6 gender_3 -.0000142480067 0.0000365297165
+32 1 relati_6 school_1 0.0008035965147 0.0001881036296
+32 1 relati_6 school_2 -0.001 0.0002388113789
+32 1 relati_6 school_3 0.0003859873977 0.0000888861759
+32 1 relati_6 worker_1 0.0008770627901 0.0002828426659
+32 1 relati_6 agegrp_1 0.0005750495475 0.0001270274515
+32 1 relati_6 agegrp_2 0.0003784537839 0.0001566927385
+32 1 relati_6 agegrp_3 0.0000530471116 0.0000619852362
+32 1 relati_6 agegrp_4 0.0003863792226 0.0002785054094
+32 1 relati_6 agegrp_5 -0.001 0.0002940317208
+32 1 relati_7 gender_1 0.001 0.0007195249200
+32 1 relati_7 gender_2 -.0009596655727 0.0007196611259
+32 1 relati_7 gender_3 0.0000095906898 0.0000882654131
+32 1 relati_7 school_1 -0.002 0.0004545541015
+32 1 relati_7 school_2 -.0007808085647 0.0005763683585
+32 1 relati_7 school_3 -.0005107732140 0.0002146400075
+32 1 relati_7 worker_1 -0.004 0.0006843363517
+32 1 relati_7 agegrp_1 -0.001 0.0003068130754
+32 1 relati_7 agegrp_2 -0.002 0.0003788219183
+32 1 relati_7 agegrp_3 -.0001514830219 0.0001497757039
+32 1 relati_7 agegrp_4 0.011 0.0006809823099
+32 1 relati_7 agegrp_5 -0.005 0.0007120253285
+32 1 gender_1 gender_2 -0.240 0.003
+32 1 gender_1 gender_3 -0.002 0.0002982885053
+32 1 gender_1 school_1 0.0002904990397 0.002
+32 1 gender_1 school_2 0.0009935759008 0.002
+32 1 gender_1 school_3 0.0006189334090 0.0007238942781
+32 1 gender_1 worker_1 -0.015 0.002
+32 1 gender_1 agegrp_1 0.0003689343284 0.001
+32 1 gender_1 agegrp_2 0.0000992997011 0.001
+32 1 gender_1 agegrp_3 0.0002333022130 0.0005052314373
+32 1 gender_1 agegrp_4 0.0003675451444 0.002
+32 1 gender_1 agegrp_5 0.0008295011357 0.002
+32 1 gender_2 gender_3 -0.002 0.0002983601589
+32 1 gender_2 school_1 -0.002 0.002
+32 1 gender_2 school_2 0.001 0.002
+32 1 gender_2 school_3 -0.001 0.0007240957348
+32 1 gender_2 worker_1 0.014 0.002
+32 1 gender_2 agegrp_1 -0.002 0.001
+32 1 gender_2 agegrp_2 -0.001 0.001
+32 1 gender_2 agegrp_3 -.0006707427092 0.0005053714267
+32 1 gender_2 agegrp_4 -.0000193416654 0.002
+32 1 gender_2 agegrp_5 0.0002461966651 0.002
+32 1 gender_3 school_1 0.0000486658500 0.0001879421761
+32 1 gender_3 school_2 -.0002811042650 0.0002385304542
+32 1 gender_3 school_3 -.0000858442436 0.0000888109716
+32 1 gender_3 worker_1 -.0005384321557 0.0002827626886
+32 1 gender_3 agegrp_1 -.0001798810845 0.0001269165950
+32 1 gender_3 agegrp_2 0.0000009884561 0.0001566496067
+32 1 gender_3 agegrp_3 0.0001474134478 0.0000619996354
+32 1 gender_3 agegrp_4 0.001 0.0002786657715
+32 1 gender_3 agegrp_5 -.0006360844709 0.0002939318074
+32 1 school_1 school_2 -0.090 0.002
+32 1 school_1 school_3 -0.003 0.0004575770872
+32 1 school_1 worker_1 0.070 0.002
+32 1 school_1 agegrp_1 0.019 0.0006780160475
+32 1 school_1 agegrp_2 0.066 0.001
+32 1 school_1 agegrp_3 0.009 0.0003313100024
+32 1 school_1 agegrp_4 -0.033 0.001
+32 1 school_1 agegrp_5 -0.047 0.002
+32 1 school_2 school_3 -0.018 0.0006061581080
+32 1 school_2 worker_1 -0.085 0.002
+32 1 school_2 agegrp_1 -0.037 0.0009049078217
+32 1 school_2 agegrp_2 -0.060 0.001
+32 1 school_2 agegrp_3 -0.009 0.0004131709284
+32 1 school_2 agegrp_4 0.013 0.002
+32 1 school_2 agegrp_5 0.069 0.002
+32 1 school_3 worker_1 0.015 0.0007022953941
+32 1 school_3 agegrp_1 0.021 0.0003708672011
+32 1 school_3 agegrp_2 -0.001 0.0003810806957
+32 1 school_3 agegrp_3 -.0000602156360 0.0001506887493
+32 1 school_3 agegrp_4 -0.007 0.0006807571626
+32 1 school_3 agegrp_5 -0.010 0.0007203802816
+32 1 worker_1 agegrp_1 0.031 0.001
+32 1 worker_1 agegrp_2 0.049 0.001
+32 1 worker_1 agegrp_3 0.004 0.0004814212443
+32 1 worker_1 agegrp_4 -0.071 0.002
+32 1 worker_1 agegrp_5 -0.068 0.002
+32 1 agegrp_1 agegrp_2 -0.004 0.0005453047925
+32 1 agegrp_1 agegrp_3 -.0005216551363 0.0002153910027
+32 1 agegrp_1 agegrp_4 -0.015 0.0009789109463
+32 1 agegrp_1 agegrp_5 -0.020 0.001
+32 1 agegrp_2 agegrp_3 -.0008181205485 0.0002659214952
+32 1 agegrp_2 agegrp_4 -0.024 0.001
+32 1 agegrp_2 agegrp_5 -0.031 0.001
+32 1 agegrp_3 agegrp_4 -0.004 0.0004737683339
+32 1 agegrp_3 agegrp_5 -0.005 0.0005006146384
+32 1 agegrp_4 agegrp_5 -0.135 0.003
+35 1 relati_1 0.247 0.003
+35 1 relati_2 0.192 0.003
+35 1 relati_3 0.126 0.002
+35 1 relati_4 0.006 0.0000811879436
+35 1 relati_5 0.004 0.0000542331945
+35 1 relati_6 0.004 0.0000516604487
+35 1 relati_7 0.022 0.0003016146657
+35 1 gender_1 0.250 0.003
+35 1 gender_2 0.250 0.003
+35 1 gender_3 0.004 0.0000516604487
+35 1 school_1 0.100 0.001
+35 1 school_2 0.160 0.002
+35 1 school_3 0.022 0.0003053280816
+35 1 worker_1 0.225 0.003
+35 1 agegrp_1 0.045 0.0006234853645
+35 1 agegrp_2 0.069 0.0009500149754
+35 1 agegrp_3 0.011 0.0001487367845
+35 1 agegrp_4 0.219 0.003
+35 1 agegrp_5 0.243 0.003
