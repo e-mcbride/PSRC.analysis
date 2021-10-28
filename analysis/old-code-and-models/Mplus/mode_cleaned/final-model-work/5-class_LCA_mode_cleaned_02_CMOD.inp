@@ -1,0 +1,60 @@
+TITLE: 5-class LCA: mode_cleaned
+DATA: FILE = "lpa_mode_cleaned_c5_save.txt";
+VARIABLE:   NAMES = 
+    SOV
+    HOV
+    TRANSIT
+    WALK
+    BIKE
+    OTHER
+    CPROB1
+    CPROB2
+    CPROB3
+    CPROB4
+    CPROB5
+    C
+    PERSONID;
+
+            IDVAR = personid;
+            nominal = c;
+            USEVAR = c;
+            MISSING ARE ALL (9999);
+            CLASSES = c1(5);
+            
+ANALYSIS: TYPE = MIXTURE;
+          PROCESSORS = 6(STARTS);
+          STARTS = 0;
+
+MODEL:
+    %c1#1%
+        [c#1@4.282];
+        [c#2@2.935];
+        [c#3@1.162];
+        [c#4@1.764];
+    %c1#2%
+        [c#1@10.049];
+        [c#2@13.762];
+        [c#3@0.000];
+        [c#4@10.268];
+    %c1#3%
+        [c#1@9.572];
+        [c#2@0.000];
+        [c#3@13.801];
+        [c#4@0.000];
+    %c1#4%
+        [c#1@0.615];
+        [c#2@-5.753];
+        [c#3@-4.459];
+        [c#4@5.352];
+    %c1#5%
+        [c#1@-3.643];
+        [c#2@-3.684];
+        [c#3@-3.289];
+        [c#4@-1.432];
+!PLOT: TYPE=PLOT3;
+!      SERIES = sov hov transit walk bike other(*);
+
+!OUTPUT: TECH1;
+!OUTPUT: TECH11;
+!OUTPUT: TECH14;
+
