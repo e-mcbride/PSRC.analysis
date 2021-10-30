@@ -238,6 +238,7 @@ hhvars <- hhdat %>%
   rename_at(.vars = vars(-starts_with("hh")), list(~paste0("HH_", .)))
 
 
+
 ## person vars ==========================================================================
 
 prsel <- prraw %>%
@@ -271,6 +272,7 @@ prsel <- prraw %>%
          relationship,
          starts_with("mode_freq"))
 
+
 # prsel %>% select(starts_with("schooltype")) %>% View()
 
 # # check `agegrp` var
@@ -280,7 +282,22 @@ prsel <- prraw %>%
 
 ## joining hhvars to person-lvl ==============================================================
 sesvars <- prsel %>%
-  left_join(hhvars, by = "hhid")
+  left_join(hhvars, by = "hhid") %>%
+  # shrink down categories
+  mutate(across(starts_with("HH_res_factors"),
+                ~ case_when(
+                  .x %in% "Very unimportant" ~ "Unimportant",
+                  .x %in% "Somewhat unimportant" ~ "Unimportant",
+                  .x %in% "Neither or N/A" ~ "Neither or N/A",
+                  .x %in% "Somewhat important"~ "Important",
+                  .x %in% "Very important" ~ "Important",
+                  TRUE ~ "THERES AN ISSUE"
+                )),
+         across(starts_with("wbt_"),
+                ~case_when(
+
+                ))
+  )
 
 
 
