@@ -37,6 +37,9 @@ rm(list=setdiff(ls(), c("mode", "model_name", "cleanpids")))
 # add covariates ##################################################################
 
 auxvars <- read_rds(here("analysis/data/derived_data/curated-auxiliary-vars.rds")) %>%
+
+  # removing under 18 ppl
+  filter(agegrp >= "age18_34") %>%
   mutate(across(where(is.ordered), ~ factor(.x, ordered = FALSE))) %>%
   filter(personid %in% cleanpids)
 

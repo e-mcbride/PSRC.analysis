@@ -54,12 +54,17 @@ curated_auxvars <- all_aux_vars %>%
          clustno
   ) %>%
   janitor::clean_names() %>%
-  rename(cmplxty = c, race = race_category) %>%
+  rename(fqtran = mode_freq_1,
+         fqbike = mode_freq_2,
+         fqwalk = mode_freq_3,
+         fqcsha = mode_freq_4,
+         fqrsha = mode_freq_5,
+         cmplxty = c,
+         race = race_category) %>%
   rename_with(~ gsub("hh_age", "n", .x, fixed = TRUE)) %>%
   rename_with(~ gsub("hh_res_factors_", "res", .x, fixed = TRUE)) %>%
   rename_with(~ gsub("wbt_transitmore_", "usetr", .x, fixed = TRUE)) %>%
   rename_with(~ gsub("wbt_bikemore_", "usebk", .x, fixed = TRUE)) %>%
-  rename_with(~ gsub("mode_freq_", "moden", .x, fixed = TRUE)) %>%
   rename_with(gsub, hh_inc_lvl, pattern = "_", replacement = "", fixed = TRUE) %>%
   rename_with(stringr::str_trunc, -personid, width = 6, side = "right", ellipsis = "")
 
@@ -67,49 +72,3 @@ curated_auxvars <- all_aux_vars %>%
 write_rds(curated_auxvars, here::here("analysis/data/derived_data/curated-auxiliary-vars.rds"))
 
 
-# ERASE
-# Building cluster variables and modifying SES variables, then combining
-# library(tidyverse)
-#
-#
-#
-#
-#
-# pl.seq.5min <- read_rds(here::here("analysis/data/derived_data/pl_seq_5min.rds"))
-#
-# # minutes by state
-# minbystate <- pl.seq.5min %>%
-#   as_tibble(rownames = "personid") %>%
-#   gather(-personid, key = "time", value = "place") %>%
-#   group_by(personid, place) %>%
-#   count(name = "minutes") %>%
-#   ungroup() %>%
-#   spread(key = place, value = "minutes", fill = 0) %>%
-#   rename(min_NA = `*`, min_G = "Gshop", min_H = "Home", min_O = "Other", min_S = "School", min_T = "Travel", min_W = "Work")
-#
-# sixclust <- read_rds(here::here("analysis/data/derived_data/six-cluster-by-pids.rds")) %>%
-#   rename(clustnum = c6)
-#
-# frag_vars <- minbystate %>%
-#   left_join(sixclust, by = "personid")
-#
-# write_rds(frag_vars, here::here("analysis/data/derived_data/frag_6clust_by_pid.rds"))
-
-
-#
-# ses_en_tu <- read_rds(here::here("analysis/data/derived_data/auxiliary-entropy-turbulence.rds"))
-#
-# ses_frag_trav <- ses_en_tu %>%
-#   left_join(frag_vars, by = "personid")
-#
-# write_rds(ses_frag_trav, here::here("analysis/data/derived_data/auxiliary_ent-tur_traveldat.rds"))
-#
-# # make dataset with factors converted to numeric
-# factors2numeric <- ses_frag_trav %>%
-#   mutate(across(where(is.factor), ~ as.numeric(.x)))
-
-# data.frame(levels(ses_frag_trav$employment), as.num)
-#
-# x <- levels(ses_frag_trav$employment) %>%
-#   as_tibble()
-# aux

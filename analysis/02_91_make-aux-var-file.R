@@ -1,5 +1,5 @@
 
-filelist <- list.files(here::here("analysis/"), pattern = "05_0", full.names = TRUE)
+filelist <- list.files(here::here("analysis/"), pattern = "02_0", full.names = TRUE)
 i <- 0
 
 for(i in 1:length(filelist)) {
