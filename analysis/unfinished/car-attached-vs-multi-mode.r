@@ -24,7 +24,6 @@ all_aux_vars <-  sesvars %>%
 ### * also removing mode 3 (walking) cuz it kinda messes it up cuz so many ppl "go on walks"
 ### * excluding "I never do this" and "I do this, but not in the past 30 days"
 
-
 no_other_modes <- prdat %>% #2862
   filter(age_category != "Under 18 years") %>%
   filter(personid %in% cleanpids) %>%
@@ -39,60 +38,64 @@ no_other_modes <- prdat %>% #2862
   filter(nmodes == 0) %>%
   pull(personid)
 
-
 # building curated set =============================================
 aux_sm <- all_aux_vars %>%
-  filter(personid %in% cleanpids) %>%
-  filter(agegrp >="age18_34") %>%
-  mutate(across(where(is.factor), ~ droplevels(.x))) %>%
+  # filter(personid %in% cleanpids) %>% #
+  # filter(agegrp >="age18_34") %>%
+  # mutate(across(where(is.factor), ~ droplevels(.x))) %>% # this and 2 above: include here or next script? Probably in next
   transmute(personid,
+            # Intention #####################################################################
+            ## Attitude =====================================================================
+            ### Preferences --------------------------------------------
+            ut_saf = wbt_transitmore_1 >= "Occasionally (1-2 days per week)", # wording these:
+            ut_frq = wbt_transitmore_2 >= "Occasionally (1-2 days per week)", # be willing to use tr/bk 1+ times/ week with
+            ut_rel = wbt_transitmore_3 >= "Occasionally (1-2 days per week)", # right conditions (?)
+            ub_shr = wbt_bikemore_1 >= "Occasionally (1-2 days per week)",
+            ub_grn = wbt_bikemore_2 >= "Occasionally (1-2 days per week)",
+            ub_lan = wbt_bikemore_3 >= "Occasionally (1-2 days per week)",
+            ub_rln = wbt_bikemore_4 >= "Occasionally (1-2 days per week)",
+            ub_amn = wbt_bikemore_5 >= "Occasionally (1-2 days per week)",
 
-            onlycar = (personid %in% no_other_modes), # EM!! this puts the NA responders in the FALSE category
+            ### Values and Beliefs --------------------------------------
+            across(starts_with("HH_res_factors"), ~ .x >="Somewhat important"),
 
-            # residence
+            # Habit(kind of) #########################################################################
+            carlvr = (personid %in% no_other_modes), # EM!! this puts the NA responders in the FALSE category
 
+            # Context/Facilitating Conditions ###############################################
+            ## Socioeconomic Status =========================================================
             agegrp,
-            racwht =   as.numeric(race_category == "White Only"),
-            racasn =   as.numeric(race_category == "Asian"),
-            rachis =    as.numeric(race_category == "Hispanic"),
-            racblk =   as.numeric(race_category == "African American"),
+            racwht =   (race_category == "White Only"),
+            racasn =   (race_category == "Asian"),
+            rachis =    (race_category == "Hispanic"),
+            racblk =   (race_category == "African American"),
             racoth =
               (race_category != "White Only" &
                  race_category != "Asian" &
                  race_category != "Hispanic" &
                  race_category != "African American"),
-            female = as.numeric(gender == "Female"),
-
-            license = as.numeric(license == "Yes, has an intermediate or unrestricted license"),
-
-            school = as.numeric(schooltype != "None (adult)"), # 34 in hs, 689 in upper ed/trade sch
-            worker = as.numeric(worker != "No jobs"),
-
+            female = (gender == "Female"),
+            school = (schooltype != "None (adult)"), # 34 in hs, 689 in upper ed/trade sch
+            worker = (worker != "No jobs"),
             #hh chars
             hinclo = (HH_inc_lvl == "Below SSS"),
-            h00_04 = (HH_Age00_04 > 0),
-            h05_15 = (HH_Age05_15 > 0),
-            h16_17 = (HH_Age16_17 > 0),
+            n00_04 = (HH_Age00_04 > 0),
+            n05_15 = (HH_Age05_15 > 0),
+            n16_17 = (HH_Age16_17 > 0),
+
+            ## Access to Modes ==============================================================
+            license = (license == "Yes, has an intermediate or unrestricted license"),
+
+            ## Spatiotemporal Structures ====================================================
+            cmplxty = C,
+            clustno
+  ) %>%
+  mutate(across(where(is.logical), ~as.numeric(.x))) %>%
+  janitor::clean_names() %>%
+  rename_with(~ gsub("hh_res_factors_", "res", .x, fixed = TRUE)) %>%
+  rename_with(stringr::str_trunc, -personid, width = 6, side = "right", ellipsis = "")
 
 
-            clustno)
-
-
-# # shrink down categories
-# mutate(across(starts_with("HH_res_factors"),
-#               ~ case_when(
-#                 .x %in% "Very unimportant" ~ "Unimportant",
-#                 .x %in% "Somewhat unimportant" ~ "Unimportant",
-#                 .x %in% "Neither or N/A" ~ "Neither or N/A",
-#                 .x %in% "Somewhat important"~ "Important",
-#                 .x %in% "Very important" ~ "Important",
-#                 TRUE ~ "THERES AN ISSUE"
-#               )),
-#        across(starts_with("wbt_"),
-#               ~case_when(
-#
-#               ))
-# )
 
 # Rejects  ========================================
 # no_other_modes <- prdat %>% #1009
@@ -141,4 +144,19 @@ aux_sm <- all_aux_vars %>%
 #   group_by(personid) %>%
 #   summarize(nmodes = sum(doit)) %>%
 #   filter(nmodes == 0)
-
+#
+# # shrink down categories
+# mutate(across(starts_with("HH_res_factors"),
+#               ~ case_when(
+#                 .x %in% "Very unimportant" ~ "Unimportant",
+#                 .x %in% "Somewhat unimportant" ~ "Unimportant",
+#                 .x %in% "Neither or N/A" ~ "Neither or N/A",
+#                 .x %in% "Somewhat important"~ "Important",
+#                 .x %in% "Very important" ~ "Important",
+#                 TRUE ~ "THERES AN ISSUE"
+#               )),
+#        across(starts_with("wbt_"),
+#               ~case_when(
+#
+#               ))
+# )
