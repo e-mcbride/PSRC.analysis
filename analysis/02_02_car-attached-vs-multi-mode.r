@@ -39,7 +39,7 @@ no_other_modes <- prdat %>% #2862
   pull(personid)
 
 # building curated set =============================================
-aux_sm <- all_aux_vars %>%
+curated_auxvars <- all_aux_vars %>%
   # filter(personid %in% cleanpids) %>% #
   # filter(agegrp >="age18_34") %>%
   # mutate(across(where(is.factor), ~ droplevels(.x))) %>% # this and 2 above: include here or next script? Probably in next
@@ -95,6 +95,7 @@ aux_sm <- all_aux_vars %>%
   rename_with(~ gsub("hh_res_factors_", "res", .x, fixed = TRUE)) %>%
   rename_with(stringr::str_trunc, -personid, width = 6, side = "right", ellipsis = "")
 
+write_rds(curated_auxvars, here::here("analysis/data/derived_data/curated-auxiliary-vars.rds"))
 
 
 # Rejects  ========================================
