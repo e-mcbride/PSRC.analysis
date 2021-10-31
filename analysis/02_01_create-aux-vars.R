@@ -230,7 +230,7 @@ hh_incvars %>% group_by(inc_lvl) %>% summarise(n = n())
 
 hhvars <- hhdat %>%
   select(hhid, hhsize, lifecycle, numworkers, numadults, numchildren, lifecycle, hhincome_broad, hhincome_detailed,
-         starts_with("res_factors")
+         starts_with("res_factors"), -res_factors_hhchange
          ) %>%
   left_join(hh_Agegrp_count, by = "hhid") %>%
   left_join(hh_incvars, by = "hhid") %>%
@@ -282,22 +282,7 @@ prsel <- prraw %>%
 
 ## joining hhvars to person-lvl ==============================================================
 sesvars <- prsel %>%
-  left_join(hhvars, by = "hhid") %>%
-  # shrink down categories
-  mutate(across(starts_with("HH_res_factors"),
-                ~ case_when(
-                  .x %in% "Very unimportant" ~ "Unimportant",
-                  .x %in% "Somewhat unimportant" ~ "Unimportant",
-                  .x %in% "Neither or N/A" ~ "Neither or N/A",
-                  .x %in% "Somewhat important"~ "Important",
-                  .x %in% "Very important" ~ "Important",
-                  TRUE ~ "THERES AN ISSUE"
-                )),
-         across(starts_with("wbt_"),
-                ~case_when(
-
-                ))
-  )
+  left_join(hhvars, by = "hhid")
 
 
 
