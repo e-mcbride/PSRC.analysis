@@ -1,0 +1,30 @@
+TITLE: 6-class LCA: mode_cleaned_aux
+DATA: FILE = "mode_cleaned_aux-data-mplus-ready_9cbdafdca9831a1c9d6734f8cf969a75.dat";
+VARIABLE:
+  NAMES = personid pass sov dr_oth walk bike transit other ut_saf ut_frq ut_rel ub_shr
+     ub_grn ub_lan ub_rln ub_amn res30m resaff resclo reshwy ressch resspa restra
+     reswal carlvr racwht racasn rachis racblk racoth female school worker hinclo
+     n00_04 n05_15 n16_17 licens cmplxt agegrp_1 agegrp_2 agegrp_3 clustn_1 clustn_2
+     clustn_3 clustn_4 clustn_5 clustn_6 clustn_NA;
+  IDVAR = personid;
+  USEVAR =      sov dr_oth pass transit walk bike other;
+  CATEGORICAL = sov dr_oth pass transit walk bike other;
+  MISSING=.;
+  CLASSES = c(6);
+ANALYSIS: TYPE = MIXTURE;
+          PROCESSORS = 6(STARTS);
+!          STSCALE = 10;
+          STARTS = 1000 250;
+!          STARTS = 0;
+!          OPTSEED = ;
+!          K-1STARTS = 500 125;
+!          LRTSTARTS = 0 500 125;
+
+PLOT: TYPE=PLOT3;
+      SERIES = sov dr_oth pass transit walk bike other(*);
+OUTPUT: TECH11;
+!OUTPUT: TECH14;
+!SAVEDATA:	FILE IS LCA_mode_cleaned_aux_c6_save.txt;
+!			SAVE IS CPROB;
+!            MISSFLAG=9999;
+!			FORMAT IS FREE;
