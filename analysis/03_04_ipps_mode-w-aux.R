@@ -176,20 +176,20 @@ ggsave(plot = ipps_mode,here::here("analysis/figures/all_ipps_mode-cl-aux.png"),
 
 # for 5 class
 # c <- 5 # final n classes selected
-# mode_className <- c('Solitary Drivers',
-#                     'Carpool Drivers',
+# mode_className <- c('Carpool Drivers',
 #                     'Diverse Mode Users',
 #                     'Transit and Walk',
-#                     'Car Passengers')
+#                     'Car Passengers',
+#                     'Solitary Drivers')
 
 # # for 6 class. Un-comment this and run instead of 5 class above
 c <- 6 # final n classes selected
-mode_className <- c('Carpool Drivers',
-                    'Transit Users',
-                    'Diverse Mode Users',
+mode_className <- c('Transit Users',
                     'Car Passengers',
+                    'Diverse Mode Users',
                     'Solitary Drivers',
-                    'Walkers')
+                    'Walkers',
+                    'Non-solitary Drivers')
 
 classCounts <- allOut_mode[[c]]$class_counts$mostLikely
 
