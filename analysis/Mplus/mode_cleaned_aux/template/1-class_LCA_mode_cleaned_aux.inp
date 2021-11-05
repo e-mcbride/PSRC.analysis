@@ -18,7 +18,7 @@ ANALYSIS: TYPE = MIXTURE;
 !          STARTS = 0;
 !          OPTSEED = ;
 !          K-1STARTS = 500 125;
-!          LRTSTARTS = 0 500 125;
+!          LRTSTARTS = 0 0 500 125;
 
 PLOT: TYPE=PLOT3;
       SERIES = sov dr_oth pass transit walk bike other(*);

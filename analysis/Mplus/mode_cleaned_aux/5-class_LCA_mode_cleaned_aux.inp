@@ -14,16 +14,16 @@ VARIABLE:
 ANALYSIS: TYPE = MIXTURE;
           PROCESSORS = 6(STARTS);
 !          STSCALE = 10;
-          STARTS = 1000 250;
-!          STARTS = 0;
-!          OPTSEED = ;
+!          STARTS = 2000 500;
+          STARTS = 0;
+          OPTSEED = 286835;
 !          K-1STARTS = 500 125;
-!          LRTSTARTS = 0 500 125;
+          LRTSTARTS = 0 0 2000 500;
 
 PLOT: TYPE=PLOT3;
       SERIES = sov dr_oth pass transit walk bike other(*);
 OUTPUT: TECH11;
-!OUTPUT: TECH14;
+OUTPUT: TECH14;
 !SAVEDATA:	FILE IS LCA_mode_cleaned_aux_c5_save.txt;
 !			SAVE IS CPROB;
 !            MISSFLAG=9999;
