@@ -20,7 +20,7 @@ all_aux_vars <-  sesvars %>%
   left_join(seq_vars, by = "personid")
 
 ## Pull only car ppl ==================
-### * RM mode_frq_4 bc it's "carshare" which is vehicle
+### * RM mode_frq_4 bc it's "carshare" which is using a vehicle
 ### * also removing mode 3 (walking) cuz it kinda messes it up cuz so many ppl "go on walks"
 ### * excluding "I never do this" and "I do this, but not in the past 30 days"
 
@@ -84,7 +84,7 @@ curated_auxvars <- all_aux_vars %>%
             n16_17 = (HH_Age16_17 > 0),
 
             ## Access to Modes ==============================================================
-            license = (license == "Yes, has an intermediate or unrestricted license"),
+            license = (license != "No, does not have a license or permit"),
 
             ## Spatiotemporal Structures ====================================================
             cmplxty = C,

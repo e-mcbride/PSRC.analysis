@@ -21,17 +21,18 @@ fitind <- function(outfiles) {
               Loglikelihood = map(summaries, "LL"),
               BIC = map(summaries, "BIC"),
               ABIC = map(summaries, "aBIC"),
+              t11_km1ll = map(summaries, "T11_KM1LL"),
+              # t11_km1ll = map_dbl(t11_km1ll, ~ as.numeric(.x)),
+              # # km1ll_correct = (as.numeric(t11_km1ll) == lag(as.numeric(Loglikelihood))),
               BLRT_pval = map(summaries, "BLRT_PValue"),
               VLMRT_pval = map(summaries, "T11_VLMR_PValue"),
               Entropy = map(summaries, "Entropy"),
               llnreps = map(value, LLreplication),
               optseed = map(LLRepTbl,
                             ~ .x %>% slice(1) %>% pull(seed)),
-              seedused = map(value, ~ .x$input$analysis$optseed),
-              t11_km1ll = map(summaries, "T11_KM1LL")
+              seedused = map(value, ~ .x$input$analysis$optseed)
     )
 }
-
 
 # allOut <- readModels(here("analysis/Mplus/"), recursive = TRUE)
 

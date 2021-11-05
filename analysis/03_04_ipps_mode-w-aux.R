@@ -3,7 +3,7 @@
 library(tidyverse)
 library(here)
 library(MplusAutomation)
-library(ggrepel)
+# library(ggrepel)
 devtools::load_all()
 
 model_name <- "mode_cleaned_aux"
@@ -213,7 +213,7 @@ ipp <- allOut_mode[c] %>%
 
 ipp
 
-ggsave(plot = ipp, paste0("analysis/figures/ipp_mode-clean-aux_c", c, ".png"), width = 6.5, height = 3)
+ggsave(plot = ipp, here::here(paste0("analysis/figures/ipp_mode-clean-aux_c", c, ".png")), width = 6.5, height = 3)
 
 
 
