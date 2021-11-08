@@ -227,15 +227,45 @@ hh_incvars %>% group_by(inc_lvl) %>% summarise(n = n())
 
 ## hh vars =============================================================================
 
+hhdat %>%
+  select(vehicle_count, numadults) %>%
+  mutate(carless = as.numeric(vehicle_count %in% "0 (no vehicles)"),
+         nveh = case_when(
+           vehicle_count %in% "0 (no vehicles)" ~ "0",
+           vehicle_count %in% "10 or more vehicles" ~ "10",
+           TRUE ~ vehicle_count
+         ),
+         nveh = as.numeric(nveh),
+         nufvhs = nveh >= numadults
+
+         ) %>%
+  View()
+
+hhdat %>%
+  group_by(numadults) %>%
+  summarise(n())
 
 hhvars <- hhdat %>%
-  select(hhid, hhsize, lifecycle, numworkers, numadults, numchildren, lifecycle, hhincome_broad, hhincome_detailed,
+  mutate(
+    nveh = case_when(
+      vehicle_count %in% "0 (no vehicles)" ~ "0",
+      vehicle_count %in% "10 or more vehicles" ~ "10",
+      TRUE ~ vehicle_count
+    ),
+    nveh = as.numeric(nveh),
+    nufvhs = as.numeric(nveh >= numadults),
+    carless = as.numeric(vehicle_count %in% "0 (no vehicles)")
+  ) %>%
+  select(hhid, hhsize, lifecycle, numworkers, numadults, numchildren, lifecycle,
+         hhincome_broad, hhincome_detailed,
+         nufvhs, carless,
          starts_with("res_factors"), -res_factors_hhchange
          ) %>%
   left_join(hh_Agegrp_count, by = "hhid") %>%
   left_join(hh_incvars, by = "hhid") %>%
   # rename(across(-starts_with("hh"), ~ paste0("HH_", .) ))
   rename_at(.vars = vars(-starts_with("hh")), list(~paste0("HH_", .)))
+
 
 
 
