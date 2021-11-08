@@ -5,7 +5,7 @@ VARIABLE:
      ub_grn ub_lan ub_rln ub_amn res30m resaff resclo reshwy ressch resspa restra
      reswal carlvr racwht racasn rachis racblk racoth female school worker hinclo
      n00_04 n05_15 n16_17 nufvhs carlss licens cmplxt agegrp_1 agegrp_2 agegrp_3
-     clustn_1 clustn_2 clustn_3 clustn_4 clustn_5 clustn_6 clustn_NA;
+     SEQ_1 SEQ_2 SEQ_3 SEQ_4 SEQ_5 SEQ_6 SEQ_NA;
   IDVAR = personid;
   USEVAR =      sov dr_oth pass transit walk bike other;
   CATEGORICAL = sov dr_oth pass transit walk bike other;
@@ -16,7 +16,7 @@ VARIABLE:
      ub_grn ub_lan ub_rln ub_amn res30m resaff resclo reshwy ressch resspa restra
      reswal carlvr racwht racasn rachis racblk racoth female school worker hinclo
      n00_04 n05_15 n16_17 nufvhs carlss licens cmplxt agegrp_1 agegrp_2 agegrp_3
-     clustn_1 clustn_2 clustn_3 clustn_4 clustn_5 clustn_6 clustn_NA;
+     SEQ_1 SEQ_2 SEQ_3 SEQ_4 SEQ_5 SEQ_6 SEQ_NA;
 
 ANALYSIS: TYPE = MIXTURE;
           PROCESSORS = 6(STARTS);

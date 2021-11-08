@@ -7,30 +7,30 @@ VARIABLE:
   CARLVR RACWHT RACASN RACHIS RACBLK RACOTH FEMALE SCHOOL 
   WORKER HINCLO N00_04 N05_15 N16_17 LICENS CMPLXT 
   AGEGRP_1 AGEGRP_2 AGEGRP_3 
-  CLUSTN_1 CLUSTN_2 CLUSTN_3 CLUSTN_4 CLUSTN_5 CLUSTN_6 CLUSTN_N 
+  SEQ_1 SEQ_2 SEQ_3 SEQ_4 SEQ_5 SEQ_6 SEQ_N 
   CPROB1 CPROB2 CPROB3 CPROB4 CPROB5 CPROB6 N PERSONID; ! C renamed to N
   
   IDVAR = personid;
   NOMINAL = N;
-  USEVAR = N CARLVR CLUSTN_2; !CLUSTN_1 CLUSTN_2 CLUSTN_3 seq;
+  USEVAR = N CARLVR SEQ_2; !SEQ_1 SEQ_2 SEQ_3 seq;
 
  !   Define: 
- !       If CLUSTN_1 == 1 then seq=1;
- !       If CLUSTN_2 == 1 then seq=2;
- !       If CLUSTN_3 == 1 then seq=3;
-        !If (CLUSTN_1 ==0 AND CLUSTN_2 == 0 AND CLUSTN_3 == 0) then seq = 4;
+ !       If SEQ_1 == 1 then seq=1;
+ !       If SEQ_2 == 1 then seq=2;
+ !       If SEQ_3 == 1 then seq=3;
+        !If (SEQ_1 ==0 AND SEQ_2 == 0 AND SEQ_3 == 0) then seq = 4;
 
   MISSING are all (9999);
 !  CLASSES = c(6);
   CLASSES = wrk(2) c(6);
-  KNOWNCLASS = wrk(CLUSTN_2=1 CLUSTN_2=0);
+  KNOWNCLASS = wrk(SEQ_2=1 SEQ_2=0);
 
 !  CLASSES = s(4) c(6);
 !  KNOWNCLASS = s(seq = 1 seq=2 seq=3 seq=4);
 
 
 !  Define: 
-!  clvwrk = CARLVR * CLUSTN_2;
+!  clvwrk = CARLVR * SEQ_2;
 !  center CARLVR (grandmean); !centering? do i need to do that? 
 
 ANALYSIS:   TYPE = MIXTURE;
@@ -47,9 +47,9 @@ MODEL:
     ![C] (b0);
      C ON CARLVR; 
      !    c#1-c#5 ON CARLVR; 
-!    (b1);    C ON CLUSTN_2 (b2);    C ON clvwrk (b3);
+!    (b1);    C ON SEQ_2 (b2);    C ON clvwrk (b3);
 
- !CLUSTN_1 CLUSTN_2 CLUSTN_3;
+ !SEQ_1 SEQ_2 SEQ_3;
  !RES30M RESAFF RESCLO RESHWY RESSCH RESSPA RESTRA RESWAL;
 
 MODEL C:
@@ -68,7 +68,7 @@ MODEL C:
     [n#5@7.422];
 
 !    C on CARLVR (g21)
-!    CLUSTN_2 (g22)
+!    SEQ_2 (g22)
 !    clvwrk (g23);  
 
 %c#3%
@@ -79,7 +79,7 @@ MODEL C:
     [n#5@-2.067];
 
 !    C on CARLVR (g31)
-!    CLUSTN_2 (g32)
+!    SEQ_2 (g32)
 !    clvwrk (g33);  
 
 %c#4%
@@ -90,7 +90,7 @@ MODEL C:
     [n#5@7.777];
 
 !    C on CARLVR (g41)
-!    CLUSTN_2 (g42)
+!    SEQ_2 (g42)
 !    clvwrk (g43);  
 
 %c#5%
@@ -101,7 +101,7 @@ MODEL C:
     [n#5@13.647];
 
 !    C on CARLVR (g51)
-!    CLUSTN_2 (g52)
+!    SEQ_2 (g52)
 !    clvwrk (g53);  
 
 %c#6%
@@ -112,7 +112,7 @@ MODEL C:
     [n#5@-13.712];
 
 !    C on CARLVR (g61)
-!    CLUSTN_2 (g62)
+!    SEQ_2 (g62)
 !    clvwrk (g63);  
 
 MODEL wrk:
