@@ -90,7 +90,7 @@ curated_auxvars <- all_aux_vars %>%
 
             ## Spatiotemporal Structures ====================================================
             cmplxty = C,
-            clustno
+            seq = clustno
   ) %>%
   mutate(across(where(is.logical), ~as.numeric(.x))) %>%
   janitor::clean_names() %>%
