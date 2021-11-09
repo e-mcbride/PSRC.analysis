@@ -106,9 +106,9 @@ cxt.ordered <- context %>%
 cxt.ordered
 catpca <- context %>%
   # make n kids binary
-  # mutate(across(starts_with("n"), ~ as.numeric(.x > 1))) %>%
-  # select(-c) %>%
-  select(-c, -starts_with("n")) %>%
+  mutate(across(starts_with("n"), ~ as.numeric(.x > 1))) %>%
+  select(-c) %>%
+  # select(-c, -starts_with("n")) %>%
   princals(ndim = 5, ordinal = FALSE)# cxt.ordered)
 
 summary(catpca)
