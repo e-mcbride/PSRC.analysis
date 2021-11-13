@@ -1,10 +1,10 @@
 # model with auxiliary: figures
 library(tidyverse)
-library(MplusAutomation)
+# library(MplusAutomation)
 
 
 c6_models <-
-  readModels(here::here("analysis/Mplus/mode_cleaned_aux/final-model-work-c6/"),
+  MplusAutomation::readModels(here::here("analysis/Mplus/mode_cleaned_aux/final-model-work-c6/"),
              recursive = FALSE
   ) %>%
   purrr::set_names(~ .x %>%
@@ -17,7 +17,8 @@ c6_models <-
 
 # Model 3A ##########################################################
 
-m3a <- c6_models$m03a_inc.seq.interactions
+m3a <- c6_models$m03a_fem.seq.interactions
+# m3a <- c6_models$m03a_lic.seq.interactions
 
 # params <- m3a$parameters$unstandardized
 
@@ -109,5 +110,5 @@ aparam_4
 
 
 aparam_4 %>%
-  write.table("clipboard", sep = "\t", row.names = FALSE)
+  write.table("clipboard", sep = "\t", row.names = FALSE, col.names = FALSE)
 
