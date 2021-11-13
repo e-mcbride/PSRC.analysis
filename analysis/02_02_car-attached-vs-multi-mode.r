@@ -84,6 +84,7 @@ curated_auxvars <- all_aux_vars %>%
             n16_17 = (HH_Age16_17 > 0),
             nufvhs = HH_nufvhs,
             carlss = HH_carless,
+            nadult = HH_numadults,
 
             ## Access to Modes ==============================================================
             license = (license != "No, does not have a license or permit"),

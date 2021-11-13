@@ -1,0 +1,106 @@
+TITLE: 6-class LCA: mode_cleaned_aux CMOD
+DATA: FILE = "LCA_mode_cleaned_aux_c6_save.txt";
+VARIABLE:
+  NAMES = SOV DR_OTH PASS TRANSIT WALK BIKE OTHER 
+  UT_SAF UT_FRQ UT_REL UB_SHR UB_GRN UB_LAN UB_RLN UB_AMN 
+  RES30M RESAFF RESCLO RESHWY RESSCH RESSPA RESTRA RESWAL 
+  CARLVR RACWHT RACASN RACHIS RACBLK RACOTH FEMALE SCHOOL 
+  WORKER HINCLO N00_04 N05_15 N16_17 NUFVHS CARLSS LICENS CMPLXT 
+  AGEGRP_1 AGEGRP_2 AGEGRP_3 
+  SEQ_1 SEQ_2 SEQ_3 SEQ_4 SEQ_5 SEQ_6 SEQ_N 
+  CPROB1 CPROB2 CPROB3 CPROB4 CPROB5 CPROB6 N PERSONID; ! C renamed to N
+  IDVAR = personid;
+  NOMINAL = N;
+  USEVAR = N UT_SAF UT_FRQ UT_REL UB_SHR UB_GRN UB_LAN UB_RLN UB_AMN 
+            RES30M RESAFF RESCLO RESHWY RESSCH RESSPA RESTRA RESWAL 
+            CARLVR
+            RACWHT RACASN RACHIS RACBLK 
+            AGEGRP_1 AGEGRP_2
+            NUFVHS !CARLSS 
+            FEMALE WORKER HINCLO N00_04 N05_15 N16_17 LICENS
+            SEQ_1 SEQ_2 SEQ_3 SEQ_4 SEQ_5
+            CMPLXT
+            SQ1NUF SQ2NUF SQ3NUF SQ4NUF SQ5NUF;
+            !SQ1INC SQ2INC SQ3INC SQ4INC SQ5INC;
+  CLASSES = c(6);
+  MISSING are all (9999);
+
+
+  DEFINE:
+    SQ1NUF = SEQ_1 * NUFVHS;
+    SQ2NUF = SEQ_2 * NUFVHS;
+    SQ3NUF = SEQ_3 * NUFVHS;
+    SQ4NUF = SEQ_4 * NUFVHS;
+    SQ5NUF = SEQ_5 * NUFVHS; 
+    
+    !SQ1INC = SEQ_1 * HINCLO;
+    !SQ2INC = SEQ_2 * HINCLO;
+    !SQ3INC = SEQ_3 * HINCLO;
+    !SQ4INC = SEQ_4 * HINCLO;
+    !SQ5INC = SEQ_5 * HINCLO;
+
+
+ANALYSIS: TYPE = MIXTURE;
+          PROCESSORS = 6(STARTS);
+          STSCALE = 10;
+          STARTS = 0;
+
+MODEL:
+%overall%
+ C ON   UT_SAF UT_FRQ UT_REL UB_SHR UB_GRN UB_LAN UB_RLN UB_AMN 
+        RES30M RESAFF RESCLO RESHWY RESSCH RESSPA RESTRA RESWAL 
+        CARLVR
+        RACWHT RACASN RACHIS RACBLK 
+        AGEGRP_1 AGEGRP_2
+        NUFVHS !CARLSS 
+        FEMALE WORKER HINCLO N00_04 N05_15 N16_17 LICENS
+        SEQ_1 SEQ_2 SEQ_3 SEQ_4 SEQ_5
+        CMPLXT
+        SQ1NUF SQ2NUF SQ3NUF SQ4NUF SQ5NUF;
+        !SQ1INC SQ2INC SQ3INC SQ4INC SQ5INC;
+
+
+%c#1%
+    [n#1@7.488];
+    [n#2@-6.272];
+    [n#3@4.125];
+    [n#4@3.645];
+    [n#5@-6.272];
+
+%c#2%
+    [n#1@0];
+    [n#2@13.814];
+    [n#3@5.649];
+    [n#4@0];
+    [n#5@7.422];
+
+%c#3%
+    [n#1@-0.984];
+    [n#2@-2.612];
+    [n#3@2.344];
+    [n#4@-0.687];
+    [n#5@-2.067];
+%c#4%
+    [n#1@3.881];
+    [n#2@0];
+    [n#3@9.945];
+    [n#4@13.792];
+    [n#5@7.777];
+%c#5%
+    [n#1@11.346];
+    [n#2@9.929];
+    [n#3@9.235];
+    [n#4@10.592];
+    [n#5@13.647];
+%c#6%
+    [n#1@-4.314];
+    [n#2@-13.712];
+    [n#3@-2.345];
+    [n#4@-13.712];
+    [n#5@-13.712];
+
+    
+!SAVEDATA:	FILE IS LCA_final-model-work-c6/mode_cleaned_aux_c6_save.txt;
+!			SAVE IS CPROB;
+!            MISSFLAG=9999;
+!			FORMAT IS FREE;
