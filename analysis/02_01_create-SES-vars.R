@@ -14,12 +14,13 @@ library(unpivotr)
 
 # 1. building SES auxiliary variables
 hhdat <- PSRCData::hhdat
-prraw <- PSRCData::prdat
+prdat <- PSRCData::prdat
+
 
 # ## when at least 2 race categories are selected, what is race_category?
 #
-# prraw %>% pull(race_category) %>% unique()
-# race <- prraw %>%
+# prdat %>% pull(race_category) %>% unique()
+# race <- prdat %>%
 #   select(starts_with("race")) %>%
 #   # mutate(across(starts_with("race") & !contains("race_category"),
 #   #               ~ factor(.x, c("Not Selected", "Selected")))
@@ -37,10 +38,10 @@ prraw <- PSRCData::prdat
 # Person level to household level ########################################################################
 
 ## Agegroups -------------------------------------------------------------------------------------------
-prraw$age %>% unique()
-prraw$age_category %>% unique()
+prdat$age %>% unique()
+prdat$age_category %>% unique()
 
-hh_Agegrp_count <- prraw %>%
+hh_Agegrp_count <- prdat %>%
   # mutate(AgeGrp = case_when(
   #   age == "Under 5 years old" ~ "Age00-04",
   #   age >= "5-11 years" & age < "18-24 years" ~ "Age05-17",
@@ -103,7 +104,7 @@ incomevals_broad <- hhdat %>%
 # school-age: 5-11 yrs
 # teen: 12-15 yrs & 16-17 yrs
 # adult: >= 18-24 yrs
-famcode <- prraw %>%
+famcode <- prdat %>%
   group_by(hhid) %>%
   summarise(infant = sum(age == "Under 5 years old" & schooltype != "Preschool", na.rm = TRUE),
             preschool = sum(age == "Under 5 years old" & schooltype == "Preschool", na.rm = TRUE),
@@ -221,31 +222,41 @@ hh_incvars <- hhdat %>%
   ) %>%
   select(hhid, famcode, inc_lvl)
 
-hh_incvars %>% group_by(inc_lvl) %>% summarise(n = n())
+# hh_incvars %>% group_by(inc_lvl) %>% summarise(n = n())
+
+## N licenses ------------------------------------
+
+hh_nlic <- prdat %>%
+  mutate(adult = age_category > "Under 18 years",
+         adult_w_license = adult & (license != "No, does not have a license or permit"),
+         ) %>%
+  group_by(hhid) %>%
+  summarise(nlic = sum(adult_w_license, na.rm = TRUE))
 
 # Final Vars ##################################################################################
 
 ## hh vars =============================================================================
 
-hhdat %>%
-  select(vehicle_count, numadults) %>%
-  mutate(carless = as.numeric(vehicle_count %in% "0 (no vehicles)"),
-         nveh = case_when(
-           vehicle_count %in% "0 (no vehicles)" ~ "0",
-           vehicle_count %in% "10 or more vehicles" ~ "10",
-           TRUE ~ vehicle_count
-         ),
-         nveh = as.numeric(nveh),
-         nufvhs = nveh >= numadults
+# hhdat %>%
+#   select(vehicle_count, numadults) %>%
+#   mutate(carless = as.numeric(vehicle_count %in% "0 (no vehicles)"),
+#          nveh = case_when(
+#            vehicle_count %in% "0 (no vehicles)" ~ "0",
+#            vehicle_count %in% "10 or more vehicles" ~ "10",
+#            TRUE ~ vehicle_count
+#          ),
+#          nveh = as.numeric(nveh),
+#          nufvhs = nveh >= numadults
+#
+#          ) %>%
+#   View()
 
-         ) %>%
-  View()
-
-hhdat %>%
-  group_by(numadults) %>%
-  summarise(n())
+# hhdat %>%
+#   group_by(numadults) %>%
+#   summarise(n())
 
 hhvars <- hhdat %>%
+  left_join(hh_nlic, by = "hhid") %>%
   mutate(
     nveh = case_when(
       vehicle_count %in% "0 (no vehicles)" ~ "0",
@@ -253,25 +264,36 @@ hhvars <- hhdat %>%
       TRUE ~ vehicle_count
     ),
     nveh = as.numeric(nveh),
-    nufvhs = as.numeric(nveh >= numadults),
+    nufvhs = as.numeric(nveh >= nlic),
+
+    # EM TEMP
+    nufvad = as.numeric(nveh >= numadults),
+    nufvlc = as.numeric(nveh >= nlic),
+    # /EM TEMP
+
+
     carless = as.numeric(vehicle_count %in% "0 (no vehicles)")
   ) %>%
+  # mutate(vhprlic = as.numeric(nveh >= nlic)) %>%
   select(hhid, hhsize, lifecycle, numworkers, numadults, numchildren, lifecycle,
          hhincome_broad, hhincome_detailed,
          nufvhs, carless,
+
+         # EM TEMP
+         nufvad, nufvlc,
+         # /EM TEMP
          starts_with("res_factors"), -res_factors_hhchange
          ) %>%
   left_join(hh_Agegrp_count, by = "hhid") %>%
   left_join(hh_incvars, by = "hhid") %>%
+
   # rename(across(-starts_with("hh"), ~ paste0("HH_", .) ))
   rename_at(.vars = vars(-starts_with("hh")), list(~paste0("HH_", .)))
 
 
-
-
 ## person vars ==========================================================================
 
-prsel <- prraw %>%
+prsel <- prdat %>%
   mutate(agegrp =
            case_when( # under 5, 5-15, 16-17, 18-34, 35-64,65+
              age == "Under 5 years old" ~ "age00_04",
@@ -313,7 +335,13 @@ prsel <- prraw %>%
 ## joining hhvars to person-lvl ==============================================================
 sesvars <- prsel %>%
   left_join(hhvars, by = "hhid")
-
-
+#
+# nufvsame <- sesvars %>%
+#   filter(personid %in% cleanpids) %>%
+#   mutate(isitsame = HH_nufvad == HH_nufvlc, .keep = "used")
+#
+# nufvsame %>%
+#   group_by(isitsame) %>%
+#   summarise(n())
 
 write_rds(sesvars, here("analysis/data/derived_data/pid_SES.rds"))
