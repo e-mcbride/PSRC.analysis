@@ -27,16 +27,14 @@ c6_models <-
 
 
 ## female * sequences ===================================
-# c6_models$m03a_fem.seq.interactions %>%
-#   alt_param(refClass = 4, modelID = "M3A_fem_sq_rmcarless_nadlt") %>%
-#   write.table("clipboard", sep = "\t", row.names = FALSE, col.names = FALSE)
+c6_models$m03a_fem.seq.interactions %>%
+  alt_param(refClass = 4, modelID = "M3A_fem_sq_rmcarless_nadlt") %>%
+  write.table("clipboard", sep = "\t", row.names = FALSE, col.names = FALSE)
 
 # m3a_ap4 <- m3a %>%
 #   alt_param(refClass = 4, modelID = "M3A_fem_sq_rmcarless_nadlt")
 
-## female * complexity
-
-
+## female * complexity ==========================================
 
 c6_models$m03a_fem.cmplx.interactions %>%
   to_table_process(model.ID = "M3A_fem_cmplx")
@@ -59,17 +57,44 @@ c6_models$m01_ses %>%
 
 m01_cor <- c6_models$m01_ses$sampstat$correlations
 
-hi_cor <- ((abs(m01_cor) > 0.09) * m01_cor)
-View(hi_cor)
+m01_hi_cor <- ((abs(m01_cor) > 0.09) * m01_cor)
+View(m01_hi_cor)
 
-x <- (m01_cor[(abs(m01_cor) > 0.1)])
+# x <- (m01_cor[(abs(m01_cor) > 0.1)])
 
 
 # Model 2 ##########################################################
 c6_models$m02_sesatts %>%
   to_table_process("M2_SES_atts")
 
+m02_cor <- c6_models$m02_sesatts$sampstat$correlations
 
-# Loglikelihoods
-loglikelihoods <- c6_models %>%
-  map(~.x$summaries$LL)
+m02_hi_cor <- ((abs(m02_cor) > 0.09) * m02_cor)
+View(m02_hi_cor)
+
+m02_hi_cor %>% write.table("clipboard", sep = "\t")
+
+# Goodness of Fit #########################################
+
+
+GoF <- c6_models %>%
+  map(~.x$summaries %>% select(LL, AIC, BIC, aBIC, Entropy))
+
+
+# Class Sizes #############################################
+
+c6_models$m00_baseline$class_counts$mostLikely
+
+# get counts from data
+lca6sav <- MplusAutomation::readModels(here::here("analysis/Mplus/mode_cleaned_aux/6-class_lca_mode_cleaned_aux.out"), what = "savedata")$savedata
+
+rmnas <- lca6sav %>%
+  pivot_longer(cols = -PERSONID) %>%
+  filter(value == 9999) %>%
+  pull(PERSONID) %>% unique()
+
+
+lca6sav %>%
+  filter(!(PERSONID %in% rmnas)) %>%
+  group_by(C) %>%
+  summarise(n())
