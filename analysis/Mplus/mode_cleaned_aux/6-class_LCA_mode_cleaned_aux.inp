@@ -1,5 +1,5 @@
 TITLE: 6-class LCA: mode_cleaned_aux
-DATA: FILE = "mode_cleaned_aux-data-mplus-ready_519eb4bd4a037981b1edcdaf040ad07d.dat";
+DATA: FILE = "mode_cleaned_aux-data-mplus-ready_1a47155cbbd5863baaf728f241f5d775.dat";
 VARIABLE:
   NAMES = personid pass sov dr_oth walk bike transit other ut_saf ut_frq ut_rel ub_shr
      ub_grn ub_lan ub_rln ub_amn res30m resaff resclo reshwy ressch resspa restra
