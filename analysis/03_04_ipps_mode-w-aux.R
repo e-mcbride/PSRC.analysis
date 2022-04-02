@@ -56,8 +56,8 @@ plotMixtures.probscale <- function(modelList,
       )
     )
 
-  classplot <- classplotdat + geom_point(data = plotdat) +
-    geom_line(data = plotdat) +
+  classplot <- classplotdat + geom_point(data = plotdat, size = 0.7) +
+    geom_line(data = plotdat, size = 0.4) +
     theme_bw()
 
   if (length(modelList) > 1) {
@@ -68,18 +68,18 @@ plotMixtures.probscale <- function(modelList,
 
 
 ## Fn: Create IPPs ------------------------------------------
-create_ipps <- function(outfile, parameter = "Means") {
-  outfile %>%
-    plotMixtures(parameter = parameter, ci = NULL) +
-
-    # ggplot specifications
-    aes(linetype = "solid", shape = "circle") +
-    guides(linetype = 'none', shape = "none") +
-    facet_wrap(~ Title, scales = "free_y", ncol = 2) +
-    theme(strip.text = element_text(size = 9),
-          legend.title = element_text(size = 9),
-          text = element_text(size = 8, family = "serif"))
-}
+# create_ipps <- function(outfile, parameter = "Means") {
+#   outfile %>%
+#     plotMixtures(parameter = parameter, ci = NULL) +
+#
+#     # ggplot specifications
+#     aes(linetype = "solid", shape = "circle") +
+#     guides(linetype = 'none', shape = "none") +
+#     facet_wrap(~ Title, scales = "free_y", ncol = 2) +
+#     theme(strip.text = element_text(size = 8),
+#           legend.title = element_text(size = 8),
+#           text = element_text(size = 7, family = "serif"))
+# }
 
 
 
@@ -92,10 +92,17 @@ create_ipps.probscale <- function(outfile,
     # ggplot specifications
     aes(linetype = "solid", shape = "circle") +
     guides(linetype = 'none', shape = "none") +
-    facet_wrap(~ Title, scales = "free_y", ncol = 2) +
-    theme(strip.text = element_text(size = 11),
+    facet_wrap(~ Title,
+               # scales = "free_y",
+               ncol = 2) +
+    theme(strip.text = element_text(size = 8),
           legend.title = element_text(size = 10),
-          text = element_text(size = 10, family = "serif"))
+          text = element_text(size = 8, family = "serif"))
+  # +
+  #   theme_dark(base_size = 10, base_family = "serif")
+    # theme(strip.text = element_text(size = 8),
+    #       legend.title = element_text(size = 8),
+    #       text = element_text(size = 7, family = "serif"))
 }
 
 ## Fn: add counts of estimates ---------------------------------
@@ -134,19 +141,35 @@ add_estcount <- function(outfile) {
 ## Exec IPP creation -------------------------------
 
 ## Import allOut ------
-allOut <- readModels(here("analysis/Mplus/"), recursive = TRUE)
+# allOut <- readModels(here("analysis/Mplus/"), recursive = TRUE)
+#
+# shorten <- allOut %>%
+#   names() %>%
+#   str_split(".Mplus.") %>%
+#   map(~.x[2])
+# names(allOut) <- shorten
+
+allOut <- readModels(here(paste0("analysis/Mplus/", model_name)), recursive = FALSE)
 
 shorten <- allOut %>%
   names() %>%
-  str_split(".Mplus.") %>%
-  map(~.x[2])
+  str_split("X") %>%
+  map(~.x[2]) %>%
+  str_split("_mode") %>%
+  map(~.x[1])
+# shorten
+
 names(allOut) <- shorten
 
+# allOut_mode <- allOut %>%
+#   keep(str_detect(names(.), pattern = model_name))
 
 ### Travel Mode -------------------------------------------------------------
 
-allOut_mode <- allOut %>%
-  keep(str_detect(names(.), pattern = paste0(model_name, "\\.(?=[:digit:])")))
+allOut_mode <- allOut
+
+# %>%
+#   keep(str_detect(names(.), pattern = paste0(model_name, "\\.(?=[:digit:])")))
 
 modeOrder <- c('sov' = 'Single Occupancy Vehicle',
                'dr_oth' = 'Drive Others',
@@ -161,9 +184,11 @@ ipps_mode <- create_ipps.probscale(outfile = allOut_mode,
                                    coefficients = "probability.scale",
                                    paramCat = 2,
                                    paramOrder = names(modeOrder)) +
-  scale_x_discrete(labels = str_wrap(unname(modeOrder), width = 11)) +
-  scale_color_discrete(type = RColorBrewer::brewer.pal(n = 7, name = "Set1")) +
-  theme_dark()
+  scale_x_discrete(labels = str_wrap(unname(modeOrder), width = 10)) +
+  ylab("Estimated Probabilities")
+# +
+#   scale_color_discrete(type = RColorBrewer::brewer.pal(n = 7, name = "Set1"))# +
+  # theme_dark(base_size = 7, base_family = "serif")
 
 ipps_mode
   # scale_color_brewer(type = "qual", palette = RColorBrewer::brewer.pal(n = 7, name = "Accent")) + theme_dark()
@@ -183,7 +208,7 @@ ggsave(plot = ipps_mode,here::here("analysis/figures/all_ipps_mode-cl-aux.png"),
 #                     'Solitary Drivers')
 
 # # for 6 class. Un-comment this and run instead of 5 class above
-c <- 6 # final n classes selected
+nclasses <- 6 # final n classes selected
 mode_className <- c('Transit Users',
                     'Car Passengers',
                     'Diverse Mode Users',
@@ -191,7 +216,7 @@ mode_className <- c('Transit Users',
                     'Walkers',
                     'Non-solitary Drivers')
 
-classCounts <- allOut_mode[[c]]$class_counts$mostLikely
+classCounts <- allOut_mode[[nclasses]]$class_counts$mostLikely
 
 classProp <- round(classCounts$proportion * 100, digits = 1)
 
@@ -199,21 +224,26 @@ classname_count_labels <- paste0(mode_className, " (n=", classCounts$count, ")")
 
 classname_prop_labels <- paste0(mode_className, " (", classProp, "%)")
 
-ipp <- allOut_mode[c] %>%
+ipp <- allOut_mode[nclasses] %>%
   create_ipps.probscale(coefficients = "probability.scale",
                         paramCat = 2,
                         paramOrder = names(modeOrder)) +
   scale_x_discrete(labels = str_wrap(unname(modeOrder), width = 11)) +
   ylab("Estimated Probabilities") +
-  scale_colour_discrete(type = RColorBrewer::brewer.pal(n = 7, name = "Set1"),
+  scale_colour_discrete(#type = RColorBrewer::brewer.pal(n = 7, name = "Set1"),
                         labels = str_wrap(classname_prop_labels, width = 16)) +
   geom_hline(yintercept = 0.70, linetype = "dashed", color = "gray80") +
   geom_hline(yintercept = 0.30, linetype = "dashed", color = "gray80") +
-  theme_dark()
+  theme(strip.text = element_text(size = 10),
+        legend.title = element_text(size = 10),
+        text = element_text(size = 10, family = "serif"))
+
+# +
+#   theme_dark()
 
 ipp
 
-ggsave(plot = ipp, here::here(paste0("analysis/figures/ipp_mode-clean-aux_c", c, ".png")), width = 6.5, height = 3)
+ggsave(plot = ipp, here::here(paste0("analysis/figures/ipp_mode-clean-aux_final_c", nclasses, ".png")), width = 6.5, height = 3)
 
 
 
