@@ -37,12 +37,15 @@ fitind <- function(outfiles) {
 # allOut <- readModels(here("analysis/Mplus/"), recursive = TRUE)
 
 
-allOut <- readModels(here(paste0("analysis/Mplus/", model_name)), recursive = TRUE)
+allOut <- readModels(here(paste0("analysis/Mplus/", model_name)), recursive = FALSE)
 
 shorten <- allOut %>%
   names() %>%
-  str_split(".Mplus.") %>%
-  map(~.x[2])
+  str_split("X") %>%
+  map(~.x[2]) %>%
+  str_split(".out") %>%
+  map(~.x[1])
+shorten
 
 names(allOut) <- shorten
 
@@ -64,5 +67,9 @@ fitind_mode %>% ggplot(aes(x = as.numeric(nclasses))) +
 fitstats_tbl_mode <- fitind_mode %>%
   select(-name, -LLRepTbl, -summaries, -llnreps, -optseed, -seedused, -t11_km1ll) %>%
   unnest(cols = c(nclasses, Loglikelihood, BIC, ABIC, BLRT_pval, VLMRT_pval,
-                  Entropy)) %>%
-  filter(nclasses < 7)
+                  Entropy))
+
+fitstats_tbl_mode %>% write.table("clipboard", sep = "\t") #row.names = FALSE, col.names = FALSE)
+
+# %>%
+#   filter(nclasses < 7)
