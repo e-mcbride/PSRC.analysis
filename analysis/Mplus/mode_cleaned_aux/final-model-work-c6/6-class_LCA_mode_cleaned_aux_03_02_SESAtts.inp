@@ -11,12 +11,13 @@ VARIABLE:
   CPROB1 CPROB2 CPROB3 CPROB4 CPROB5 CPROB6 N PERSONID; ! C renamed to N
   IDVAR = personid;
   NOMINAL = N;
-  USEVAR =  N 
+  USEVAR =  N SEQ_1 SEQ_2 SEQ_3 SEQ_4 SEQ_5
+            LICENS NUFVHS
             RACWHT RACASN RACHIS RACBLK 
-            AGEGRP_1 AGEGRP_2
-            NUFVHS NADULT
-            FEMALE WORKER HINCLO N00_04 N05_15 N16_17 LICENS
-            SEQ_1 SEQ_2 SEQ_3 SEQ_4 SEQ_5
+            AGEGRP_1 AGEGRP_2 
+            NADULT 
+            FEMALE WORKER HINCLO 
+            N00_04 N05_15 N16_17 
             CMPLXT
             CARLVR
             UT_SAF UT_FRQ UT_REL UB_SHR UB_GRN UB_LAN UB_RLN UB_AMN 
@@ -77,11 +78,14 @@ ANALYSIS: TYPE = MIXTURE;
 
 MODEL:
 %overall%
- C ON   RACWHT RACASN RACHIS RACBLK 
-        AGEGRP_1 AGEGRP_2
-        NUFVHS NADULT
-        FEMALE WORKER HINCLO N00_04 N05_15 N16_17 LICENS
+ C ON 
         SEQ_1 SEQ_2 SEQ_3 SEQ_4 SEQ_5
+        LICENS NUFVHS
+        RACWHT RACASN RACHIS RACBLK 
+        AGEGRP_1 AGEGRP_2 
+        NADULT 
+        FEMALE WORKER HINCLO 
+        N00_04 N05_15 N16_17 
         CMPLXT
         CARLVR
         UT_SAF UT_FRQ UT_REL UB_SHR UB_GRN UB_LAN UB_RLN UB_AMN 
@@ -127,7 +131,7 @@ MODEL:
     [n#4@-13.712];
     [n#5@-13.712];
 
-    
+! OUTPUT: sampstat;
 !SAVEDATA:	FILE IS LCA_final-model-work-c6/mode_cleaned_aux_c6_save.txt;
 !			SAVE IS CPROB;
 !            MISSFLAG=9999;

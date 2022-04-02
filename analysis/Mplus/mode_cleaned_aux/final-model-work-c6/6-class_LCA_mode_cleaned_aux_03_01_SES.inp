@@ -17,6 +17,7 @@ VARIABLE:
             NUFVHS NADULT 
             FEMALE WORKER HINCLO N00_04 N05_15 N16_17 LICENS
             CMPLXT;
+            !SCHYNG SCHINC;
     USEOBSERVATIONS =
       RACWHT NE 9999 AND
       RACASN NE 9999 AND
@@ -61,7 +62,9 @@ VARIABLE:
   MISSING are all (9999);
 
 
-  !DEFINE: 
+  DEFINE: 
+    !SCHYNG = SEQ_3 * AGEGRP_1;
+    !SCHINC = SEQ_3 * HINCLO;
     !SQ1FEM = SEQ_1 * FEMALE;
 
 
@@ -78,6 +81,7 @@ MODEL:
         NUFVHS NADULT
         FEMALE WORKER HINCLO N00_04 N05_15 N16_17 LICENS        
         CMPLXT;
+        !SCHYNG SCHINC;
 
 
 %c#1%
@@ -119,7 +123,7 @@ MODEL:
     [n#4@-13.712];
     [n#5@-13.712];
 
-    
+OUTPUT: sampstat;
 !SAVEDATA:	FILE IS LCA_final-model-work-c6/mode_cleaned_aux_c6_save.txt;
 !			SAVE IS CPROB;
 !            MISSFLAG=9999;

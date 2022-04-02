@@ -1,4 +1,4 @@
-TITLE: 6-class LCA: mode_cleaned_aux
+TITLE: 6-class LCA: Travel Modes Used during Diary Day
 DATA: FILE = "mode_cleaned_aux-data-mplus-ready_1a47155cbbd5863baaf728f241f5d775.dat";
 VARIABLE:
   NAMES = personid pass sov dr_oth walk bike transit other ut_saf ut_frq ut_rel ub_shr
@@ -25,14 +25,14 @@ ANALYSIS: TYPE = MIXTURE;
           STARTS = 0;
 !          OPTSEED = 186942; ! 896562
           OPTSEED = 777492; ! STSCALE 10
-          K-1STARTS = 80 20;
-          LRTSTARTS = 0 0 6000 1500;
+!          K-1STARTS = 80 20;
+!          LRTSTARTS = 0 0 6000 1500;
 
 PLOT: TYPE=PLOT3;
       SERIES = sov dr_oth pass transit walk bike other(*);
-OUTPUT: TECH11;
-OUTPUT: TECH14;
-!SAVEDATA:	FILE IS final-model-work-c6/LCA_mode_cleaned_aux_c6_save.txt;
-!			SAVE IS CPROB;
-!            MISSFLAG=9999;
-!			FORMAT IS FREE;
+!OUTPUT: TECH11;
+!OUTPUT: TECH14;
+SAVEDATA:	FILE IS final-model-work-c6/LCA_mode_cleaned_aux_c6_save.txt;
+			SAVE IS CPROB;
+            MISSFLAG=9999;
+			FORMAT IS FREE;
