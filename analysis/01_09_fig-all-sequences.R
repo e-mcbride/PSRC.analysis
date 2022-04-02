@@ -13,21 +13,7 @@ hhids <- hh_pr_ids %>%
   pull(hhid) %>%
   unique()
 
-# hhids <- pl_seq %>% transmute(SAMPN = str_sub(pid, end = -2)) %>% # OLD
-#   distinct
 
-# hhid_samp <- hhids %>% # OLD
-#   sample_n(size = 15000, replace = FALSE) %>%
-#   .$SAMPN
-
-# seq_samp <- pl_seq %>%
-#   left_join(hh_pr_ids, by = "personid") %>%
-#   # mutate(SAMPN = str_sub(pid, end = -2)) %>% # OLD
-#   # filter(SAMPN %in% hhids) %>%
-#   select(-hhid)
-
-# Make data "long" so ggplot likes it
-# this also includes adding the better time names
 
 timetable <- tibble(times = colnames(pl_seq %>% select(-personid)), mins = c(seq(from=1, to=1440, by=1)))
 
@@ -36,9 +22,7 @@ seq_long <- pl_seq %>%
   # left_join(cluster.id, by = "pid") %>%
   gather(key = "times", value = "state",  -personid) %>%
   left_join(timetable, by = ("times"))
-# %>%
-# mutate(minute =  as.numeric(minute)) %>%
-# arrange(pid, time)
+
 
 
 ## 4. Make x axis labels (times)
@@ -60,8 +44,6 @@ seq_long %>%
     palette = "Accent", name = "State"
                     # labels = c("Home", "Other", "School", "Travel", "Work")
                     ) +
-  # facet_wrap(vars(cluster_count), scales = "free_x",dir="v") +
-  #facet_wrap(cluster~count, scales = "free_x",dir="v") +
   theme_bw() +
 
   theme(
