@@ -96,7 +96,7 @@ MplusAutomation::createModels(templatefile = templatefile_path)
 
 # Next pieced of code copies .inp files to the model folder from the template folder,
 # BUT ONLY IF THE INPUT FILES DO NOT ALREADY EXIST
-# IF THEY DO EXIST, they will not be overwritten. This protects changes made to input files to
+# IF THEY DO EXIST, they will not be overwritten. This protects changes made manually to input files to
 # optimize model results
 
 inp_list <- list.files(model_template, pattern = ".inp", full.names = TRUE)
