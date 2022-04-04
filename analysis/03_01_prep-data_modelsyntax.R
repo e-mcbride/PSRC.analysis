@@ -7,6 +7,7 @@ library(tidyverse)
 library(here)
 library(janitor)
 
+
 devtools::load_all(helpers = FALSE) # load functions
 
 trraw <- PSRCData::trdat
@@ -91,8 +92,9 @@ write_mplus_data(df = mode_cov_num,
 
 # THEN: MANUALLY write template file -------------------------------------------
 
-##   Please see vignette("vignette", package="MplusAutomation") for info about
-## building the template file for MplusAutomation to use
+## Template file is used to create a set of input files used by Mplus to run models
+##    Please see vignette("vignette", package="MplusAutomation") for info about
+##    building the template file for MplusAutomation to use
 
 
 # THEN run the following: ----------------
