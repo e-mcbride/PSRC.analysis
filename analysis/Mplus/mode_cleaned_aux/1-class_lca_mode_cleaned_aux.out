@@ -1,0 +1,446 @@
+Mplus VERSION 8.6
+MUTHEN & MUTHEN
+10/30/2021   7:21 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE: 1-class LCA: mode
+  DATA: FILE = "mode_cleaned_aux-data-mplus-ready_9cbdafdca9831a1c9d6734f8cf969a75.dat";
+  VARIABLE:
+    NAMES = personid pass sov dr_oth walk bike transit other ut_saf ut_frq ut_rel ub_shr
+       ub_grn ub_lan ub_rln ub_amn res30m resaff resclo reshwy ressch resspa restra
+       reswal carlvr racwht racasn rachis racblk racoth female school worker hinclo
+       n00_04 n05_15 n16_17 licens cmplxt agegrp_1 agegrp_2 agegrp_3 clustn_1 clustn_2
+       clustn_3 clustn_4 clustn_5 clustn_6 clustn_NA;
+    IDVAR = personid;
+    USEVAR =      sov dr_oth pass transit walk bike other;
+    CATEGORICAL = sov dr_oth pass transit walk bike other;
+    MISSING=.;
+    CLASSES = c(1);
+  ANALYSIS: TYPE = MIXTURE;
+            PROCESSORS = 6(STARTS);
+  !          STSCALE = 10;
+            STARTS = 500 125;
+  !          STARTS = 0;
+  !          OPTSEED = ;
+  !          K-1STARTS = 500 125;
+  !          LRTSTARTS = 0 0 500 125;
+
+  PLOT: TYPE=PLOT3;
+        SERIES = sov dr_oth pass transit walk bike other(*);
+  !SAVEDATA:	FILE IS LCA_mode_cleaned_aux_c1_save.txt;
+  !			SAVE IS CPROB;
+  !            MISSFLAG=9999;
+  !			FORMAT IS FREE;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+1-class LCA: mode_cleaned_aux
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        9184
+
+Number of dependent variables                                    7
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   SOV         DR_OTH      PASS        TRANSIT     WALK        BIKE
+   OTHER
+
+Categorical latent variables
+   C
+
+Variables with special functions
+
+  ID variable           PERSONID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                        500
+  Number of final stage optimizations                          125
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
+Link                                                         LOGIT
+
+Input data file(s)
+  mode_cleaned_aux-data-mplus-ready_9cbdafdca9831a1c9d6734f8cf969a75.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+     Number of y missing data patterns           0
+     Number of u missing data patterns           1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    SOV
+      Category 1    0.379         3485.000
+      Category 2    0.621         5699.000
+    DR_OTH
+      Category 1    0.665         6108.000
+      Category 2    0.335         3076.000
+    PASS
+      Category 1    0.766         7031.000
+      Category 2    0.234         2153.000
+    TRANSIT
+      Category 1    0.680         6247.000
+      Category 2    0.320         2937.000
+    WALK
+      Category 1    0.525         4821.000
+      Category 2    0.475         4363.000
+    BIKE
+      Category 1    0.934         8582.000
+      Category 2    0.066          602.000
+    OTHER
+      Category 1    0.901         8276.000
+      Category 2    0.099          908.000
+
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+          -34248.658  669634           335
+          -34248.658  636396           168
+          -34248.658  782200           84
+          -34248.658  298275           418
+          -34248.658  471438           252
+          -34248.658  93468            3
+          -34248.658  462953           7
+          -34248.658  27071            15
+          -34248.658  153942           31
+          -34248.658  227563           63
+          -34248.658  7959             256
+          -34248.658  164305           128
+          -34248.658  871851           257
+          -34248.658  188498           258
+          -34248.658  311214           64
+          -34248.658  814975           129
+          -34248.658  622860           259
+          -34248.658  804660           260
+          -34248.658  509733           130
+          -34248.658  616917           261
+          -34248.658  520177           262
+          -34248.658  626891           32
+          -34248.658  565819           65
+          -34248.658  468036           131
+          -34248.658  349263           263
+          -34248.658  358488           264
+          -34248.658  313407           132
+          -34248.658  105435           265
+          -34248.658  970689           266
+          -34248.658  467339           66
+          -34248.658  321390           133
+          -34248.658  930323           267
+          -34248.658  529455           268
+          -34248.658  903369           134
+          -34248.658  926283           269
+          -34248.658  483369           270
+          -34248.658  76974            16
+          -34248.658  749453           33
+          -34248.658  789985           67
+          -34248.658  437181           135
+          -34248.658  438144           271
+          -34248.658  782821           272
+          -34248.658  232559           136
+          -34248.658  688839           273
+          -34248.658  15715            274
+          -34248.658  405079           68
+          -34248.658  848331           137
+          -34248.658  387701           275
+          -34248.658  741888           138
+          -34248.658  341041           34
+          -34248.658  685657           69
+          -34248.658  118421           139
+          -34248.658  948615           140
+          -34248.658  987090           70
+          -34248.658  931874           141
+          -34248.658  192071           142
+          -34248.658  939021           8
+          -34248.658  68985            17
+          -34248.658  830392           35
+          -34248.658  22089            143
+          -34248.658  856536           144
+          -34248.658  788796           145
+          -34248.658  369602           146
+          -34248.658  863094           147
+          -34248.658  unperturbed      0
+          -34248.658  285380           1
+          -34248.658  602797           336
+          -34248.658  780698           337
+          -34248.658  418686           338
+          -34248.658  303634           169
+          -34248.658  82357            339
+          -34248.658  238906           430
+          -34248.658  644297           340
+          -34248.658  783165           170
+          -34248.658  836515           341
+          -34248.658  937885           426
+          -34248.658  278692           342
+          -34248.658  411615           171
+          -34248.658  529496           343
+          -34248.658  404426           344
+          -34248.658  950604           172
+          -34248.658  314757           345
+          -34248.658  722748           346
+          -34248.658  848969           173
+          -34248.658  849670           347
+          -34248.658  951709           348
+          -34248.658  860772           174
+          -34248.658  273992           349
+          -34248.658  625191           350
+          -34248.658  286735           175
+          -34248.658  21132            351
+          -34248.658  23012            352
+          -34248.658  319144           176
+          -34248.658  374219           353
+          -34248.658  193847           354
+          -34248.658  728038           177
+          -34248.658  871722           355
+          -34248.658  526324           178
+          -34248.658  476498           179
+          -34248.658  717754           180
+          -34248.658  609185           181
+          -34248.658  991329           182
+          -34248.658  579995           183
+          -34248.658  281558           184
+          -34248.658  329127           185
+          -34248.658  264081           186
+          -34248.658  793035           187
+          -34248.658  40340            188
+          -34248.658  802682           419
+          -34248.658  749635           420
+          -34248.658  484406           421
+          -34248.658  173191           422
+          -34248.658  798821           423
+          -34248.658  505879           424
+          -34248.658  762461           425
+          -34248.658  699554           427
+          -34248.658  584397           428
+          -34248.658  153394           429
+          -34248.658  853195           431
+          -34248.658  518828           432
+          -34248.658  783102           433
+          -34248.658  640833           434
+          -34248.658  354395           486
+          -34248.658  652266           490
+          -34248.658  112586           494
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        7
+
+Loglikelihood
+
+          H0 Value                      -34248.658
+          H0 Scaling Correction Factor      1.0000
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   68511.315
+          Bayesian (BIC)                 68561.192
+          Sample-Size Adjusted BIC       68538.947
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit for the Binary and Ordered Categorical
+(Ordinal) Outcomes
+
+          Pearson Chi-Square
+
+          Value                           8642.448
+          Degrees of Freedom                   120
+          P-Value                           0.0000
+
+          Likelihood Ratio Chi-Square
+
+          Value                           6829.495
+          Degrees of Freedom                   120
+          P-Value                           0.0000
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1       9184.00000          1.00000
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1       9184.00000          1.00000
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1             9184          1.00000
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1
+
+    1   1.000
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1
+
+    1   1.000
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1
+
+    1      0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Thresholds
+    SOV$1             -0.492      0.022    -22.871      0.000
+    DR_OTH$1           0.686      0.022     31.026      0.000
+    PASS$1             1.183      0.025     48.047      0.000
+    TRANSIT$1          0.755      0.022     33.733      0.000
+    WALK$1             0.100      0.021      4.777      0.000
+    BIKE$1             2.657      0.042     63.022      0.000
+    OTHER$1            2.210      0.035     63.213      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.166E+00
+       (ratio of smallest to largest eigenvalue)
+
+
+RESULTS IN PROBABILITY SCALE
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ SOV
+    Category 1         0.379      0.005     74.941      0.000
+    Category 2         0.621      0.005    122.550      0.000
+ DR_OTH
+    Category 1         0.665      0.005    135.043      0.000
+    Category 2         0.335      0.005     68.008      0.000
+ PASS
+    Category 1         0.766      0.004    173.182      0.000
+    Category 2         0.234      0.004     53.031      0.000
+ TRANSIT
+    Category 1         0.680      0.005    139.765      0.000
+    Category 2         0.320      0.005     65.710      0.000
+ WALK
+    Category 1         0.525      0.005    100.738      0.000
+    Category 2         0.475      0.005     91.167      0.000
+ BIKE
+    Category 1         0.934      0.003    361.836      0.000
+    Category 2         0.066      0.003     25.382      0.000
+ OTHER
+    Category 1         0.901      0.003    289.323      0.000
+    Category 2         0.099      0.003     31.743      0.000
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values)
+  Scatterplots (sample values)
+  Sample proportions and estimated probabilities
+
+     Beginning Time:  19:21:43
+        Ending Time:  19:21:51
+       Elapsed Time:  00:00:08
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

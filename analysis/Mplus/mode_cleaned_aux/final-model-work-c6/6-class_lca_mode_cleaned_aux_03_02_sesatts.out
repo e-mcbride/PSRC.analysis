@@ -1,0 +1,3009 @@
+Mplus VERSION 8.6
+MUTHEN & MUTHEN
+12/07/2021   4:41 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE: 6-class LCA: mode_cleaned_aux CMOD
+  DATA: FILE = "LCA_mode_cleaned_aux_c6_save.txt";
+  VARIABLE:
+    NAMES = SOV DR_OTH PASS TRANSIT WALK BIKE OTHER
+    UT_SAF UT_FRQ UT_REL UB_SHR UB_GRN UB_LAN UB_RLN UB_AMN
+    RES30M RESAFF RESCLO RESHWY RESSCH RESSPA RESTRA RESWAL
+    CARLVR RACWHT RACASN RACHIS RACBLK RACOTH FEMALE SCHOOL
+    WORKER HINCLO N00_04 N05_15 N16_17 NUFVHS CARLSS NADULT LICENS CMPLXT
+    AGEGRP_1 AGEGRP_2 AGEGRP_3
+    SEQ_1 SEQ_2 SEQ_3 SEQ_4 SEQ_5 SEQ_6 SEQ_N
+    CPROB1 CPROB2 CPROB3 CPROB4 CPROB5 CPROB6 N PERSONID; ! C renamed to N
+    IDVAR = personid;
+    NOMINAL = N;
+    USEVAR =  N SEQ_1 SEQ_2 SEQ_3 SEQ_4 SEQ_5
+              LICENS NUFVHS
+              RACWHT RACASN RACHIS RACBLK
+              AGEGRP_1 AGEGRP_2
+              NADULT
+              FEMALE WORKER HINCLO
+              N00_04 N05_15 N16_17
+              CMPLXT
+              CARLVR
+              UT_SAF UT_FRQ UT_REL UB_SHR UB_GRN UB_LAN UB_RLN UB_AMN
+              RES30M RESAFF RESCLO RESHWY RESSCH RESSPA RESTRA RESWAL;
+
+      USEOBSERVATIONS =
+        RACWHT NE 9999 AND
+        RACASN NE 9999 AND
+        RACHIS NE 9999 AND
+        RACBLK NE 9999 AND
+        AGEGRP_1 NE 9999 AND
+        AGEGRP_2 NE 9999 AND
+        NUFVHS NE 9999 AND
+        NADULT NE 9999 AND
+        FEMALE NE 9999 AND
+        WORKER NE 9999 AND
+        HINCLO NE 9999 AND
+        N00_04 NE 9999 AND
+        N05_15 NE 9999 AND
+        N16_17 NE 9999 AND
+        LICENS NE 9999 AND
+        SEQ_1 NE 9999 AND
+        SEQ_2 NE 9999 AND
+        SEQ_3 NE 9999 AND
+        SEQ_4 NE 9999 AND
+        SEQ_5 NE 9999 AND
+        CMPLXT NE 9999 AND
+        CARLVR NE 9999 AND
+        UT_SAF NE 9999 AND
+        UT_FRQ NE 9999 AND
+        UT_REL NE 9999 AND
+        UB_SHR NE 9999 AND
+        UB_GRN NE 9999 AND
+        UB_LAN NE 9999 AND
+        UB_RLN NE 9999 AND
+        UB_AMN NE 9999 AND
+        RES30M NE 9999 AND
+        RESAFF NE 9999 AND
+        RESCLO NE 9999 AND
+        RESHWY NE 9999 AND
+        RESSCH NE 9999 AND
+        RESSPA NE 9999 AND
+        RESTRA NE 9999 AND
+        RESWAL NE 9999;
+
+    CLASSES = c(6);
+    MISSING are all (9999);
+
+
+    DEFINE:
+      SQ1FEM = SEQ_1 * FEMALE;
+
+
+  ANALYSIS: TYPE = MIXTURE;
+            PROCESSORS = 6(STARTS);
+            STSCALE = 10;
+            STARTS = 0;
+
+  MODEL:
+  %overall%
+   C ON
+          SEQ_1 SEQ_2 SEQ_3 SEQ_4 SEQ_5
+          LICENS NUFVHS
+          RACWHT RACASN RACHIS RACBLK
+          AGEGRP_1 AGEGRP_2
+          NADULT
+          FEMALE WORKER HINCLO
+          N00_04 N05_15 N16_17
+          CMPLXT
+          CARLVR
+          UT_SAF UT_FRQ UT_REL UB_SHR UB_GRN UB_LAN UB_RLN UB_AMN
+          RES30M RESAFF RESCLO RESHWY RESSCH RESSPA RESTRA RESWAL;
+
+
+  %c#1%
+      [n#1@7.488];
+      [n#2@-6.272];
+      [n#3@4.125];
+      [n#4@3.645];
+      [n#5@-6.272];
+
+  %c#2%
+      [n#1@0];
+      [n#2@13.814];
+      [n#3@5.649];
+      [n#4@0];
+      [n#5@7.422];
+
+  %c#3%
+      [n#1@-0.984];
+      [n#2@-2.612];
+      [n#3@2.344];
+      [n#4@-0.687];
+      [n#5@-2.067];
+  %c#4%
+      [n#1@3.881];
+      [n#2@0];
+      [n#3@9.945];
+      [n#4@13.792];
+      [n#5@7.777];
+  %c#5%
+      [n#1@11.346];
+      [n#2@9.929];
+      [n#3@9.235];
+      [n#4@10.592];
+      [n#5@13.647];
+  %c#6%
+      [n#1@-4.314];
+      [n#2@-13.712];
+      [n#3@-2.345];
+      [n#4@-13.712];
+      [n#5@-13.712];
+
+  ! OUTPUT: sampstat;
+  !SAVEDATA:	FILE IS LCA_final-model-work-c6/mode_cleaned_aux_c6_save.txt;
+  !			SAVE IS CPROB;
+  !            MISSFLAG=9999;
+  !			FORMAT IS FREE;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+6-class LCA: mode_cleaned_aux CMOD
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        6818
+
+Number of dependent variables                                    1
+Number of independent variables                                 38
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Unordered categorical (nominal)
+   N
+
+Observed independent variables
+   SEQ_1       SEQ_2       SEQ_3       SEQ_4       SEQ_5       LICENS
+   NUFVHS      RACWHT      RACASN      RACHIS      RACBLK      AGEGRP_1
+   AGEGRP_2    NADULT      FEMALE      WORKER      HINCLO      N00_04
+   N05_15      N16_17      CMPLXT      CARLVR      UT_SAF      UT_FRQ
+   UT_REL      UB_SHR      UB_GRN      UB_LAN      UB_RLN      UB_AMN
+   RES30M      RESAFF      RESCLO      RESHWY      RESSCH      RESSPA
+   RESTRA      RESWAL
+
+Categorical latent variables
+   C
+
+Variables with special functions
+
+  ID variable           PERSONID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  LCA_mode_cleaned_aux_c6_save.txt
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.130          885.000
+      Category 2    0.047          321.000
+      Category 3    0.182         1244.000
+      Category 4    0.317         2163.000
+      Category 5    0.105          719.000
+      Category 6    0.218         1486.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SEQ_1                 0.304       0.854       0.000   69.64%       0.000      0.000      0.000
+            6818.000       0.211      -1.270       1.000   30.36%       0.000      1.000
+     SEQ_2                 0.433       0.271       0.000   56.70%       0.000      0.000      0.000
+            6818.000       0.246      -1.927       1.000   43.30%       1.000      1.000
+     SEQ_3                 0.095       2.756       0.000   90.47%       0.000      0.000      0.000
+            6818.000       0.086       5.595       1.000    9.53%       0.000      0.000
+     SEQ_4                 0.102       2.623       0.000   89.76%       0.000      0.000      0.000
+            6818.000       0.092       4.882       1.000   10.24%       0.000      0.000
+     SEQ_5                 0.026       6.017       0.000   97.45%       0.000      0.000      0.000
+            6818.000       0.025      34.210       1.000    2.55%       0.000      0.000
+     LICENS                0.951      -4.186       0.000    4.88%       1.000      1.000      1.000
+            6818.000       0.046      15.526       1.000   95.12%       1.000      1.000
+     NUFVHS                0.675      -0.746       0.000   32.52%       0.000      1.000      1.000
+            6818.000       0.219      -1.443       1.000   67.48%       1.000      1.000
+     RACWHT                0.714      -0.947       0.000   28.60%       0.000      1.000      1.000
+            6818.000       0.204      -1.103       1.000   71.40%       1.000      1.000
+     RACASN                0.141       2.065       0.000   85.92%       0.000      0.000      0.000
+            6818.000       0.121       2.266       1.000   14.08%       0.000      0.000
+     RACHIS                0.036       4.987       0.000   96.41%       0.000      0.000      0.000
+            6818.000       0.035      22.866       1.000    3.59%       0.000      0.000
+     RACBLK                0.022       6.449       0.000   97.76%       0.000      0.000      0.000
+            6818.000       0.022      39.585       1.000    2.24%       0.000      0.000
+     AGEGRP_1              0.357       0.596       0.000   64.29%       0.000      0.000      0.000
+            6818.000       0.230      -1.644       1.000   35.71%       0.000      1.000
+     AGEGRP_2              0.489       0.043       0.000   51.07%       0.000      0.000      0.000
+            6818.000       0.250      -1.998       1.000   48.93%       1.000      1.000
+     NADULT                1.799       0.837       1.000   28.82%       1.000      2.000      2.000
+            6818.000       0.377       3.603       6.000    0.07%       2.000      2.000
+     FEMALE                0.505      -0.019       0.000   49.53%       0.000      0.000      1.000
+            6818.000       0.250      -2.000       1.000   50.47%       1.000      1.000
+     WORKER                0.755      -1.188       0.000   24.46%       0.000      1.000      1.000
+            6818.000       0.185      -0.589       1.000   75.54%       1.000      1.000
+     HINCLO                0.117       2.385       0.000   88.31%       0.000      0.000      0.000
+            6818.000       0.103       3.687       1.000   11.69%       0.000      0.000
+     N00_04                0.100       2.661       0.000   89.97%       0.000      0.000      0.000
+            6818.000       0.090       5.079       1.000   10.03%       0.000      0.000
+     N05_15                0.118       2.367       0.000   88.19%       0.000      0.000      0.000
+            6818.000       0.104       3.603       1.000   11.81%       0.000      0.000
+     N16_17                0.025       6.133       0.000   97.54%       0.000      0.000      0.000
+            6818.000       0.024      35.609       1.000    2.46%       0.000      0.000
+     CMPLXT                0.046       0.358       0.000    0.03%       0.033      0.039      0.045
+            6818.000       0.000      -0.084       0.117    0.01%       0.050      0.061
+     CARLVR                0.345       0.652       0.000   65.50%       0.000      0.000      0.000
+            6818.000       0.226      -1.575       1.000   34.50%       0.000      1.000
+     UT_SAF                0.491       0.038       0.000   50.94%       0.000      0.000      0.000
+            6818.000       0.250      -1.999       1.000   49.06%       1.000      1.000
+     UT_FRQ                0.595      -0.385       0.000   40.54%       0.000      0.000      1.000
+            6818.000       0.241      -1.851       1.000   59.46%       1.000      1.000
+     UT_REL                0.571      -0.286       0.000   42.93%       0.000      0.000      1.000
+            6818.000       0.245      -1.918       1.000   57.07%       1.000      1.000
+     UB_SHR                0.343       0.662       0.000   65.71%       0.000      0.000      0.000
+            6818.000       0.225      -1.562       1.000   34.29%       0.000      1.000
+     UB_GRN                0.348       0.640       0.000   65.24%       0.000      0.000      0.000
+            6818.000       0.227      -1.590       1.000   34.76%       0.000      1.000
+     UB_LAN                0.305       0.848       0.000   69.52%       0.000      0.000      0.000
+            6818.000       0.212      -1.281       1.000   30.48%       0.000      1.000
+     UB_RLN                0.251       1.151       0.000   74.93%       0.000      0.000      0.000
+            6818.000       0.188      -0.676       1.000   25.07%       0.000      1.000
+     UB_AMN                0.290       0.925       0.000   70.99%       0.000      0.000      0.000
+            6818.000       0.206      -1.144       1.000   29.01%       0.000      1.000
+     RES30M                0.743      -1.110       0.000   25.74%       0.000      1.000      1.000
+            6818.000       0.191      -0.768       1.000   74.26%       1.000      1.000
+     RESAFF                0.858      -2.046       0.000   14.24%       1.000      1.000      1.000
+            6818.000       0.122       2.188       1.000   85.76%       1.000      1.000
+     RESCLO                0.508      -0.032       0.000   49.21%       0.000      0.000      1.000
+            6818.000       0.250      -1.999       1.000   50.79%       1.000      1.000
+     RESHWY                0.433       0.269       0.000   56.67%       0.000      0.000      0.000
+            6818.000       0.246      -1.927       1.000   43.33%       1.000      1.000
+     RESSCH                0.295       0.900       0.000   70.52%       0.000      0.000      0.000
+            6818.000       0.208      -1.190       1.000   29.48%       0.000      1.000
+     RESSPA                0.523      -0.092       0.000   47.70%       0.000      0.000      1.000
+            6818.000       0.249      -1.991       1.000   52.30%       1.000      1.000
+     RESTRA                0.654      -0.650       0.000   34.56%       0.000      1.000      1.000
+            6818.000       0.226      -1.578       1.000   65.44%       1.000      1.000
+     RESWAL                0.810      -1.582       0.000   18.98%       1.000      1.000      1.000
+            6818.000       0.154       0.503       1.000   81.02%       1.000      1.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                      195
+
+Loglikelihood
+
+          H0 Value                       -8836.587
+          H0 Scaling Correction Factor      1.0158
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   18063.174
+          Bayesian (BIC)                 19394.502
+          Sample-Size Adjusted BIC       18774.839
+            (n* = (n + 2) / 24)
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        810.63452          0.11890
+       2        290.06620          0.04254
+       3       1225.14183          0.17969
+       4       2116.51974          0.31043
+       5        829.12620          0.12161
+       6       1546.51151          0.22683
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        810.63452          0.11890
+       2        290.06620          0.04254
+       3       1225.14183          0.17969
+       4       2116.51974          0.31043
+       5        829.12620          0.12161
+       6       1546.51151          0.22683
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              856          0.12555
+       2              308          0.04517
+       3             1182          0.17336
+       4             2156          0.31622
+       5              749          0.10986
+       6             1567          0.22983
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.860
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3        4        5        6
+
+    1   0.892    0.000    0.035    0.000    0.065    0.008
+    2   0.000    0.927    0.022    0.000    0.051    0.000
+    3   0.024    0.001    0.862    0.028    0.010    0.075
+    4   0.006    0.000    0.022    0.960    0.012    0.000
+    5   0.008    0.005    0.020    0.007    0.958    0.002
+    6   0.000    0.000    0.068    0.006    0.001    0.925
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3        4        5        6
+
+    1   0.942    0.000    0.036    0.015    0.007    0.001
+    2   0.000    0.984    0.002    0.000    0.013    0.000
+    3   0.024    0.006    0.832    0.039    0.012    0.087
+    4   0.000    0.000    0.015    0.978    0.003    0.004
+    5   0.067    0.019    0.014    0.032    0.866    0.002
+    6   0.004    0.000    0.058    0.000    0.001    0.937
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3        4        5        6
+
+    1      6.910   -6.671    3.632    2.749    2.006    0.000
+    2     -4.151    9.648    3.664   -4.094    5.340    0.000
+    3     -1.280   -2.746    2.258   -0.808   -1.946    0.000
+    4     -3.167   -8.321    1.321    5.472   -0.488    0.000
+    5      3.402    2.133    1.806    2.670    5.957    0.000
+    6     -5.372  -13.750   -2.788   -8.471   -7.091    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                7.488      0.000    999.000    999.000
+    N#2               -6.272      0.000    999.000    999.000
+    N#3                4.125      0.000    999.000    999.000
+    N#4                3.645      0.000    999.000    999.000
+    N#5               -6.272      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    N#1                0.000      0.000    999.000    999.000
+    N#2               13.814      0.000    999.000    999.000
+    N#3                5.649      0.000    999.000    999.000
+    N#4                0.000      0.000    999.000    999.000
+    N#5                7.422      0.000    999.000    999.000
+
+Latent Class 3
+
+ Means
+    N#1               -0.984      0.000    999.000    999.000
+    N#2               -2.612      0.000    999.000    999.000
+    N#3                2.344      0.000    999.000    999.000
+    N#4               -0.687      0.000    999.000    999.000
+    N#5               -2.067      0.000    999.000    999.000
+
+Latent Class 4
+
+ Means
+    N#1                3.881      0.000    999.000    999.000
+    N#2                0.000      0.000    999.000    999.000
+    N#3                9.945      0.000    999.000    999.000
+    N#4               13.792      0.000    999.000    999.000
+    N#5                7.777      0.000    999.000    999.000
+
+Latent Class 5
+
+ Means
+    N#1               11.346      0.000    999.000    999.000
+    N#2                9.929      0.000    999.000    999.000
+    N#3                9.235      0.000    999.000    999.000
+    N#4               10.592      0.000    999.000    999.000
+    N#5               13.647      0.000    999.000    999.000
+
+Latent Class 6
+
+ Means
+    N#1               -4.314      0.000    999.000    999.000
+    N#2              -13.712      0.000    999.000    999.000
+    N#3               -2.345      0.000    999.000    999.000
+    N#4              -13.712      0.000    999.000    999.000
+    N#5              -13.712      0.000    999.000    999.000
+
+Categorical Latent Variables
+
+ C#1        ON
+    SEQ_1             -0.140      0.294     -0.477      0.633
+    SEQ_2             -0.217      0.289     -0.750      0.453
+    SEQ_3              0.095      0.339      0.280      0.779
+    SEQ_4             -0.181      0.333     -0.545      0.586
+    SEQ_5             -0.501      0.459     -1.091      0.275
+    LICENS            -5.416      1.872     -2.894      0.004
+    NUFVHS            -1.323      0.150     -8.812      0.000
+    RACWHT            -0.076      0.217     -0.348      0.728
+    RACASN             0.082      0.254      0.323      0.747
+    RACHIS            -0.259      0.367     -0.705      0.481
+    RACBLK            -0.212      0.437     -0.485      0.627
+    AGEGRP_1          -0.129      0.243     -0.530      0.596
+    AGEGRP_2          -0.204      0.228     -0.894      0.371
+    NADULT            -0.724      0.109     -6.659      0.000
+    FEMALE             0.069      0.125      0.552      0.581
+    WORKER             0.835      0.179      4.660      0.000
+    HINCLO             0.737      0.193      3.821      0.000
+    N00_04            -1.486      0.324     -4.582      0.000
+    N05_15            -1.079      0.284     -3.798      0.000
+    N16_17             0.690      0.510      1.352      0.176
+    CMPLXT           -21.171      3.529     -5.999      0.000
+    CARLVR            -5.721      3.465     -1.651      0.099
+    UT_SAF             1.518      0.231      6.565      0.000
+    UT_FRQ             0.163      0.366      0.447      0.655
+    UT_REL             0.748      0.349      2.144      0.032
+    UB_SHR             0.167      0.260      0.640      0.522
+    UB_GRN            -0.242      0.265     -0.913      0.361
+    UB_LAN             0.030      0.311      0.096      0.924
+    UB_RLN            -0.138      0.267     -0.519      0.604
+    UB_AMN            -0.024      0.216     -0.110      0.912
+    RES30M             0.241      0.168      1.439      0.150
+    RESAFF            -0.363      0.187     -1.945      0.052
+    RESCLO            -0.231      0.127     -1.819      0.069
+    RESHWY            -0.581      0.133     -4.378      0.000
+    RESSCH            -0.482      0.171     -2.818      0.005
+    RESSPA            -0.216      0.127     -1.696      0.090
+    RESTRA             0.948      0.203      4.667      0.000
+    RESWAL             0.011      0.210      0.052      0.959
+
+ C#2        ON
+    SEQ_1              0.667      0.438      1.521      0.128
+    SEQ_2              0.620      0.428      1.448      0.148
+    SEQ_3              0.813      0.478      1.700      0.089
+    SEQ_4              0.902      0.467      1.932      0.053
+    SEQ_5              0.681      0.601      1.133      0.257
+    LICENS            -5.707      1.873     -3.047      0.002
+    NUFVHS            -0.777      0.182     -4.280      0.000
+    RACWHT            -0.494      0.239     -2.064      0.039
+    RACASN            -0.402      0.295     -1.365      0.172
+    RACHIS            -0.134      0.434     -0.309      0.757
+    RACBLK            -0.251      0.576     -0.435      0.663
+    AGEGRP_1          -0.458      0.254     -1.805      0.071
+    AGEGRP_2          -0.440      0.208     -2.113      0.035
+    NADULT             0.194      0.103      1.894      0.058
+    FEMALE             1.259      0.184      6.853      0.000
+    WORKER            -0.285      0.176     -1.615      0.106
+    HINCLO            -0.355      0.259     -1.372      0.170
+    N00_04            -0.474      0.266     -1.782      0.075
+    N05_15            -1.159      0.301     -3.850      0.000
+    N16_17            -0.229      0.618     -0.371      0.711
+    CMPLXT           -33.867      4.740     -7.145      0.000
+    CARLVR            -0.637      0.174     -3.663      0.000
+    UT_SAF             0.534      0.285      1.874      0.061
+    UT_FRQ            -0.619      0.315     -1.964      0.050
+    UT_REL             0.195      0.335      0.581      0.561
+    UB_SHR             0.192      0.400      0.479      0.632
+    UB_GRN            -0.486      0.426     -1.141      0.254
+    UB_LAN            -0.210      0.483     -0.436      0.663
+    UB_RLN             0.552      0.432      1.279      0.201
+    UB_AMN            -0.231      0.295     -0.784      0.433
+    RES30M            -0.211      0.175     -1.206      0.228
+    RESAFF            -0.060      0.247     -0.242      0.808
+    RESCLO             0.032      0.159      0.204      0.839
+    RESHWY            -0.166      0.160     -1.040      0.299
+    RESSCH            -0.346      0.174     -1.984      0.047
+    RESSPA             0.214      0.162      1.318      0.187
+    RESTRA            -0.059      0.174     -0.338      0.735
+    RESWAL             0.181      0.204      0.887      0.375
+
+ C#3        ON
+    SEQ_1              0.513      0.312      1.646      0.100
+    SEQ_2              0.405      0.309      1.310      0.190
+    SEQ_3              0.491      0.356      1.378      0.168
+    SEQ_4              0.362      0.343      1.055      0.292
+    SEQ_5              0.390      0.421      0.925      0.355
+    LICENS            -3.505      1.933     -1.814      0.070
+    NUFVHS            -0.624      0.135     -4.621      0.000
+    RACWHT             0.661      0.236      2.799      0.005
+    RACASN             0.579      0.271      2.135      0.033
+    RACHIS             0.348      0.365      0.953      0.340
+    RACBLK             0.391      0.448      0.871      0.384
+    AGEGRP_1           0.959      0.276      3.469      0.001
+    AGEGRP_2           0.557      0.266      2.095      0.036
+    NADULT            -0.627      0.088     -7.093      0.000
+    FEMALE             0.171      0.115      1.485      0.138
+    WORKER             0.991      0.179      5.541      0.000
+    HINCLO            -0.039      0.214     -0.180      0.857
+    N00_04            -0.242      0.178     -1.356      0.175
+    N05_15            -0.458      0.203     -2.258      0.024
+    N16_17             0.464      0.361      1.288      0.198
+    CMPLXT             0.035      3.778      0.009      0.993
+    CARLVR            -1.270      0.155     -8.213      0.000
+    UT_SAF             0.221      0.166      1.331      0.183
+    UT_FRQ            -0.007      0.276     -0.025      0.980
+    UT_REL             0.738      0.274      2.693      0.007
+    UB_SHR             0.093      0.266      0.349      0.727
+    UB_GRN             0.029      0.255      0.113      0.910
+    UB_LAN            -0.024      0.287     -0.083      0.934
+    UB_RLN            -0.265      0.234     -1.134      0.257
+    UB_AMN             0.311      0.209      1.484      0.138
+    RES30M             0.157      0.154      1.023      0.307
+    RESAFF             0.101      0.184      0.548      0.584
+    RESCLO            -0.138      0.119     -1.157      0.247
+    RESHWY            -0.409      0.120     -3.399      0.001
+    RESSCH            -0.558      0.154     -3.633      0.000
+    RESSPA            -0.265      0.117     -2.271      0.023
+    RESTRA             0.397      0.158      2.506      0.012
+    RESWAL             0.598      0.204      2.931      0.003
+
+ C#4        ON
+    SEQ_1              0.352      0.203      1.732      0.083
+    SEQ_2              0.311      0.200      1.556      0.120
+    SEQ_3              0.418      0.225      1.853      0.064
+    SEQ_4              0.532      0.226      2.353      0.019
+    SEQ_5              0.095      0.296      0.321      0.749
+    LICENS            -0.306      2.234     -0.137      0.891
+    NUFVHS             0.745      0.112      6.624      0.000
+    RACWHT            -0.158      0.138     -1.143      0.253
+    RACASN            -0.146      0.173     -0.843      0.399
+    RACHIS            -0.465      0.262     -1.776      0.076
+    RACBLK             0.057      0.293      0.195      0.846
+    AGEGRP_1          -0.552      0.148     -3.740      0.000
+    AGEGRP_2          -0.402      0.128     -3.141      0.002
+    NADULT            -0.201      0.067     -3.027      0.002
+    FEMALE            -0.003      0.079     -0.037      0.971
+    WORKER             1.105      0.110     10.072      0.000
+    HINCLO             0.413      0.139      2.979      0.003
+    N00_04            -1.170      0.132     -8.856      0.000
+    N05_15            -1.385      0.129    -10.765      0.000
+    N16_17            -0.713      0.262     -2.723      0.006
+    CMPLXT           -24.235      2.351    -10.306      0.000
+    CARLVR            -0.322      0.088     -3.679      0.000
+    UT_SAF            -0.070      0.126     -0.561      0.575
+    UT_FRQ            -0.085      0.167     -0.508      0.611
+    UT_REL            -0.021      0.174     -0.120      0.904
+    UB_SHR            -0.042      0.202     -0.207      0.836
+    UB_GRN            -0.133      0.188     -0.710      0.478
+    UB_LAN            -0.063      0.220     -0.288      0.774
+    UB_RLN             0.136      0.187      0.728      0.467
+    UB_AMN             0.050      0.155      0.322      0.747
+    RES30M            -0.004      0.094     -0.040      0.968
+    RESAFF             0.098      0.118      0.826      0.409
+    RESCLO             0.002      0.081      0.030      0.976
+    RESHWY            -0.047      0.082     -0.577      0.564
+    RESSCH            -0.153      0.094     -1.631      0.103
+    RESSPA            -0.080      0.082     -0.971      0.331
+    RESTRA            -0.002      0.092     -0.019      0.985
+    RESWAL            -0.077      0.101     -0.761      0.447
+
+ C#5        ON
+    SEQ_1             -0.205      0.298     -0.690      0.490
+    SEQ_2             -0.030      0.291     -0.104      0.918
+    SEQ_3              0.103      0.339      0.303      0.762
+    SEQ_4             -0.081      0.330     -0.245      0.807
+    SEQ_5             -0.870      0.485     -1.795      0.073
+    LICENS            -5.030      1.866     -2.696      0.007
+    NUFVHS            -1.451      0.140    -10.402      0.000
+    RACWHT            -0.199      0.204     -0.975      0.330
+    RACASN            -0.169      0.249     -0.680      0.496
+    RACHIS            -0.293      0.350     -0.836      0.403
+    RACBLK            -1.062      0.525     -2.024      0.043
+    AGEGRP_1          -0.009      0.219     -0.043      0.966
+    AGEGRP_2          -0.076      0.200     -0.379      0.704
+    NADULT            -0.957      0.111     -8.649      0.000
+    FEMALE            -0.063      0.119     -0.533      0.594
+    WORKER             0.569      0.166      3.430      0.001
+    HINCLO             0.624      0.187      3.345      0.001
+    N00_04            -1.071      0.239     -4.489      0.000
+    N05_15            -0.912      0.237     -3.848      0.000
+    N16_17             0.221      0.428      0.515      0.606
+    CMPLXT           -55.824      4.061    -13.747      0.000
+    CARLVR            -1.836      0.157    -11.669      0.000
+    UT_SAF            -0.052      0.179     -0.293      0.770
+    UT_FRQ            -0.426      0.259     -1.648      0.099
+    UT_REL             0.328      0.270      1.217      0.224
+    UB_SHR            -0.077      0.271     -0.284      0.776
+    UB_GRN            -0.033      0.261     -0.127      0.899
+    UB_LAN             0.051      0.304      0.167      0.867
+    UB_RLN             0.673      0.257      2.613      0.009
+    UB_AMN             0.109      0.209      0.520      0.603
+    RES30M             0.252      0.146      1.719      0.086
+    RESAFF            -0.690      0.166     -4.167      0.000
+    RESCLO            -0.137      0.122     -1.119      0.263
+    RESHWY            -0.766      0.126     -6.096      0.000
+    RESSCH            -0.472      0.156     -3.017      0.003
+    RESSPA            -0.309      0.122     -2.543      0.011
+    RESTRA             0.484      0.154      3.142      0.002
+    RESWAL             0.799      0.189      4.238      0.000
+
+ Intercepts
+    C#1                6.461      1.947      3.318      0.001
+    C#2                5.686      1.971      2.886      0.004
+    C#3                1.731      2.005      0.864      0.388
+    C#4                1.595      2.267      0.703      0.482
+    C#5                9.906      1.918      5.164      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.202E-05
+       (ratio of smallest to largest eigenvalue)
+
+
+LOGISTIC REGRESSION ODDS RATIO RESULTS
+
+                                                95% C.I.
+                    Estimate       S.E.  Lower 2.5% Upper 2.5%
+
+Categorical Latent Variables
+
+ C#1      ON
+    SEQ_1              0.869      0.256      0.488      1.547
+    SEQ_2              0.805      0.232      0.457      1.418
+    SEQ_3              1.100      0.372      0.566      2.136
+    SEQ_4              0.834      0.278      0.434      1.602
+    SEQ_5              0.606      0.278      0.246      1.491
+    LICENS             0.004      0.008      0.000      0.174
+    NUFVHS             0.266      0.040      0.199      0.358
+    RACWHT             0.927      0.201      0.606      1.419
+    RACASN             1.085      0.276      0.660      1.786
+    RACHIS             0.772      0.284      0.376      1.586
+    RACBLK             0.809      0.354      0.343      1.905
+    AGEGRP_1           0.879      0.213      0.546      1.415
+    AGEGRP_2           0.815      0.186      0.521      1.275
+    NADULT             0.485      0.053      0.392      0.600
+    FEMALE             1.072      0.134      0.838      1.370
+    WORKER             2.305      0.413      1.622      3.274
+    HINCLO             2.090      0.403      1.432      3.050
+    N00_04             0.226      0.073      0.120      0.427
+    N05_15             0.340      0.097      0.195      0.593
+    N16_17             1.994      1.018      0.733      5.423
+    CMPLXT             0.000      0.000      0.000      0.000
+    CARLVR             0.003      0.011      0.000      2.919
+    UT_SAF             4.561      1.054      2.899      7.175
+    UT_FRQ             1.178      0.431      0.575      2.411
+    UT_REL             2.112      0.736      1.066      4.183
+    UB_SHR             1.181      0.308      0.709      1.968
+    UB_GRN             0.785      0.208      0.468      1.319
+    UB_LAN             1.030      0.321      0.560      1.896
+    UB_RLN             0.871      0.232      0.516      1.468
+    UB_AMN             0.976      0.211      0.640      1.491
+    RES30M             1.273      0.214      0.916      1.769
+    RESAFF             0.696      0.130      0.482      1.003
+    RESCLO             0.794      0.101      0.619      1.018
+    RESHWY             0.559      0.074      0.431      0.726
+    RESSCH             0.618      0.106      0.442      0.864
+    RESSPA             0.806      0.103      0.627      1.034
+    RESTRA             2.581      0.524      1.733      3.843
+    RESWAL             1.011      0.212      0.670      1.525
+
+ C#2      ON
+    SEQ_1              1.948      0.853      0.825      4.597
+    SEQ_2              1.859      0.797      0.803      4.307
+    SEQ_3              2.255      1.078      0.883      5.757
+    SEQ_4              2.465      1.151      0.987      6.156
+    SEQ_5              1.975      1.186      0.609      6.409
+    LICENS             0.003      0.006      0.000      0.131
+    NUFVHS             0.460      0.083      0.322      0.656
+    RACWHT             0.610      0.146      0.382      0.975
+    RACASN             0.669      0.197      0.376      1.191
+    RACHIS             0.874      0.379      0.374      2.047
+    RACBLK             0.778      0.448      0.252      2.407
+    AGEGRP_1           0.633      0.160      0.385      1.040
+    AGEGRP_2           0.644      0.134      0.428      0.969
+    NADULT             1.215      0.125      0.993      1.485
+    FEMALE             3.523      0.648      2.458      5.051
+    WORKER             0.752      0.133      0.532      1.063
+    HINCLO             0.701      0.181      0.422      1.164
+    N00_04             0.623      0.166      0.370      1.049
+    N05_15             0.314      0.094      0.174      0.566
+    N16_17             0.795      0.491      0.237      2.670
+    CMPLXT             0.000      0.000      0.000      0.000
+    CARLVR             0.529      0.092      0.376      0.744
+    UT_SAF             1.707      0.487      0.976      2.985
+    UT_FRQ             0.538      0.170      0.290      0.999
+    UT_REL             1.215      0.407      0.630      2.342
+    UB_SHR             1.211      0.485      0.553      2.654
+    UB_GRN             0.615      0.262      0.267      1.418
+    UB_LAN             0.810      0.391      0.315      2.087
+    UB_RLN             1.737      0.750      0.745      4.049
+    UB_AMN             0.794      0.234      0.445      1.414
+    RES30M             0.809      0.142      0.574      1.141
+    RESAFF             0.942      0.232      0.581      1.527
+    RESCLO             1.033      0.165      0.756      1.412
+    RESHWY             0.847      0.135      0.619      1.159
+    RESSCH             0.707      0.123      0.503      0.996
+    RESSPA             1.238      0.201      0.901      1.702
+    RESTRA             0.943      0.164      0.670      1.327
+    RESWAL             1.198      0.244      0.804      1.786
+
+ C#3      ON
+    SEQ_1              1.670      0.521      0.907      3.077
+    SEQ_2              1.500      0.464      0.818      2.749
+    SEQ_3              1.634      0.582      0.813      3.284
+    SEQ_4              1.436      0.493      0.733      2.815
+    SEQ_5              1.476      0.622      0.647      3.370
+    LICENS             0.030      0.058      0.001      1.327
+    NUFVHS             0.536      0.072      0.411      0.698
+    RACWHT             1.937      0.458      1.219      3.077
+    RACASN             1.785      0.484      1.049      3.038
+    RACHIS             1.416      0.516      0.693      2.894
+    RACBLK             1.478      0.663      0.614      3.558
+    AGEGRP_1           2.609      0.721      1.518      4.486
+    AGEGRP_2           1.746      0.464      1.037      2.940
+    NADULT             0.534      0.047      0.449      0.635
+    FEMALE             1.186      0.136      0.947      1.486
+    WORKER             2.695      0.482      1.898      3.826
+    HINCLO             0.962      0.206      0.632      1.465
+    N00_04             0.785      0.140      0.553      1.114
+    N05_15             0.633      0.128      0.425      0.941
+    N16_17             1.591      0.574      0.785      3.226
+    CMPLXT             1.036      3.913      0.001   1702.388
+    CARLVR             0.281      0.043      0.207      0.380
+    UT_SAF             1.248      0.208      0.901      1.729
+    UT_FRQ             0.993      0.274      0.578      1.706
+    UT_REL             2.092      0.573      1.223      3.580
+    UB_SHR             1.097      0.292      0.652      1.848
+    UB_GRN             1.029      0.263      0.624      1.698
+    UB_LAN             0.976      0.280      0.557      1.713
+    UB_RLN             0.767      0.179      0.485      1.213
+    UB_AMN             1.365      0.286      0.905      2.057
+    RES30M             1.170      0.180      0.866      1.582
+    RESAFF             1.106      0.204      0.771      1.588
+    RESCLO             0.871      0.104      0.690      1.100
+    RESHWY             0.665      0.080      0.525      0.841
+    RESSCH             0.572      0.088      0.423      0.773
+    RESSPA             0.767      0.090      0.610      0.964
+    RESTRA             1.488      0.236      1.090      2.029
+    RESWAL             1.818      0.371      1.219      2.712
+
+ C#4      ON
+    SEQ_1              1.422      0.289      0.955      2.117
+    SEQ_2              1.365      0.273      0.922      2.019
+    SEQ_3              1.519      0.342      0.976      2.362
+    SEQ_4              1.701      0.384      1.093      2.649
+    SEQ_5              1.100      0.326      0.615      1.966
+    LICENS             0.737      1.646      0.009     58.717
+    NUFVHS             2.107      0.237      1.690      2.626
+    RACWHT             0.854      0.118      0.651      1.120
+    RACASN             0.864      0.149      0.616      1.213
+    RACHIS             0.628      0.165      0.376      1.049
+    RACBLK             1.059      0.310      0.596      1.879
+    AGEGRP_1           0.576      0.085      0.431      0.769
+    AGEGRP_2           0.669      0.086      0.520      0.860
+    NADULT             0.818      0.054      0.718      0.931
+    FEMALE             0.997      0.078      0.855      1.163
+    WORKER             3.019      0.331      2.435      3.743
+    HINCLO             1.512      0.210      1.152      1.984
+    N00_04             0.310      0.041      0.240      0.402
+    N05_15             0.250      0.032      0.195      0.322
+    N16_17             0.490      0.128      0.294      0.819
+    CMPLXT             0.000      0.000      0.000      0.000
+    CARLVR             0.725      0.063      0.610      0.860
+    UT_SAF             0.932      0.117      0.728      1.192
+    UT_FRQ             0.919      0.153      0.662      1.274
+    UT_REL             0.979      0.171      0.696      1.379
+    UB_SHR             0.959      0.193      0.646      1.424
+    UB_GRN             0.875      0.164      0.606      1.264
+    UB_LAN             0.939      0.206      0.610      1.444
+    UB_RLN             1.146      0.214      0.794      1.653
+    UB_AMN             1.051      0.163      0.775      1.426
+    RES30M             0.996      0.094      0.828      1.199
+    RESAFF             1.103      0.130      0.874      1.390
+    RESCLO             1.002      0.081      0.855      1.175
+    RESHWY             0.954      0.078      0.813      1.120
+    RESSCH             0.858      0.080      0.715      1.031
+    RESSPA             0.924      0.076      0.787      1.084
+    RESTRA             0.998      0.091      0.834      1.194
+    RESWAL             0.926      0.093      0.761      1.128
+
+ C#5      ON
+    SEQ_1              0.814      0.242      0.455      1.459
+    SEQ_2              0.970      0.282      0.549      1.716
+    SEQ_3              1.108      0.375      0.571      2.152
+    SEQ_4              0.922      0.305      0.483      1.762
+    SEQ_5              0.419      0.203      0.162      1.083
+    LICENS             0.007      0.012      0.000      0.253
+    NUFVHS             0.234      0.033      0.178      0.308
+    RACWHT             0.820      0.167      0.549      1.223
+    RACASN             0.844      0.210      0.518      1.375
+    RACHIS             0.746      0.261      0.376      1.483
+    RACBLK             0.346      0.181      0.124      0.967
+    AGEGRP_1           0.991      0.217      0.645      1.521
+    AGEGRP_2           0.927      0.186      0.626      1.373
+    NADULT             0.384      0.042      0.309      0.477
+    FEMALE             0.939      0.111      0.744      1.184
+    WORKER             1.766      0.293      1.276      2.444
+    HINCLO             1.867      0.348      1.295      2.691
+    N00_04             0.343      0.082      0.215      0.547
+    N05_15             0.402      0.095      0.253      0.639
+    N16_17             1.247      0.534      0.539      2.887
+    CMPLXT             0.000      0.000      0.000      0.000
+    CARLVR             0.159      0.025      0.117      0.217
+    UT_SAF             0.949      0.170      0.668      1.348
+    UT_FRQ             0.653      0.169      0.393      1.084
+    UT_REL             1.389      0.375      0.818      2.357
+    UB_SHR             0.926      0.251      0.545      1.574
+    UB_GRN             0.967      0.252      0.580      1.613
+    UB_LAN             1.052      0.320      0.580      1.909
+    UB_RLN             1.960      0.505      1.183      3.246
+    UB_AMN             1.115      0.233      0.740      1.678
+    RES30M             1.286      0.188      0.965      1.713
+    RESAFF             0.502      0.083      0.363      0.694
+    RESCLO             0.872      0.107      0.686      1.108
+    RESHWY             0.465      0.058      0.363      0.595
+    RESSCH             0.624      0.098      0.459      0.848
+    RESSPA             0.734      0.089      0.578      0.932
+    RESTRA             1.623      0.250      1.200      2.196
+    RESWAL             2.223      0.419      1.536      3.218
+
+
+ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Parameterization using Reference Class 1
+
+ C#2      ON
+    SEQ_1              0.807      0.485      1.665      0.096
+    SEQ_2              0.837      0.475      1.763      0.078
+    SEQ_3              0.718      0.530      1.355      0.175
+    SEQ_4              1.083      0.519      2.086      0.037
+    SEQ_5              1.181      0.661      1.786      0.074
+    LICENS            -0.291      0.270     -1.078      0.281
+    NUFVHS             0.546      0.199      2.738      0.006
+    RACWHT            -0.418      0.263     -1.593      0.111
+    RACASN            -0.484      0.314     -1.544      0.123
+    RACHIS             0.125      0.456      0.274      0.784
+    RACBLK            -0.039      0.619     -0.062      0.950
+    AGEGRP_1          -0.329      0.291     -1.130      0.258
+    AGEGRP_2          -0.236      0.255     -0.923      0.356
+    NADULT             0.919      0.133      6.918      0.000
+    FEMALE             1.190      0.201      5.909      0.000
+    WORKER            -1.120      0.213     -5.260      0.000
+    HINCLO            -1.092      0.267     -4.097      0.000
+    N00_04             1.012      0.391      2.590      0.010
+    N05_15            -0.080      0.387     -0.208      0.836
+    N16_17            -0.919      0.723     -1.272      0.203
+    CMPLXT           -12.696      5.144     -2.468      0.014
+    CARLVR             5.084      3.467      1.466      0.143
+    UT_SAF            -0.983      0.340     -2.894      0.004
+    UT_FRQ            -0.783      0.433     -1.809      0.070
+    UT_REL            -0.553      0.439     -1.260      0.208
+    UB_SHR             0.025      0.422      0.059      0.953
+    UB_GRN            -0.245      0.455     -0.538      0.591
+    UB_LAN            -0.240      0.513     -0.468      0.640
+    UB_RLN             0.691      0.458      1.509      0.131
+    UB_AMN            -0.207      0.312     -0.664      0.507
+    RES30M            -0.453      0.207     -2.187      0.029
+    RESAFF             0.303      0.280      1.084      0.278
+    RESCLO             0.263      0.174      1.517      0.129
+    RESHWY             0.415      0.181      2.297      0.022
+    RESSCH             0.136      0.209      0.647      0.517
+    RESSPA             0.430      0.177      2.430      0.015
+    RESTRA            -1.007      0.239     -4.206      0.000
+    RESWAL             0.170      0.263      0.645      0.519
+
+ C#3      ON
+    SEQ_1              0.653      0.299      2.187      0.029
+    SEQ_2              0.622      0.294      2.112      0.035
+    SEQ_3              0.396      0.342      1.159      0.246
+    SEQ_4              0.543      0.335      1.620      0.105
+    SEQ_5              0.890      0.453      1.967      0.049
+    LICENS             1.911      0.298      6.405      0.000
+    NUFVHS             0.698      0.141      4.964      0.000
+    RACWHT             0.737      0.246      2.992      0.003
+    RACASN             0.497      0.273      1.822      0.069
+    RACHIS             0.607      0.366      1.655      0.098
+    RACBLK             0.603      0.434      1.389      0.165
+    AGEGRP_1           1.088      0.296      3.681      0.000
+    AGEGRP_2           0.761      0.288      2.645      0.008
+    NADULT             0.097      0.110      0.888      0.374
+    FEMALE             0.102      0.119      0.851      0.395
+    WORKER             0.156      0.197      0.795      0.427
+    HINCLO            -0.776      0.196     -3.962      0.000
+    N00_04             1.244      0.319      3.904      0.000
+    N05_15             0.621      0.290      2.142      0.032
+    N16_17            -0.226      0.530     -0.426      0.670
+    CMPLXT            21.206      3.509      6.044      0.000
+    CARLVR             4.451      3.471      1.282      0.200
+    UT_SAF            -1.296      0.226     -5.739      0.000
+    UT_FRQ            -0.170      0.353     -0.482      0.630
+    UT_REL            -0.009      0.338     -0.028      0.978
+    UB_SHR            -0.074      0.241     -0.306      0.759
+    UB_GRN             0.270      0.248      1.090      0.276
+    UB_LAN            -0.054      0.281     -0.191      0.849
+    UB_RLN            -0.127      0.245     -0.516      0.606
+    UB_AMN             0.335      0.203      1.645      0.100
+    RES30M            -0.084      0.174     -0.483      0.629
+    RESAFF             0.464      0.195      2.378      0.017
+    RESCLO             0.093      0.120      0.776      0.438
+    RESHWY             0.172      0.129      1.332      0.183
+    RESSCH            -0.077      0.173     -0.442      0.659
+    RESSPA            -0.049      0.121     -0.406      0.685
+    RESTRA            -0.551      0.211     -2.607      0.009
+    RESWAL             0.587      0.233      2.515      0.012
+
+ C#4      ON
+    SEQ_1              0.492      0.291      1.689      0.091
+    SEQ_2              0.527      0.286      1.843      0.065
+    SEQ_3              0.323      0.329      0.982      0.326
+    SEQ_4              0.713      0.325      2.194      0.028
+    SEQ_5              0.596      0.446      1.336      0.182
+    LICENS             5.110      1.283      3.982      0.000
+    NUFVHS             2.068      0.141     14.692      0.000
+    RACWHT            -0.082      0.208     -0.397      0.692
+    RACASN            -0.228      0.241     -0.944      0.345
+    RACHIS            -0.207      0.349     -0.592      0.554
+    RACBLK             0.269      0.390      0.690      0.490
+    AGEGRP_1          -0.424      0.229     -1.850      0.064
+    AGEGRP_2          -0.199      0.217     -0.917      0.359
+    NADULT             0.523      0.108      4.829      0.000
+    FEMALE            -0.072      0.117     -0.614      0.539
+    WORKER             0.270      0.180      1.503      0.133
+    HINCLO            -0.324      0.173     -1.866      0.062
+    N00_04             0.316      0.330      0.959      0.337
+    N05_15            -0.306      0.288     -1.063      0.288
+    N16_17            -1.403      0.508     -2.759      0.006
+    CMPLXT            -3.064      3.232     -0.948      0.343
+    CARLVR             5.399      3.464      1.558      0.119
+    UT_SAF            -1.588      0.220     -7.219      0.000
+    UT_FRQ            -0.248      0.352     -0.705      0.481
+    UT_REL            -0.769      0.333     -2.305      0.021
+    UB_SHR            -0.208      0.234     -0.890      0.374
+    UB_GRN             0.108      0.236      0.458      0.647
+    UB_LAN            -0.093      0.279     -0.333      0.739
+    UB_RLN             0.274      0.246      1.114      0.265
+    UB_AMN             0.074      0.204      0.362      0.717
+    RES30M            -0.245      0.160     -1.533      0.125
+    RESAFF             0.461      0.179      2.568      0.010
+    RESCLO             0.233      0.118      1.973      0.049
+    RESHWY             0.534      0.124      4.298      0.000
+    RESSCH             0.329      0.165      2.000      0.046
+    RESSPA             0.137      0.119      1.153      0.249
+    RESTRA            -0.950      0.195     -4.875      0.000
+    RESWAL            -0.087      0.197     -0.444      0.657
+
+ C#5      ON
+    SEQ_1             -0.065      0.298     -0.218      0.828
+    SEQ_2              0.186      0.292      0.639      0.523
+    SEQ_3              0.008      0.339      0.023      0.982
+    SEQ_4              0.101      0.338      0.297      0.766
+    SEQ_5             -0.369      0.522     -0.707      0.479
+    LICENS             0.386      0.212      1.815      0.069
+    NUFVHS            -0.128      0.154     -0.836      0.403
+    RACWHT            -0.123      0.215     -0.574      0.566
+    RACASN            -0.251      0.252     -0.996      0.319
+    RACHIS            -0.034      0.359     -0.095      0.925
+    RACBLK            -0.850      0.546     -1.557      0.119
+    AGEGRP_1           0.119      0.247      0.482      0.630
+    AGEGRP_2           0.128      0.239      0.535      0.592
+    NADULT            -0.233      0.127     -1.840      0.066
+    FEMALE            -0.132      0.127     -1.043      0.297
+    WORKER            -0.266      0.184     -1.443      0.149
+    HINCLO            -0.113      0.177     -0.638      0.524
+    N00_04             0.415      0.362      1.146      0.252
+    N05_15             0.167      0.325      0.514      0.607
+    N16_17            -0.469      0.533     -0.881      0.378
+    CMPLXT           -34.653      3.898     -8.891      0.000
+    CARLVR             3.884      3.485      1.115      0.265
+    UT_SAF            -1.570      0.235     -6.676      0.000
+    UT_FRQ            -0.590      0.384     -1.536      0.125
+    UT_REL            -0.419      0.368     -1.139      0.255
+    UB_SHR            -0.244      0.249     -0.978      0.328
+    UB_GRN             0.208      0.257      0.810      0.418
+    UB_LAN             0.021      0.303      0.070      0.945
+    UB_RLN             0.811      0.266      3.054      0.002
+    UB_AMN             0.132      0.208      0.635      0.525
+    RES30M             0.010      0.175      0.057      0.954
+    RESAFF            -0.327      0.181     -1.801      0.072
+    RESCLO             0.094      0.130      0.724      0.469
+    RESHWY            -0.185      0.142     -1.304      0.192
+    RESSCH             0.010      0.182      0.054      0.957
+    RESSPA            -0.093      0.130     -0.713      0.476
+    RESTRA            -0.464      0.223     -2.082      0.037
+    RESWAL             0.788      0.233      3.379      0.001
+
+ C#6      ON
+    SEQ_1              0.140      0.294      0.477      0.633
+    SEQ_2              0.217      0.289      0.750      0.453
+    SEQ_3             -0.095      0.339     -0.280      0.779
+    SEQ_4              0.181      0.333      0.545      0.586
+    SEQ_5              0.501      0.459      1.091      0.275
+    LICENS             5.416      1.872      2.894      0.004
+    NUFVHS             1.323      0.150      8.812      0.000
+    RACWHT             0.076      0.217      0.348      0.728
+    RACASN            -0.082      0.254     -0.323      0.747
+    RACHIS             0.259      0.367      0.705      0.481
+    RACBLK             0.212      0.437      0.485      0.627
+    AGEGRP_1           0.129      0.243      0.530      0.596
+    AGEGRP_2           0.204      0.228      0.894      0.371
+    NADULT             0.724      0.109      6.659      0.000
+    FEMALE            -0.069      0.125     -0.552      0.581
+    WORKER            -0.835      0.179     -4.660      0.000
+    HINCLO            -0.737      0.193     -3.821      0.000
+    N00_04             1.486      0.324      4.582      0.000
+    N05_15             1.079      0.284      3.798      0.000
+    N16_17            -0.690      0.510     -1.352      0.176
+    CMPLXT            21.171      3.529      5.999      0.000
+    CARLVR             5.721      3.465      1.651      0.099
+    UT_SAF            -1.518      0.231     -6.565      0.000
+    UT_FRQ            -0.163      0.366     -0.447      0.655
+    UT_REL            -0.748      0.349     -2.144      0.032
+    UB_SHR            -0.167      0.260     -0.640      0.522
+    UB_GRN             0.242      0.265      0.913      0.361
+    UB_LAN            -0.030      0.311     -0.096      0.924
+    UB_RLN             0.138      0.267      0.519      0.604
+    UB_AMN             0.024      0.216      0.110      0.912
+    RES30M            -0.241      0.168     -1.439      0.150
+    RESAFF             0.363      0.187      1.945      0.052
+    RESCLO             0.231      0.127      1.819      0.069
+    RESHWY             0.581      0.133      4.378      0.000
+    RESSCH             0.482      0.171      2.818      0.005
+    RESSPA             0.216      0.127      1.696      0.090
+    RESTRA            -0.948      0.203     -4.667      0.000
+    RESWAL            -0.011      0.210     -0.052      0.959
+
+ Intercepts
+    C#2               -0.775      0.785     -0.987      0.324
+    C#3               -4.730      0.682     -6.935      0.000
+    C#4               -4.867      1.437     -3.386      0.001
+    C#5                3.445      0.619      5.563      0.000
+    C#6               -6.461      1.947     -3.318      0.001
+
+Parameterization using Reference Class 2
+
+ C#1      ON
+    SEQ_1             -0.807      0.485     -1.665      0.096
+    SEQ_2             -0.837      0.475     -1.763      0.078
+    SEQ_3             -0.718      0.530     -1.355      0.175
+    SEQ_4             -1.083      0.519     -2.086      0.037
+    SEQ_5             -1.181      0.661     -1.786      0.074
+    LICENS             0.291      0.270      1.078      0.281
+    NUFVHS            -0.546      0.199     -2.738      0.006
+    RACWHT             0.418      0.263      1.593      0.111
+    RACASN             0.484      0.314      1.544      0.123
+    RACHIS            -0.125      0.456     -0.274      0.784
+    RACBLK             0.039      0.619      0.062      0.950
+    AGEGRP_1           0.329      0.291      1.130      0.258
+    AGEGRP_2           0.236      0.255      0.923      0.356
+    NADULT            -0.919      0.133     -6.918      0.000
+    FEMALE            -1.190      0.201     -5.909      0.000
+    WORKER             1.120      0.213      5.260      0.000
+    HINCLO             1.092      0.267      4.097      0.000
+    N00_04            -1.012      0.391     -2.590      0.010
+    N05_15             0.080      0.387      0.208      0.836
+    N16_17             0.919      0.723      1.272      0.203
+    CMPLXT            12.696      5.144      2.468      0.014
+    CARLVR            -5.084      3.467     -1.466      0.143
+    UT_SAF             0.983      0.340      2.894      0.004
+    UT_FRQ             0.783      0.433      1.809      0.070
+    UT_REL             0.553      0.439      1.260      0.208
+    UB_SHR            -0.025      0.422     -0.059      0.953
+    UB_GRN             0.245      0.455      0.538      0.591
+    UB_LAN             0.240      0.513      0.468      0.640
+    UB_RLN            -0.691      0.458     -1.509      0.131
+    UB_AMN             0.207      0.312      0.664      0.507
+    RES30M             0.453      0.207      2.187      0.029
+    RESAFF            -0.303      0.280     -1.084      0.278
+    RESCLO            -0.263      0.174     -1.517      0.129
+    RESHWY            -0.415      0.181     -2.297      0.022
+    RESSCH            -0.136      0.209     -0.647      0.517
+    RESSPA            -0.430      0.177     -2.430      0.015
+    RESTRA             1.007      0.239      4.206      0.000
+    RESWAL            -0.170      0.263     -0.645      0.519
+
+ C#3      ON
+    SEQ_1             -0.154      0.497     -0.309      0.757
+    SEQ_2             -0.215      0.487     -0.441      0.659
+    SEQ_3             -0.322      0.543     -0.593      0.553
+    SEQ_4             -0.540      0.526     -1.026      0.305
+    SEQ_5             -0.291      0.651     -0.447      0.655
+    LICENS             2.203      0.359      6.144      0.000
+    NUFVHS             0.153      0.190      0.802      0.423
+    RACWHT             1.155      0.284      4.068      0.000
+    RACASN             0.981      0.335      2.928      0.003
+    RACHIS             0.482      0.467      1.031      0.303
+    RACBLK             0.641      0.625      1.026      0.305
+    AGEGRP_1           1.417      0.320      4.426      0.000
+    AGEGRP_2           0.997      0.289      3.449      0.001
+    NADULT            -0.821      0.119     -6.926      0.000
+    FEMALE            -1.089      0.198     -5.510      0.000
+    WORKER             1.276      0.214      5.976      0.000
+    HINCLO             0.317      0.287      1.102      0.271
+    N00_04             0.232      0.290      0.800      0.424
+    N05_15             0.701      0.333      2.104      0.035
+    N16_17             0.693      0.665      1.042      0.297
+    CMPLXT            33.902      5.302      6.394      0.000
+    CARLVR            -0.633      0.209     -3.030      0.002
+    UT_SAF            -0.313      0.303     -1.033      0.302
+    UT_FRQ             0.612      0.350      1.750      0.080
+    UT_REL             0.543      0.369      1.472      0.141
+    UB_SHR            -0.099      0.424     -0.233      0.816
+    UB_GRN             0.515      0.446      1.156      0.248
+    UB_LAN             0.187      0.500      0.373      0.709
+    UB_RLN            -0.817      0.444     -1.840      0.066
+    UB_AMN             0.542      0.307      1.766      0.077
+    RES30M             0.369      0.198      1.861      0.063
+    RESAFF             0.161      0.281      0.572      0.567
+    RESCLO            -0.170      0.170     -1.000      0.317
+    RESHWY            -0.242      0.173     -1.402      0.161
+    RESSCH            -0.212      0.201     -1.055      0.291
+    RESSPA            -0.479      0.171     -2.794      0.005
+    RESTRA             0.456      0.204      2.239      0.025
+    RESWAL             0.417      0.256      1.630      0.103
+
+ C#4      ON
+    SEQ_1             -0.315      0.441     -0.714      0.475
+    SEQ_2             -0.309      0.432     -0.717      0.474
+    SEQ_3             -0.395      0.478     -0.827      0.408
+    SEQ_4             -0.371      0.465     -0.796      0.426
+    SEQ_5             -0.586      0.601     -0.974      0.330
+    LICENS             5.402      1.272      4.248      0.000
+    NUFVHS             1.522      0.179      8.521      0.000
+    RACWHT             0.336      0.231      1.456      0.145
+    RACASN             0.256      0.285      0.899      0.369
+    RACHIS            -0.331      0.433     -0.765      0.444
+    RACBLK             0.308      0.548      0.562      0.574
+    AGEGRP_1          -0.094      0.243     -0.389      0.697
+    AGEGRP_2           0.037      0.198      0.189      0.850
+    NADULT            -0.396      0.109     -3.627      0.000
+    FEMALE            -1.262      0.180     -7.018      0.000
+    WORKER             1.390      0.177      7.856      0.000
+    HINCLO             0.768      0.248      3.099      0.002
+    N00_04            -0.696      0.272     -2.562      0.010
+    N05_15            -0.226      0.308     -0.732      0.464
+    N16_17            -0.484      0.623     -0.776      0.438
+    CMPLXT             9.632      4.602      2.093      0.036
+    CARLVR             0.315      0.169      1.862      0.063
+    UT_SAF            -0.605      0.280     -2.158      0.031
+    UT_FRQ             0.534      0.303      1.766      0.077
+    UT_REL            -0.216      0.323     -0.668      0.504
+    UB_SHR            -0.233      0.391     -0.597      0.550
+    UB_GRN             0.353      0.415      0.850      0.395
+    UB_LAN             0.147      0.471      0.312      0.755
+    UB_RLN            -0.416      0.425     -0.979      0.328
+    UB_AMN             0.281      0.289      0.975      0.330
+    RES30M             0.208      0.170      1.222      0.222
+    RESAFF             0.157      0.244      0.645      0.519
+    RESCLO            -0.030      0.154     -0.194      0.846
+    RESHWY             0.119      0.155      0.769      0.442
+    RESSCH             0.194      0.170      1.137      0.256
+    RESSPA            -0.293      0.157     -1.870      0.061
+    RESTRA             0.057      0.168      0.340      0.734
+    RESWAL            -0.257      0.197     -1.305      0.192
+
+ C#5      ON
+    SEQ_1             -0.872      0.503     -1.734      0.083
+    SEQ_2             -0.650      0.490     -1.326      0.185
+    SEQ_3             -0.710      0.545     -1.304      0.192
+    SEQ_4             -0.983      0.532     -1.846      0.065
+    SEQ_5             -1.551      0.700     -2.215      0.027
+    LICENS             0.677      0.279      2.429      0.015
+    NUFVHS            -0.674      0.195     -3.458      0.001
+    RACWHT             0.295      0.257      1.149      0.251
+    RACASN             0.233      0.316      0.738      0.461
+    RACHIS            -0.159      0.454     -0.349      0.727
+    RACBLK            -0.812      0.693     -1.171      0.242
+    AGEGRP_1           0.448      0.278      1.614      0.107
+    AGEGRP_2           0.364      0.237      1.538      0.124
+    NADULT            -1.152      0.139     -8.262      0.000
+    FEMALE            -1.323      0.200     -6.627      0.000
+    WORKER             0.854      0.207      4.114      0.000
+    HINCLO             0.979      0.266      3.676      0.000
+    N00_04            -0.597      0.330     -1.808      0.071
+    N05_15             0.247      0.357      0.693      0.488
+    N16_17             0.450      0.706      0.637      0.524
+    CMPLXT           -21.957      5.512     -3.984      0.000
+    CARLVR            -1.199      0.211     -5.687      0.000
+    UT_SAF            -0.587      0.311     -1.885      0.059
+    UT_FRQ             0.193      0.344      0.560      0.575
+    UT_REL             0.134      0.373      0.358      0.720
+    UB_SHR            -0.269      0.443     -0.607      0.544
+    UB_GRN             0.453      0.463      0.979      0.328
+    UB_LAN             0.261      0.525      0.498      0.619
+    UB_RLN             0.121      0.467      0.258      0.796
+    UB_AMN             0.340      0.310      1.096      0.273
+    RES30M             0.463      0.195      2.379      0.017
+    RESAFF            -0.630      0.269     -2.341      0.019
+    RESCLO            -0.169      0.174     -0.973      0.331
+    RESHWY            -0.600      0.179     -3.349      0.001
+    RESSCH            -0.126      0.204     -0.617      0.537
+    RESSPA            -0.523      0.176     -2.973      0.003
+    RESTRA             0.543      0.201      2.707      0.007
+    RESWAL             0.618      0.246      2.512      0.012
+
+ C#6      ON
+    SEQ_1             -0.667      0.438     -1.521      0.128
+    SEQ_2             -0.620      0.428     -1.448      0.148
+    SEQ_3             -0.813      0.478     -1.700      0.089
+    SEQ_4             -0.902      0.467     -1.932      0.053
+    SEQ_5             -0.681      0.601     -1.133      0.257
+    LICENS             5.707      1.873      3.047      0.002
+    NUFVHS             0.777      0.182      4.280      0.000
+    RACWHT             0.494      0.239      2.064      0.039
+    RACASN             0.402      0.295      1.365      0.172
+    RACHIS             0.134      0.434      0.309      0.757
+    RACBLK             0.251      0.576      0.435      0.663
+    AGEGRP_1           0.458      0.254      1.805      0.071
+    AGEGRP_2           0.440      0.208      2.113      0.035
+    NADULT            -0.194      0.103     -1.894      0.058
+    FEMALE            -1.259      0.184     -6.853      0.000
+    WORKER             0.285      0.176      1.615      0.106
+    HINCLO             0.355      0.259      1.372      0.170
+    N00_04             0.474      0.266      1.782      0.075
+    N05_15             1.159      0.301      3.850      0.000
+    N16_17             0.229      0.618      0.371      0.711
+    CMPLXT            33.867      4.740      7.145      0.000
+    CARLVR             0.637      0.174      3.663      0.000
+    UT_SAF            -0.534      0.285     -1.874      0.061
+    UT_FRQ             0.619      0.315      1.964      0.050
+    UT_REL            -0.195      0.335     -0.581      0.561
+    UB_SHR            -0.192      0.400     -0.479      0.632
+    UB_GRN             0.486      0.426      1.141      0.254
+    UB_LAN             0.210      0.483      0.436      0.663
+    UB_RLN            -0.552      0.432     -1.279      0.201
+    UB_AMN             0.231      0.295      0.784      0.433
+    RES30M             0.211      0.175      1.206      0.228
+    RESAFF             0.060      0.247      0.242      0.808
+    RESCLO            -0.032      0.159     -0.204      0.839
+    RESHWY             0.166      0.160      1.040      0.299
+    RESSCH             0.346      0.174      1.984      0.047
+    RESSPA            -0.214      0.162     -1.318      0.187
+    RESTRA             0.059      0.174      0.338      0.735
+    RESWAL            -0.181      0.204     -0.887      0.375
+
+ Intercepts
+    C#1                0.775      0.785      0.987      0.324
+    C#3               -3.955      0.815     -4.851      0.000
+    C#4               -4.092      1.456     -2.811      0.005
+    C#5                4.220      0.745      5.663      0.000
+    C#6               -5.686      1.971     -2.886      0.004
+
+Parameterization using Reference Class 3
+
+ C#1      ON
+    SEQ_1             -0.653      0.299     -2.187      0.029
+    SEQ_2             -0.622      0.294     -2.112      0.035
+    SEQ_3             -0.396      0.342     -1.159      0.246
+    SEQ_4             -0.543      0.335     -1.620      0.105
+    SEQ_5             -0.890      0.453     -1.967      0.049
+    LICENS            -1.911      0.298     -6.405      0.000
+    NUFVHS            -0.698      0.141     -4.964      0.000
+    RACWHT            -0.737      0.246     -2.992      0.003
+    RACASN            -0.497      0.273     -1.822      0.069
+    RACHIS            -0.607      0.366     -1.655      0.098
+    RACBLK            -0.603      0.434     -1.389      0.165
+    AGEGRP_1          -1.088      0.296     -3.681      0.000
+    AGEGRP_2          -0.761      0.288     -2.645      0.008
+    NADULT            -0.097      0.110     -0.888      0.374
+    FEMALE            -0.102      0.119     -0.851      0.395
+    WORKER            -0.156      0.197     -0.795      0.427
+    HINCLO             0.776      0.196      3.962      0.000
+    N00_04            -1.244      0.319     -3.904      0.000
+    N05_15            -0.621      0.290     -2.142      0.032
+    N16_17             0.226      0.530      0.426      0.670
+    CMPLXT           -21.206      3.509     -6.044      0.000
+    CARLVR            -4.451      3.471     -1.282      0.200
+    UT_SAF             1.296      0.226      5.739      0.000
+    UT_FRQ             0.170      0.353      0.482      0.630
+    UT_REL             0.009      0.338      0.028      0.978
+    UB_SHR             0.074      0.241      0.306      0.759
+    UB_GRN            -0.270      0.248     -1.090      0.276
+    UB_LAN             0.054      0.281      0.191      0.849
+    UB_RLN             0.127      0.245      0.516      0.606
+    UB_AMN            -0.335      0.203     -1.645      0.100
+    RES30M             0.084      0.174      0.483      0.629
+    RESAFF            -0.464      0.195     -2.378      0.017
+    RESCLO            -0.093      0.120     -0.776      0.438
+    RESHWY            -0.172      0.129     -1.332      0.183
+    RESSCH             0.077      0.173      0.442      0.659
+    RESSPA             0.049      0.121      0.406      0.685
+    RESTRA             0.551      0.211      2.607      0.009
+    RESWAL            -0.587      0.233     -2.515      0.012
+
+ C#2      ON
+    SEQ_1              0.154      0.497      0.309      0.757
+    SEQ_2              0.215      0.487      0.441      0.659
+    SEQ_3              0.322      0.543      0.593      0.553
+    SEQ_4              0.540      0.526      1.026      0.305
+    SEQ_5              0.291      0.651      0.447      0.655
+    LICENS            -2.203      0.359     -6.144      0.000
+    NUFVHS            -0.153      0.190     -0.802      0.423
+    RACWHT            -1.155      0.284     -4.068      0.000
+    RACASN            -0.981      0.335     -2.928      0.003
+    RACHIS            -0.482      0.467     -1.031      0.303
+    RACBLK            -0.641      0.625     -1.026      0.305
+    AGEGRP_1          -1.417      0.320     -4.426      0.000
+    AGEGRP_2          -0.997      0.289     -3.449      0.001
+    NADULT             0.821      0.119      6.926      0.000
+    FEMALE             1.089      0.198      5.510      0.000
+    WORKER            -1.276      0.214     -5.976      0.000
+    HINCLO            -0.317      0.287     -1.102      0.271
+    N00_04            -0.232      0.290     -0.800      0.424
+    N05_15            -0.701      0.333     -2.104      0.035
+    N16_17            -0.693      0.665     -1.042      0.297
+    CMPLXT           -33.902      5.302     -6.394      0.000
+    CARLVR             0.633      0.209      3.030      0.002
+    UT_SAF             0.313      0.303      1.033      0.302
+    UT_FRQ            -0.612      0.350     -1.750      0.080
+    UT_REL            -0.543      0.369     -1.472      0.141
+    UB_SHR             0.099      0.424      0.233      0.816
+    UB_GRN            -0.515      0.446     -1.156      0.248
+    UB_LAN            -0.187      0.500     -0.373      0.709
+    UB_RLN             0.817      0.444      1.840      0.066
+    UB_AMN            -0.542      0.307     -1.766      0.077
+    RES30M            -0.369      0.198     -1.861      0.063
+    RESAFF            -0.161      0.281     -0.572      0.567
+    RESCLO             0.170      0.170      1.000      0.317
+    RESHWY             0.242      0.173      1.402      0.161
+    RESSCH             0.212      0.201      1.055      0.291
+    RESSPA             0.479      0.171      2.794      0.005
+    RESTRA            -0.456      0.204     -2.239      0.025
+    RESWAL            -0.417      0.256     -1.630      0.103
+
+ C#4      ON
+    SEQ_1             -0.161      0.299     -0.539      0.590
+    SEQ_2             -0.094      0.297     -0.318      0.750
+    SEQ_3             -0.073      0.336     -0.218      0.828
+    SEQ_4              0.170      0.325      0.522      0.602
+    SEQ_5             -0.295      0.401     -0.734      0.463
+    LICENS             3.199      1.328      2.408      0.016
+    NUFVHS             1.369      0.122     11.241      0.000
+    RACWHT            -0.819      0.221     -3.703      0.000
+    RACASN            -0.725      0.252     -2.878      0.004
+    RACHIS            -0.813      0.339     -2.398      0.016
+    RACBLK            -0.334      0.386     -0.865      0.387
+    AGEGRP_1          -1.511      0.253     -5.976      0.000
+    AGEGRP_2          -0.960      0.246     -3.902      0.000
+    NADULT             0.425      0.086      4.936      0.000
+    FEMALE            -0.174      0.103     -1.684      0.092
+    WORKER             0.114      0.178      0.638      0.524
+    HINCLO             0.452      0.190      2.376      0.018
+    N00_04            -0.928      0.181     -5.120      0.000
+    N05_15            -0.927      0.201     -4.612      0.000
+    N16_17            -1.177      0.350     -3.367      0.001
+    CMPLXT           -24.270      3.362     -7.219      0.000
+    CARLVR             0.948      0.141      6.731      0.000
+    UT_SAF            -0.292      0.148     -1.970      0.049
+    UT_FRQ            -0.078      0.241     -0.324      0.746
+    UT_REL            -0.759      0.238     -3.192      0.001
+    UB_SHR            -0.135      0.232     -0.580      0.562
+    UB_GRN            -0.162      0.218     -0.742      0.458
+    UB_LAN            -0.039      0.246     -0.160      0.873
+    UB_RLN             0.401      0.204      1.971      0.049
+    UB_AMN            -0.261      0.192     -1.359      0.174
+    RES30M            -0.161      0.142     -1.136      0.256
+    RESAFF            -0.003      0.174     -0.019      0.985
+    RESCLO             0.140      0.106      1.323      0.186
+    RESHWY             0.362      0.107      3.364      0.001
+    RESSCH             0.406      0.142      2.865      0.004
+    RESSPA             0.186      0.104      1.787      0.074
+    RESTRA            -0.399      0.141     -2.831      0.005
+    RESWAL            -0.674      0.185     -3.645      0.000
+
+ C#5      ON
+    SEQ_1             -0.718      0.322     -2.228      0.026
+    SEQ_2             -0.435      0.317     -1.374      0.170
+    SEQ_3             -0.388      0.363     -1.069      0.285
+    SEQ_4             -0.443      0.355     -1.246      0.213
+    SEQ_5             -1.259      0.493     -2.552      0.011
+    LICENS            -1.526      0.320     -4.769      0.000
+    NUFVHS            -0.827      0.139     -5.958      0.000
+    RACWHT            -0.860      0.245     -3.513      0.000
+    RACASN            -0.749      0.280     -2.675      0.007
+    RACHIS            -0.640      0.370     -1.732      0.083
+    RACBLK            -1.453      0.560     -2.594      0.009
+    AGEGRP_1          -0.968      0.278     -3.478      0.001
+    AGEGRP_2          -0.633      0.271     -2.339      0.019
+    NADULT            -0.331      0.113     -2.931      0.003
+    FEMALE            -0.234      0.120     -1.958      0.050
+    WORKER            -0.423      0.191     -2.208      0.027
+    HINCLO             0.663      0.201      3.289      0.001
+    N00_04            -0.829      0.256     -3.237      0.001
+    N05_15            -0.454      0.262     -1.732      0.083
+    N16_17            -0.244      0.466     -0.523      0.601
+    CMPLXT           -55.860      4.295    -13.006      0.000
+    CARLVR            -0.566      0.185     -3.066      0.002
+    UT_SAF            -0.274      0.174     -1.574      0.115
+    UT_FRQ            -0.420      0.276     -1.521      0.128
+    UT_REL            -0.410      0.278     -1.475      0.140
+    UB_SHR            -0.170      0.261     -0.652      0.515
+    UB_GRN            -0.062      0.256     -0.242      0.809
+    UB_LAN             0.075      0.293      0.255      0.799
+    UB_RLN             0.938      0.246      3.813      0.000
+    UB_AMN            -0.202      0.207     -0.977      0.329
+    RES30M             0.094      0.162      0.582      0.561
+    RESAFF            -0.791      0.186     -4.249      0.000
+    RESCLO             0.001      0.123      0.008      0.994
+    RESHWY            -0.357      0.130     -2.747      0.006
+    RESSCH             0.086      0.171      0.507      0.612
+    RESSPA            -0.044      0.122     -0.359      0.720
+    RESTRA             0.087      0.177      0.493      0.622
+    RESWAL             0.201      0.226      0.889      0.374
+
+ C#6      ON
+    SEQ_1             -0.513      0.312     -1.646      0.100
+    SEQ_2             -0.405      0.309     -1.310      0.190
+    SEQ_3             -0.491      0.356     -1.378      0.168
+    SEQ_4             -0.362      0.343     -1.055      0.292
+    SEQ_5             -0.390      0.421     -0.925      0.355
+    LICENS             3.505      1.933      1.814      0.070
+    NUFVHS             0.624      0.135      4.621      0.000
+    RACWHT            -0.661      0.236     -2.799      0.005
+    RACASN            -0.579      0.271     -2.135      0.033
+    RACHIS            -0.348      0.365     -0.953      0.340
+    RACBLK            -0.391      0.448     -0.871      0.384
+    AGEGRP_1          -0.959      0.276     -3.469      0.001
+    AGEGRP_2          -0.557      0.266     -2.095      0.036
+    NADULT             0.627      0.088      7.093      0.000
+    FEMALE            -0.171      0.115     -1.485      0.138
+    WORKER            -0.991      0.179     -5.541      0.000
+    HINCLO             0.039      0.214      0.180      0.857
+    N00_04             0.242      0.178      1.356      0.175
+    N05_15             0.458      0.203      2.258      0.024
+    N16_17            -0.464      0.361     -1.288      0.198
+    CMPLXT            -0.035      3.778     -0.009      0.993
+    CARLVR             1.270      0.155      8.213      0.000
+    UT_SAF            -0.221      0.166     -1.331      0.183
+    UT_FRQ             0.007      0.276      0.025      0.980
+    UT_REL            -0.738      0.274     -2.693      0.007
+    UB_SHR            -0.093      0.266     -0.349      0.727
+    UB_GRN            -0.029      0.255     -0.113      0.910
+    UB_LAN             0.024      0.287      0.083      0.934
+    UB_RLN             0.265      0.234      1.134      0.257
+    UB_AMN            -0.311      0.209     -1.484      0.138
+    RES30M            -0.157      0.154     -1.023      0.307
+    RESAFF            -0.101      0.184     -0.548      0.584
+    RESCLO             0.138      0.119      1.157      0.247
+    RESHWY             0.409      0.120      3.399      0.001
+    RESSCH             0.558      0.154      3.633      0.000
+    RESSPA             0.265      0.117      2.271      0.023
+    RESTRA            -0.397      0.158     -2.506      0.012
+    RESWAL            -0.598      0.204     -2.931      0.003
+
+ Intercepts
+    C#1                4.730      0.682      6.935      0.000
+    C#2                3.955      0.815      4.851      0.000
+    C#4               -0.137      1.457     -0.094      0.925
+    C#5                8.175      0.665     12.284      0.000
+    C#6               -1.731      2.005     -0.864      0.388
+
+Parameterization using Reference Class 4
+
+ C#1      ON
+    SEQ_1             -0.492      0.291     -1.689      0.091
+    SEQ_2             -0.527      0.286     -1.843      0.065
+    SEQ_3             -0.323      0.329     -0.982      0.326
+    SEQ_4             -0.713      0.325     -2.194      0.028
+    SEQ_5             -0.596      0.446     -1.336      0.182
+    LICENS            -5.110      1.283     -3.982      0.000
+    NUFVHS            -2.068      0.141    -14.692      0.000
+    RACWHT             0.082      0.208      0.397      0.692
+    RACASN             0.228      0.241      0.944      0.345
+    RACHIS             0.207      0.349      0.592      0.554
+    RACBLK            -0.269      0.390     -0.690      0.490
+    AGEGRP_1           0.424      0.229      1.850      0.064
+    AGEGRP_2           0.199      0.217      0.917      0.359
+    NADULT            -0.523      0.108     -4.829      0.000
+    FEMALE             0.072      0.117      0.614      0.539
+    WORKER            -0.270      0.180     -1.503      0.133
+    HINCLO             0.324      0.173      1.866      0.062
+    N00_04            -0.316      0.330     -0.959      0.337
+    N05_15             0.306      0.288      1.063      0.288
+    N16_17             1.403      0.508      2.759      0.006
+    CMPLXT             3.064      3.232      0.948      0.343
+    CARLVR            -5.399      3.464     -1.558      0.119
+    UT_SAF             1.588      0.220      7.219      0.000
+    UT_FRQ             0.248      0.352      0.705      0.481
+    UT_REL             0.769      0.333      2.305      0.021
+    UB_SHR             0.208      0.234      0.890      0.374
+    UB_GRN            -0.108      0.236     -0.458      0.647
+    UB_LAN             0.093      0.279      0.333      0.739
+    UB_RLN            -0.274      0.246     -1.114      0.265
+    UB_AMN            -0.074      0.204     -0.362      0.717
+    RES30M             0.245      0.160      1.533      0.125
+    RESAFF            -0.461      0.179     -2.568      0.010
+    RESCLO            -0.233      0.118     -1.973      0.049
+    RESHWY            -0.534      0.124     -4.298      0.000
+    RESSCH            -0.329      0.165     -2.000      0.046
+    RESSPA            -0.137      0.119     -1.153      0.249
+    RESTRA             0.950      0.195      4.875      0.000
+    RESWAL             0.087      0.197      0.444      0.657
+
+ C#2      ON
+    SEQ_1              0.315      0.441      0.714      0.475
+    SEQ_2              0.309      0.432      0.717      0.474
+    SEQ_3              0.395      0.478      0.827      0.408
+    SEQ_4              0.371      0.465      0.796      0.426
+    SEQ_5              0.586      0.601      0.974      0.330
+    LICENS            -5.402      1.272     -4.248      0.000
+    NUFVHS            -1.522      0.179     -8.521      0.000
+    RACWHT            -0.336      0.231     -1.456      0.145
+    RACASN            -0.256      0.285     -0.899      0.369
+    RACHIS             0.331      0.433      0.765      0.444
+    RACBLK            -0.308      0.548     -0.562      0.574
+    AGEGRP_1           0.094      0.243      0.389      0.697
+    AGEGRP_2          -0.037      0.198     -0.189      0.850
+    NADULT             0.396      0.109      3.627      0.000
+    FEMALE             1.262      0.180      7.018      0.000
+    WORKER            -1.390      0.177     -7.856      0.000
+    HINCLO            -0.768      0.248     -3.099      0.002
+    N00_04             0.696      0.272      2.562      0.010
+    N05_15             0.226      0.308      0.732      0.464
+    N16_17             0.484      0.623      0.776      0.438
+    CMPLXT            -9.632      4.602     -2.093      0.036
+    CARLVR            -0.315      0.169     -1.862      0.063
+    UT_SAF             0.605      0.280      2.158      0.031
+    UT_FRQ            -0.534      0.303     -1.766      0.077
+    UT_REL             0.216      0.323      0.668      0.504
+    UB_SHR             0.233      0.391      0.597      0.550
+    UB_GRN            -0.353      0.415     -0.850      0.395
+    UB_LAN            -0.147      0.471     -0.312      0.755
+    UB_RLN             0.416      0.425      0.979      0.328
+    UB_AMN            -0.281      0.289     -0.975      0.330
+    RES30M            -0.208      0.170     -1.222      0.222
+    RESAFF            -0.157      0.244     -0.645      0.519
+    RESCLO             0.030      0.154      0.194      0.846
+    RESHWY            -0.119      0.155     -0.769      0.442
+    RESSCH            -0.194      0.170     -1.137      0.256
+    RESSPA             0.293      0.157      1.870      0.061
+    RESTRA            -0.057      0.168     -0.340      0.734
+    RESWAL             0.257      0.197      1.305      0.192
+
+ C#3      ON
+    SEQ_1              0.161      0.299      0.539      0.590
+    SEQ_2              0.094      0.297      0.318      0.750
+    SEQ_3              0.073      0.336      0.218      0.828
+    SEQ_4             -0.170      0.325     -0.522      0.602
+    SEQ_5              0.295      0.401      0.734      0.463
+    LICENS            -3.199      1.328     -2.408      0.016
+    NUFVHS            -1.369      0.122    -11.241      0.000
+    RACWHT             0.819      0.221      3.703      0.000
+    RACASN             0.725      0.252      2.878      0.004
+    RACHIS             0.813      0.339      2.398      0.016
+    RACBLK             0.334      0.386      0.865      0.387
+    AGEGRP_1           1.511      0.253      5.976      0.000
+    AGEGRP_2           0.960      0.246      3.902      0.000
+    NADULT            -0.425      0.086     -4.936      0.000
+    FEMALE             0.174      0.103      1.684      0.092
+    WORKER            -0.114      0.178     -0.638      0.524
+    HINCLO            -0.452      0.190     -2.376      0.018
+    N00_04             0.928      0.181      5.120      0.000
+    N05_15             0.927      0.201      4.612      0.000
+    N16_17             1.177      0.350      3.367      0.001
+    CMPLXT            24.270      3.362      7.219      0.000
+    CARLVR            -0.948      0.141     -6.731      0.000
+    UT_SAF             0.292      0.148      1.970      0.049
+    UT_FRQ             0.078      0.241      0.324      0.746
+    UT_REL             0.759      0.238      3.192      0.001
+    UB_SHR             0.135      0.232      0.580      0.562
+    UB_GRN             0.162      0.218      0.742      0.458
+    UB_LAN             0.039      0.246      0.160      0.873
+    UB_RLN            -0.401      0.204     -1.971      0.049
+    UB_AMN             0.261      0.192      1.359      0.174
+    RES30M             0.161      0.142      1.136      0.256
+    RESAFF             0.003      0.174      0.019      0.985
+    RESCLO            -0.140      0.106     -1.323      0.186
+    RESHWY            -0.362      0.107     -3.364      0.001
+    RESSCH            -0.406      0.142     -2.865      0.004
+    RESSPA            -0.186      0.104     -1.787      0.074
+    RESTRA             0.399      0.141      2.831      0.005
+    RESWAL             0.674      0.185      3.645      0.000
+
+ C#5      ON
+    SEQ_1             -0.557      0.295     -1.890      0.059
+    SEQ_2             -0.341      0.288     -1.182      0.237
+    SEQ_3             -0.315      0.330     -0.955      0.339
+    SEQ_4             -0.612      0.323     -1.897      0.058
+    SEQ_5             -0.965      0.482     -2.004      0.045
+    LICENS            -4.725      1.300     -3.635      0.000
+    NUFVHS            -2.196      0.131    -16.776      0.000
+    RACWHT            -0.041      0.195     -0.209      0.834
+    RACASN            -0.024      0.237     -0.100      0.920
+    RACHIS             0.173      0.334      0.517      0.605
+    RACBLK            -1.119      0.497     -2.251      0.024
+    AGEGRP_1           0.543      0.206      2.632      0.008
+    AGEGRP_2           0.326      0.191      1.712      0.087
+    NADULT            -0.756      0.109     -6.907      0.000
+    FEMALE            -0.060      0.111     -0.542      0.588
+    WORKER            -0.536      0.167     -3.206      0.001
+    HINCLO             0.211      0.168      1.253      0.210
+    N00_04             0.099      0.247      0.400      0.689
+    N05_15             0.473      0.242      1.954      0.051
+    N16_17             0.933      0.426      2.192      0.028
+    CMPLXT           -31.589      3.791     -8.334      0.000
+    CARLVR            -1.514      0.151    -10.012      0.000
+    UT_SAF             0.018      0.165      0.109      0.913
+    UT_FRQ            -0.342      0.239     -1.429      0.153
+    UT_REL             0.349      0.246      1.419      0.156
+    UB_SHR            -0.035      0.243     -0.145      0.885
+    UB_GRN             0.100      0.232      0.432      0.666
+    UB_LAN             0.114      0.264      0.432      0.666
+    UB_RLN             0.537      0.234      2.297      0.022
+    UB_AMN             0.059      0.194      0.301      0.763
+    RES30M             0.255      0.138      1.849      0.064
+    RESAFF            -0.787      0.159     -4.956      0.000
+    RESCLO            -0.139      0.114     -1.221      0.222
+    RESHWY            -0.719      0.118     -6.094      0.000
+    RESSCH            -0.319      0.151     -2.114      0.034
+    RESSPA            -0.230      0.113     -2.035      0.042
+    RESTRA             0.486      0.145      3.352      0.001
+    RESWAL             0.876      0.177      4.934      0.000
+
+ C#6      ON
+    SEQ_1             -0.352      0.203     -1.732      0.083
+    SEQ_2             -0.311      0.200     -1.556      0.120
+    SEQ_3             -0.418      0.225     -1.853      0.064
+    SEQ_4             -0.532      0.226     -2.353      0.019
+    SEQ_5             -0.095      0.296     -0.321      0.749
+    LICENS             0.306      2.234      0.137      0.891
+    NUFVHS            -0.745      0.112     -6.624      0.000
+    RACWHT             0.158      0.138      1.143      0.253
+    RACASN             0.146      0.173      0.843      0.399
+    RACHIS             0.465      0.262      1.776      0.076
+    RACBLK            -0.057      0.293     -0.195      0.846
+    AGEGRP_1           0.552      0.148      3.740      0.000
+    AGEGRP_2           0.402      0.128      3.141      0.002
+    NADULT             0.201      0.067      3.027      0.002
+    FEMALE             0.003      0.079      0.037      0.971
+    WORKER            -1.105      0.110    -10.072      0.000
+    HINCLO            -0.413      0.139     -2.979      0.003
+    N00_04             1.170      0.132      8.856      0.000
+    N05_15             1.385      0.129     10.765      0.000
+    N16_17             0.713      0.262      2.723      0.006
+    CMPLXT            24.235      2.351     10.306      0.000
+    CARLVR             0.322      0.088      3.679      0.000
+    UT_SAF             0.070      0.126      0.561      0.575
+    UT_FRQ             0.085      0.167      0.508      0.611
+    UT_REL             0.021      0.174      0.120      0.904
+    UB_SHR             0.042      0.202      0.207      0.836
+    UB_GRN             0.133      0.188      0.710      0.478
+    UB_LAN             0.063      0.220      0.288      0.774
+    UB_RLN            -0.136      0.187     -0.728      0.467
+    UB_AMN            -0.050      0.155     -0.322      0.747
+    RES30M             0.004      0.094      0.040      0.968
+    RESAFF            -0.098      0.118     -0.826      0.409
+    RESCLO            -0.002      0.081     -0.030      0.976
+    RESHWY             0.047      0.082      0.577      0.564
+    RESSCH             0.153      0.094      1.631      0.103
+    RESSPA             0.080      0.082      0.971      0.331
+    RESTRA             0.002      0.092      0.019      0.985
+    RESWAL             0.077      0.101      0.761      0.447
+
+ Intercepts
+    C#1                4.867      1.437      3.386      0.001
+    C#2                4.092      1.456      2.811      0.005
+    C#3                0.137      1.457      0.094      0.925
+    C#5                8.312      1.417      5.866      0.000
+    C#6               -1.595      2.267     -0.703      0.482
+
+Parameterization using Reference Class 5
+
+ C#1      ON
+    SEQ_1              0.065      0.298      0.218      0.828
+    SEQ_2             -0.186      0.292     -0.639      0.523
+    SEQ_3             -0.008      0.339     -0.023      0.982
+    SEQ_4             -0.101      0.338     -0.297      0.766
+    SEQ_5              0.369      0.522      0.707      0.479
+    LICENS            -0.386      0.212     -1.815      0.069
+    NUFVHS             0.128      0.154      0.836      0.403
+    RACWHT             0.123      0.215      0.574      0.566
+    RACASN             0.251      0.252      0.996      0.319
+    RACHIS             0.034      0.359      0.095      0.925
+    RACBLK             0.850      0.546      1.557      0.119
+    AGEGRP_1          -0.119      0.247     -0.482      0.630
+    AGEGRP_2          -0.128      0.239     -0.535      0.592
+    NADULT             0.233      0.127      1.840      0.066
+    FEMALE             0.132      0.127      1.043      0.297
+    WORKER             0.266      0.184      1.443      0.149
+    HINCLO             0.113      0.177      0.638      0.524
+    N00_04            -0.415      0.362     -1.146      0.252
+    N05_15            -0.167      0.325     -0.514      0.607
+    N16_17             0.469      0.533      0.881      0.378
+    CMPLXT            34.653      3.898      8.891      0.000
+    CARLVR            -3.884      3.485     -1.115      0.265
+    UT_SAF             1.570      0.235      6.676      0.000
+    UT_FRQ             0.590      0.384      1.536      0.125
+    UT_REL             0.419      0.368      1.139      0.255
+    UB_SHR             0.244      0.249      0.978      0.328
+    UB_GRN            -0.208      0.257     -0.810      0.418
+    UB_LAN            -0.021      0.303     -0.070      0.945
+    UB_RLN            -0.811      0.266     -3.054      0.002
+    UB_AMN            -0.132      0.208     -0.635      0.525
+    RES30M            -0.010      0.175     -0.057      0.954
+    RESAFF             0.327      0.181      1.801      0.072
+    RESCLO            -0.094      0.130     -0.724      0.469
+    RESHWY             0.185      0.142      1.304      0.192
+    RESSCH            -0.010      0.182     -0.054      0.957
+    RESSPA             0.093      0.130      0.713      0.476
+    RESTRA             0.464      0.223      2.082      0.037
+    RESWAL            -0.788      0.233     -3.379      0.001
+
+ C#2      ON
+    SEQ_1              0.872      0.503      1.734      0.083
+    SEQ_2              0.650      0.490      1.326      0.185
+    SEQ_3              0.710      0.545      1.304      0.192
+    SEQ_4              0.983      0.532      1.846      0.065
+    SEQ_5              1.551      0.700      2.215      0.027
+    LICENS            -0.677      0.279     -2.429      0.015
+    NUFVHS             0.674      0.195      3.458      0.001
+    RACWHT            -0.295      0.257     -1.149      0.251
+    RACASN            -0.233      0.316     -0.738      0.461
+    RACHIS             0.159      0.454      0.349      0.727
+    RACBLK             0.812      0.693      1.171      0.242
+    AGEGRP_1          -0.448      0.278     -1.614      0.107
+    AGEGRP_2          -0.364      0.237     -1.538      0.124
+    NADULT             1.152      0.139      8.262      0.000
+    FEMALE             1.323      0.200      6.627      0.000
+    WORKER            -0.854      0.207     -4.114      0.000
+    HINCLO            -0.979      0.266     -3.676      0.000
+    N00_04             0.597      0.330      1.808      0.071
+    N05_15            -0.247      0.357     -0.693      0.488
+    N16_17            -0.450      0.706     -0.637      0.524
+    CMPLXT            21.957      5.512      3.984      0.000
+    CARLVR             1.199      0.211      5.687      0.000
+    UT_SAF             0.587      0.311      1.885      0.059
+    UT_FRQ            -0.193      0.344     -0.560      0.575
+    UT_REL            -0.134      0.373     -0.358      0.720
+    UB_SHR             0.269      0.443      0.607      0.544
+    UB_GRN            -0.453      0.463     -0.979      0.328
+    UB_LAN            -0.261      0.525     -0.498      0.619
+    UB_RLN            -0.121      0.467     -0.258      0.796
+    UB_AMN            -0.340      0.310     -1.096      0.273
+    RES30M            -0.463      0.195     -2.379      0.017
+    RESAFF             0.630      0.269      2.341      0.019
+    RESCLO             0.169      0.174      0.973      0.331
+    RESHWY             0.600      0.179      3.349      0.001
+    RESSCH             0.126      0.204      0.617      0.537
+    RESSPA             0.523      0.176      2.973      0.003
+    RESTRA            -0.543      0.201     -2.707      0.007
+    RESWAL            -0.618      0.246     -2.512      0.012
+
+ C#3      ON
+    SEQ_1              0.718      0.322      2.228      0.026
+    SEQ_2              0.435      0.317      1.374      0.170
+    SEQ_3              0.388      0.363      1.069      0.285
+    SEQ_4              0.443      0.355      1.246      0.213
+    SEQ_5              1.259      0.493      2.552      0.011
+    LICENS             1.526      0.320      4.769      0.000
+    NUFVHS             0.827      0.139      5.958      0.000
+    RACWHT             0.860      0.245      3.513      0.000
+    RACASN             0.749      0.280      2.675      0.007
+    RACHIS             0.640      0.370      1.732      0.083
+    RACBLK             1.453      0.560      2.594      0.009
+    AGEGRP_1           0.968      0.278      3.478      0.001
+    AGEGRP_2           0.633      0.271      2.339      0.019
+    NADULT             0.331      0.113      2.931      0.003
+    FEMALE             0.234      0.120      1.958      0.050
+    WORKER             0.423      0.191      2.208      0.027
+    HINCLO            -0.663      0.201     -3.289      0.001
+    N00_04             0.829      0.256      3.237      0.001
+    N05_15             0.454      0.262      1.732      0.083
+    N16_17             0.244      0.466      0.523      0.601
+    CMPLXT            55.860      4.295     13.006      0.000
+    CARLVR             0.566      0.185      3.066      0.002
+    UT_SAF             0.274      0.174      1.574      0.115
+    UT_FRQ             0.420      0.276      1.521      0.128
+    UT_REL             0.410      0.278      1.475      0.140
+    UB_SHR             0.170      0.261      0.652      0.515
+    UB_GRN             0.062      0.256      0.242      0.809
+    UB_LAN            -0.075      0.293     -0.255      0.799
+    UB_RLN            -0.938      0.246     -3.813      0.000
+    UB_AMN             0.202      0.207      0.977      0.329
+    RES30M            -0.094      0.162     -0.582      0.561
+    RESAFF             0.791      0.186      4.249      0.000
+    RESCLO            -0.001      0.123     -0.008      0.994
+    RESHWY             0.357      0.130      2.747      0.006
+    RESSCH            -0.086      0.171     -0.507      0.612
+    RESSPA             0.044      0.122      0.359      0.720
+    RESTRA            -0.087      0.177     -0.493      0.622
+    RESWAL            -0.201      0.226     -0.889      0.374
+
+ C#4      ON
+    SEQ_1              0.557      0.295      1.890      0.059
+    SEQ_2              0.341      0.288      1.182      0.237
+    SEQ_3              0.315      0.330      0.955      0.339
+    SEQ_4              0.612      0.323      1.897      0.058
+    SEQ_5              0.965      0.482      2.004      0.045
+    LICENS             4.725      1.300      3.635      0.000
+    NUFVHS             2.196      0.131     16.776      0.000
+    RACWHT             0.041      0.195      0.209      0.834
+    RACASN             0.024      0.237      0.100      0.920
+    RACHIS            -0.173      0.334     -0.517      0.605
+    RACBLK             1.119      0.497      2.251      0.024
+    AGEGRP_1          -0.543      0.206     -2.632      0.008
+    AGEGRP_2          -0.326      0.191     -1.712      0.087
+    NADULT             0.756      0.109      6.907      0.000
+    FEMALE             0.060      0.111      0.542      0.588
+    WORKER             0.536      0.167      3.206      0.001
+    HINCLO            -0.211      0.168     -1.253      0.210
+    N00_04            -0.099      0.247     -0.400      0.689
+    N05_15            -0.473      0.242     -1.954      0.051
+    N16_17            -0.933      0.426     -2.192      0.028
+    CMPLXT            31.589      3.791      8.334      0.000
+    CARLVR             1.514      0.151     10.012      0.000
+    UT_SAF            -0.018      0.165     -0.109      0.913
+    UT_FRQ             0.342      0.239      1.429      0.153
+    UT_REL            -0.349      0.246     -1.419      0.156
+    UB_SHR             0.035      0.243      0.145      0.885
+    UB_GRN            -0.100      0.232     -0.432      0.666
+    UB_LAN            -0.114      0.264     -0.432      0.666
+    UB_RLN            -0.537      0.234     -2.297      0.022
+    UB_AMN            -0.059      0.194     -0.301      0.763
+    RES30M            -0.255      0.138     -1.849      0.064
+    RESAFF             0.787      0.159      4.956      0.000
+    RESCLO             0.139      0.114      1.221      0.222
+    RESHWY             0.719      0.118      6.094      0.000
+    RESSCH             0.319      0.151      2.114      0.034
+    RESSPA             0.230      0.113      2.035      0.042
+    RESTRA            -0.486      0.145     -3.352      0.001
+    RESWAL            -0.876      0.177     -4.934      0.000
+
+ C#6      ON
+    SEQ_1              0.205      0.298      0.690      0.490
+    SEQ_2              0.030      0.291      0.104      0.918
+    SEQ_3             -0.103      0.339     -0.303      0.762
+    SEQ_4              0.081      0.330      0.245      0.807
+    SEQ_5              0.870      0.485      1.795      0.073
+    LICENS             5.030      1.866      2.696      0.007
+    NUFVHS             1.451      0.140     10.402      0.000
+    RACWHT             0.199      0.204      0.975      0.330
+    RACASN             0.169      0.249      0.680      0.496
+    RACHIS             0.293      0.350      0.836      0.403
+    RACBLK             1.062      0.525      2.024      0.043
+    AGEGRP_1           0.009      0.219      0.043      0.966
+    AGEGRP_2           0.076      0.200      0.379      0.704
+    NADULT             0.957      0.111      8.649      0.000
+    FEMALE             0.063      0.119      0.533      0.594
+    WORKER            -0.569      0.166     -3.430      0.001
+    HINCLO            -0.624      0.187     -3.345      0.001
+    N00_04             1.071      0.239      4.489      0.000
+    N05_15             0.912      0.237      3.848      0.000
+    N16_17            -0.221      0.428     -0.515      0.606
+    CMPLXT            55.824      4.061     13.747      0.000
+    CARLVR             1.836      0.157     11.669      0.000
+    UT_SAF             0.052      0.179      0.293      0.770
+    UT_FRQ             0.426      0.259      1.648      0.099
+    UT_REL            -0.328      0.270     -1.217      0.224
+    UB_SHR             0.077      0.271      0.284      0.776
+    UB_GRN             0.033      0.261      0.127      0.899
+    UB_LAN            -0.051      0.304     -0.167      0.867
+    UB_RLN            -0.673      0.257     -2.613      0.009
+    UB_AMN            -0.109      0.209     -0.520      0.603
+    RES30M            -0.252      0.146     -1.719      0.086
+    RESAFF             0.690      0.166      4.167      0.000
+    RESCLO             0.137      0.122      1.119      0.263
+    RESHWY             0.766      0.126      6.096      0.000
+    RESSCH             0.472      0.156      3.017      0.003
+    RESSPA             0.309      0.122      2.543      0.011
+    RESTRA            -0.484      0.154     -3.142      0.002
+    RESWAL            -0.799      0.189     -4.238      0.000
+
+ Intercepts
+    C#1               -3.445      0.619     -5.563      0.000
+    C#2               -4.220      0.745     -5.663      0.000
+    C#3               -8.175      0.665    -12.284      0.000
+    C#4               -8.312      1.417     -5.866      0.000
+    C#6               -9.906      1.918     -5.164      0.000
+
+
+ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
+
+                                                95% C.I.
+                    Estimate       S.E.  Lower 2.5% Upper 2.5%
+
+Parameterization using Reference Class 1
+
+ C#2      ON
+    SEQ_1              2.241      1.086      0.867      5.795
+    SEQ_2              2.309      1.096      0.911      5.853
+    SEQ_3              2.050      1.087      0.726      5.793
+    SEQ_4              2.955      1.535      1.068      8.177
+    SEQ_5              3.259      2.155      0.891     11.914
+    LICENS             0.747      0.202      0.440      1.269
+    NUFVHS             1.726      0.344      1.168      2.551
+    RACWHT             0.658      0.173      0.393      1.101
+    RACASN             0.616      0.193      0.333      1.139
+    RACHIS             1.133      0.516      0.464      2.767
+    RACBLK             0.962      0.596      0.286      3.238
+    AGEGRP_1           0.720      0.210      0.407      1.273
+    AGEGRP_2           0.790      0.202      0.479      1.303
+    NADULT             2.506      0.333      1.932      3.251
+    FEMALE             3.288      0.662      2.215      4.879
+    WORKER             0.326      0.069      0.215      0.495
+    HINCLO             0.335      0.089      0.199      0.566
+    N00_04             2.752      1.075      1.279      5.919
+    N05_15             0.923      0.357      0.432      1.970
+    N16_17             0.399      0.288      0.097      1.644
+    CMPLXT             0.000      0.000      0.000      0.073
+    CARLVR           161.345    559.319      0.181  *********
+    UT_SAF             0.374      0.127      0.192      0.728
+    UT_FRQ             0.457      0.198      0.196      1.068
+    UT_REL             0.575      0.252      0.243      1.359
+    UB_SHR             1.025      0.432      0.449      2.343
+    UB_GRN             0.783      0.356      0.321      1.910
+    UB_LAN             0.786      0.404      0.288      2.150
+    UB_RLN             1.995      0.913      0.814      4.891
+    UB_AMN             0.813      0.254      0.441      1.499
+    RES30M             0.636      0.132      0.424      0.954
+    RESAFF             1.354      0.379      0.783      2.343
+    RESCLO             1.301      0.226      0.926      1.829
+    RESHWY             1.514      0.273      1.063      2.156
+    RESSCH             1.145      0.240      0.760      1.726
+    RESSPA             1.537      0.272      1.087      2.175
+    RESTRA             0.365      0.087      0.228      0.584
+    RESWAL             1.185      0.312      0.708      1.985
+
+ C#3      ON
+    SEQ_1              1.922      0.574      1.070      3.452
+    SEQ_2              1.862      0.548      1.046      3.317
+    SEQ_3              1.486      0.507      0.761      2.902
+    SEQ_4              1.722      0.578      0.892      3.323
+    SEQ_5              2.436      1.102      1.003      5.914
+    LICENS             6.762      2.018      3.768     12.136
+    NUFVHS             2.011      0.283      1.526      2.649
+    RACWHT             2.089      0.514      1.289      3.385
+    RACASN             1.644      0.449      0.963      2.808
+    RACHIS             1.834      0.672      0.894      3.762
+    RACBLK             1.827      0.793      0.780      4.278
+    AGEGRP_1           2.968      0.877      1.663      5.297
+    AGEGRP_2           2.141      0.616      1.218      3.762
+    NADULT             1.102      0.121      0.889      1.366
+    FEMALE             1.107      0.132      0.876      1.399
+    WORKER             1.169      0.230      0.795      1.720
+    HINCLO             0.460      0.090      0.314      0.676
+    N00_04             3.470      1.106      1.858      6.479
+    N05_15             1.861      0.540      1.054      3.285
+    N16_17             0.798      0.423      0.282      2.255
+    CMPLXT           999.000    999.000    999.000    999.000
+    CARLVR            85.681    297.356      0.095  77098.133
+    UT_SAF             0.274      0.062      0.176      0.426
+    UT_FRQ             0.843      0.298      0.422      1.685
+    UT_REL             0.991      0.335      0.511      1.922
+    UB_SHR             0.929      0.224      0.580      1.489
+    UB_GRN             1.310      0.325      0.806      2.131
+    UB_LAN             0.948      0.267      0.546      1.645
+    UB_RLN             0.881      0.216      0.545      1.425
+    UB_AMN             1.397      0.284      0.938      2.082
+    RES30M             0.919      0.160      0.653      1.294
+    RESAFF             1.591      0.310      1.085      2.332
+    RESCLO             1.098      0.132      0.867      1.389
+    RESHWY             1.188      0.154      0.922      1.530
+    RESSCH             0.926      0.161      0.659      1.301
+    RESSPA             0.952      0.115      0.751      1.207
+    RESTRA             0.576      0.122      0.381      0.872
+    RESWAL             1.798      0.420      1.138      2.842
+
+ C#4      ON
+    SEQ_1              1.636      0.476      0.924      2.895
+    SEQ_2              1.694      0.485      0.967      2.969
+    SEQ_3              1.381      0.454      0.725      2.631
+    SEQ_4              2.040      0.663      1.079      3.856
+    SEQ_5              1.814      0.809      0.757      4.350
+    LICENS           165.742    212.727     13.394   2050.949
+    NUFVHS             7.908      1.113      6.001     10.420
+    RACWHT             0.921      0.191      0.613      1.384
+    RACASN             0.796      0.192      0.496      1.278
+    RACHIS             0.813      0.284      0.410      1.612
+    RACBLK             1.309      0.510      0.610      2.810
+    AGEGRP_1           0.655      0.150      0.418      1.025
+    AGEGRP_2           0.820      0.178      0.536      1.253
+    NADULT             1.687      0.183      1.364      2.085
+    FEMALE             0.930      0.109      0.739      1.171
+    WORKER             1.310      0.235      0.921      1.863
+    HINCLO             0.723      0.126      0.515      1.016
+    N00_04             1.372      0.453      0.719      2.620
+    N05_15             0.736      0.212      0.419      1.294
+    N16_17             0.246      0.125      0.091      0.666
+    CMPLXT             0.047      0.151      0.000     26.344
+    CARLVR           221.095    765.934      0.249  *********
+    UT_SAF             0.204      0.045      0.133      0.314
+    UT_FRQ             0.780      0.275      0.391      1.555
+    UT_REL             0.464      0.155      0.241      0.891
+    UB_SHR             0.812      0.190      0.513      1.285
+    UB_GRN             1.114      0.263      0.701      1.771
+    UB_LAN             0.911      0.255      0.527      1.576
+    UB_RLN             1.316      0.324      0.812      2.133
+    UB_AMN             1.077      0.220      0.722      1.606
+    RES30M             0.783      0.125      0.572      1.071
+    RESAFF             1.585      0.284      1.115      2.253
+    RESCLO             1.263      0.149      1.002      1.592
+    RESHWY             1.705      0.212      1.337      2.175
+    RESSCH             1.390      0.229      1.007      1.919
+    RESSPA             1.147      0.136      0.909      1.446
+    RESTRA             0.387      0.075      0.264      0.567
+    RESWAL             0.916      0.181      0.623      1.348
+
+ C#5      ON
+    SEQ_1              0.937      0.280      0.522      1.682
+    SEQ_2              1.205      0.351      0.680      2.134
+    SEQ_3              1.008      0.342      0.519      1.958
+    SEQ_4              1.106      0.374      0.570      2.146
+    SEQ_5              0.691      0.361      0.249      1.923
+    LICENS             1.470      0.312      0.970      2.230
+    NUFVHS             0.880      0.135      0.651      1.189
+    RACWHT             0.884      0.190      0.580      1.347
+    RACASN             0.778      0.196      0.474      1.276
+    RACHIS             0.967      0.347      0.479      1.952
+    RACBLK             0.427      0.233      0.147      1.246
+    AGEGRP_1           1.127      0.279      0.694      1.830
+    AGEGRP_2           1.136      0.272      0.712      1.815
+    NADULT             0.792      0.100      0.618      1.015
+    FEMALE             0.876      0.111      0.683      1.123
+    WORKER             0.766      0.141      0.534      1.100
+    HINCLO             0.893      0.158      0.631      1.264
+    N00_04             1.515      0.549      0.745      3.081
+    N05_15             1.182      0.384      0.625      2.236
+    N16_17             0.625      0.333      0.220      1.777
+    CMPLXT             0.000      0.000      0.000      0.000
+    CARLVR            48.641    169.513      0.053  45025.961
+    UT_SAF             0.208      0.049      0.131      0.330
+    UT_FRQ             0.554      0.213      0.261      1.177
+    UT_REL             0.658      0.242      0.320      1.353
+    UB_SHR             0.784      0.195      0.481      1.277
+    UB_GRN             1.232      0.317      0.744      2.040
+    UB_LAN             1.021      0.309      0.564      1.849
+    UB_RLN             2.251      0.598      1.337      3.788
+    UB_AMN             1.142      0.238      0.759      1.718
+    RES30M             1.010      0.176      0.717      1.422
+    RESAFF             0.721      0.131      0.505      1.029
+    RESCLO             1.099      0.143      0.852      1.418
+    RESHWY             0.831      0.118      0.629      1.098
+    RESSCH             1.010      0.184      0.707      1.444
+    RESSPA             0.911      0.119      0.706      1.176
+    RESTRA             0.629      0.140      0.406      0.973
+    RESWAL             2.199      0.513      1.392      3.474
+
+ C#6      ON
+    SEQ_1              1.151      0.338      0.646      2.048
+    SEQ_2              1.242      0.358      0.705      2.186
+    SEQ_3              0.909      0.308      0.468      1.766
+    SEQ_4              1.199      0.399      0.624      2.302
+    SEQ_5              1.650      0.758      0.671      4.058
+    LICENS           224.986    421.116      5.740   8818.946
+    NUFVHS             3.754      0.563      2.797      5.038
+    RACWHT             1.079      0.234      0.705      1.651
+    RACASN             0.921      0.234      0.560      1.516
+    RACHIS             1.295      0.476      0.630      2.662
+    RACBLK             1.236      0.540      0.525      2.912
+    AGEGRP_1           1.137      0.276      0.707      1.830
+    AGEGRP_2           1.226      0.280      0.784      1.918
+    NADULT             2.063      0.224      1.667      2.553
+    FEMALE             0.933      0.117      0.730      1.193
+    WORKER             0.434      0.078      0.305      0.616
+    HINCLO             0.479      0.092      0.328      0.698
+    N00_04             4.419      1.433      2.340      8.346
+    N05_15             2.942      0.836      1.686      5.133
+    N16_17             0.501      0.256      0.184      1.364
+    CMPLXT           999.000    999.000    999.000    999.000
+    CARLVR           305.124   1057.362      0.343  *********
+    UT_SAF             0.219      0.051      0.139      0.345
+    UT_FRQ             0.849      0.311      0.415      1.739
+    UT_REL             0.474      0.165      0.239      0.938
+    UB_SHR             0.847      0.220      0.508      1.410
+    UB_GRN             1.273      0.337      0.758      2.139
+    UB_LAN             0.971      0.302      0.527      1.787
+    UB_RLN             1.148      0.306      0.681      1.937
+    UB_AMN             1.024      0.221      0.671      1.564
+    RES30M             0.785      0.132      0.565      1.091
+    RESAFF             1.438      0.268      0.997      2.073
+    RESCLO             1.260      0.160      0.982      1.616
+    RESHWY             1.788      0.237      1.378      2.318
+    RESSCH             1.619      0.277      1.158      2.263
+    RESSPA             1.241      0.158      0.967      1.594
+    RESTRA             0.387      0.079      0.260      0.577
+    RESWAL             0.989      0.207      0.656      1.492
+
+Parameterization using Reference Class 2
+
+ C#1      ON
+    SEQ_1              0.446      0.216      0.173      1.154
+    SEQ_2              0.433      0.206      0.171      1.098
+    SEQ_3              0.488      0.258      0.173      1.378
+    SEQ_4              0.338      0.176      0.122      0.937
+    SEQ_5              0.307      0.203      0.084      1.122
+    LICENS             1.338      0.361      0.788      2.272
+    NUFVHS             0.579      0.115      0.392      0.856
+    RACWHT             1.519      0.399      0.908      2.542
+    RACASN             1.623      0.509      0.878      3.000
+    RACHIS             0.883      0.402      0.361      2.157
+    RACBLK             1.039      0.644      0.309      3.499
+    AGEGRP_1           1.390      0.405      0.785      2.459
+    AGEGRP_2           1.266      0.323      0.767      2.089
+    NADULT             0.399      0.053      0.308      0.518
+    FEMALE             0.304      0.061      0.205      0.451
+    WORKER             3.064      0.652      2.019      4.651
+    HINCLO             2.981      0.795      1.768      5.026
+    N00_04             0.363      0.142      0.169      0.782
+    N05_15             1.084      0.419      0.508      2.313
+    N16_17             2.507      1.812      0.608     10.334
+    CMPLXT         *********  *********     13.644  *********
+    CARLVR             0.006      0.021      0.000      5.534
+    UT_SAF             2.673      0.908      1.373      5.201
+    UT_FRQ             2.187      0.946      0.937      5.107
+    UT_REL             1.738      0.763      0.736      4.107
+    UB_SHR             0.975      0.411      0.427      2.228
+    UB_GRN             1.277      0.581      0.524      3.115
+    UB_LAN             1.272      0.652      0.465      3.476
+    UB_RLN             0.501      0.229      0.204      1.229
+    UB_AMN             1.230      0.384      0.667      2.270
+    RES30M             1.573      0.326      1.048      2.361
+    RESAFF             0.738      0.207      0.427      1.278
+    RESCLO             0.768      0.133      0.547      1.080
+    RESHWY             0.661      0.119      0.464      0.941
+    RESSCH             0.873      0.183      0.579      1.316
+    RESSPA             0.650      0.115      0.460      0.920
+    RESTRA             2.738      0.655      1.712      4.377
+    RESWAL             0.844      0.222      0.504      1.413
+
+ C#3      ON
+    SEQ_1              0.858      0.426      0.324      2.270
+    SEQ_2              0.807      0.393      0.310      2.096
+    SEQ_3              0.725      0.394      0.250      2.101
+    SEQ_4              0.583      0.307      0.208      1.634
+    SEQ_5              0.747      0.486      0.209      2.676
+    LICENS             9.048      3.244      4.481     18.269
+    NUFVHS             1.165      0.222      0.802      1.692
+    RACWHT             3.175      0.901      1.820      5.539
+    RACASN             2.668      0.895      1.383      5.148
+    RACHIS             1.619      0.757      0.648      4.048
+    RACBLK             1.899      1.187      0.558      6.465
+    AGEGRP_1           4.124      1.320      2.202      7.724
+    AGEGRP_2           2.710      0.783      1.538      4.776
+    NADULT             0.440      0.052      0.349      0.555
+    FEMALE             0.337      0.067      0.229      0.496
+    WORKER             3.583      0.765      2.358      5.446
+    HINCLO             1.372      0.394      0.781      2.411
+    N00_04             1.261      0.365      0.715      2.224
+    N05_15             2.017      0.672      1.049      3.877
+    N16_17             2.001      1.331      0.543      7.369
+    CMPLXT           999.000    999.000    999.000    999.000
+    CARLVR             0.531      0.111      0.353      0.800
+    UT_SAF             0.731      0.222      0.404      1.325
+    UT_FRQ             1.845      0.645      0.929      3.662
+    UT_REL             1.722      0.636      0.835      3.550
+    UB_SHR             0.906      0.385      0.394      2.082
+    UB_GRN             1.674      0.746      0.699      4.008
+    UB_LAN             1.205      0.602      0.453      3.209
+    UB_RLN             0.442      0.196      0.185      1.055
+    UB_AMN             1.719      0.528      0.942      3.138
+    RES30M             1.446      0.287      0.981      2.132
+    RESAFF             1.174      0.330      0.677      2.038
+    RESCLO             0.844      0.143      0.604      1.177
+    RESHWY             0.785      0.136      0.559      1.101
+    RESSCH             0.809      0.163      0.545      1.199
+    RESSPA             0.619      0.106      0.443      0.867
+    RESTRA             1.578      0.321      1.059      2.352
+    RESWAL             1.518      0.388      0.919      2.507
+
+ C#4      ON
+    SEQ_1              0.730      0.322      0.307      1.733
+    SEQ_2              0.734      0.317      0.315      1.711
+    SEQ_3              0.674      0.322      0.264      1.718
+    SEQ_4              0.690      0.321      0.277      1.719
+    SEQ_5              0.557      0.335      0.171      1.808
+    LICENS           221.766    281.978     18.347   2680.577
+    NUFVHS             4.582      0.818      3.228      6.502
+    RACWHT             1.399      0.323      0.890      2.199
+    RACASN             1.292      0.369      0.739      2.260
+    RACHIS             0.718      0.311      0.307      1.678
+    RACBLK             1.360      0.745      0.465      3.982
+    AGEGRP_1           0.910      0.221      0.565      1.465
+    AGEGRP_2           1.038      0.206      0.704      1.531
+    NADULT             0.673      0.073      0.544      0.834
+    FEMALE             0.283      0.051      0.199      0.403
+    WORKER             4.014      0.710      2.838      5.678
+    HINCLO             2.156      0.535      1.326      3.506
+    N00_04             0.499      0.135      0.293      0.849
+    N05_15             0.798      0.246      0.436      1.460
+    N16_17             0.617      0.384      0.182      2.091
+    CMPLXT         15244.822  70151.555      1.845  *********
+    CARLVR             1.370      0.232      0.983      1.909
+    UT_SAF             0.546      0.153      0.315      0.946
+    UT_FRQ             1.706      0.516      0.943      3.088
+    UT_REL             0.806      0.260      0.428      1.518
+    UB_SHR             0.792      0.309      0.368      1.703
+    UB_GRN             1.423      0.591      0.631      3.210
+    UB_LAN             1.159      0.546      0.460      2.918
+    UB_RLN             0.660      0.280      0.287      1.517
+    UB_AMN             1.325      0.382      0.752      2.332
+    RES30M             1.231      0.209      0.882      1.718
+    RESAFF             1.171      0.286      0.725      1.890
+    RESCLO             0.970      0.150      0.717      1.313
+    RESHWY             1.126      0.174      0.832      1.526
+    RESSCH             1.214      0.207      0.869      1.694
+    RESSPA             0.746      0.117      0.548      1.014
+    RESTRA             1.059      0.178      0.761      1.473
+    RESWAL             0.773      0.152      0.525      1.138
+
+ C#5      ON
+    SEQ_1              0.418      0.210      0.156      1.120
+    SEQ_2              0.522      0.256      0.200      1.365
+    SEQ_3              0.492      0.268      0.169      1.429
+    SEQ_4              0.374      0.199      0.132      1.063
+    SEQ_5              0.212      0.148      0.054      0.837
+    LICENS             1.968      0.548      1.140      3.397
+    NUFVHS             0.510      0.099      0.348      0.747
+    RACWHT             1.343      0.345      0.812      2.222
+    RACASN             1.262      0.398      0.680      2.342
+    RACHIS             0.853      0.388      0.350      2.078
+    RACBLK             0.444      0.308      0.114      1.728
+    AGEGRP_1           1.566      0.435      0.908      2.699
+    AGEGRP_2           1.439      0.340      0.905      2.288
+    NADULT             0.316      0.044      0.240      0.415
+    FEMALE             0.266      0.053      0.180      0.394
+    WORKER             2.348      0.487      1.563      3.526
+    HINCLO             2.663      0.709      1.580      4.488
+    N00_04             0.550      0.182      0.288      1.052
+    N05_15             1.281      0.457      0.636      2.578
+    N16_17             1.568      1.107      0.393      6.255
+    CMPLXT             0.000      0.000      0.000      0.000
+    CARLVR             0.301      0.064      0.199      0.456
+    UT_SAF             0.556      0.173      0.302      1.024
+    UT_FRQ             1.213      0.417      0.618      2.380
+    UT_REL             1.143      0.427      0.550      2.377
+    UB_SHR             0.764      0.338      0.321      1.821
+    UB_GRN             1.573      0.728      0.635      3.898
+    UB_LAN             1.299      0.682      0.464      3.634
+    UB_RLN             1.128      0.526      0.452      2.816
+    UB_AMN             1.405      0.436      0.765      2.580
+    RES30M             1.589      0.309      1.085      2.327
+    RESAFF             0.533      0.143      0.314      0.903
+    RESCLO             0.844      0.147      0.600      1.187
+    RESHWY             0.549      0.098      0.386      0.780
+    RESSCH             0.882      0.180      0.592      1.315
+    RESSPA             0.593      0.104      0.420      0.837
+    RESTRA             1.722      0.346      1.162      2.552
+    RESWAL             1.856      0.457      1.146      3.007
+
+ C#6      ON
+    SEQ_1              0.513      0.225      0.218      1.212
+    SEQ_2              0.538      0.230      0.232      1.246
+    SEQ_3              0.444      0.212      0.174      1.132
+    SEQ_4              0.406      0.189      0.162      1.013
+    SEQ_5              0.506      0.304      0.156      1.643
+    LICENS           301.036    563.812      7.663  11826.787
+    NUFVHS             2.175      0.395      1.524      3.104
+    RACWHT             1.639      0.392      1.025      2.620
+    RACASN             1.495      0.440      0.839      2.663
+    RACHIS             1.144      0.496      0.489      2.677
+    RACBLK             1.285      0.740      0.415      3.975
+    AGEGRP_1           1.581      0.401      0.961      2.598
+    AGEGRP_2           1.553      0.323      1.032      2.335
+    NADULT             0.823      0.085      0.673      1.007
+    FEMALE             0.284      0.052      0.198      0.407
+    WORKER             1.330      0.235      0.941      1.879
+    HINCLO             1.426      0.369      0.859      2.369
+    N00_04             1.606      0.427      0.954      2.705
+    N05_15             3.187      0.960      1.767      5.751
+    N16_17             1.257      0.777      0.374      4.221
+    CMPLXT           999.000    999.000    999.000    999.000
+    CARLVR             1.891      0.329      1.345      2.659
+    UT_SAF             0.586      0.167      0.335      1.025
+    UT_FRQ             1.857      0.586      1.001      3.446
+    UT_REL             0.823      0.276      0.427      1.587
+    UB_SHR             0.826      0.330      0.377      1.809
+    UB_GRN             1.626      0.693      0.705      3.750
+    UB_LAN             1.234      0.596      0.479      3.179
+    UB_RLN             0.576      0.249      0.247      1.342
+    UB_AMN             1.260      0.371      0.707      2.245
+    RES30M             1.236      0.217      0.876      1.742
+    RESAFF             1.062      0.262      0.655      1.721
+    RESCLO             0.968      0.154      0.708      1.323
+    RESHWY             1.181      0.189      0.863      1.615
+    RESSCH             1.414      0.247      1.004      1.990
+    RESSPA             0.808      0.131      0.588      1.110
+    RESTRA             1.061      0.185      0.754      1.493
+    RESWAL             0.835      0.170      0.560      1.244
+
+Parameterization using Reference Class 3
+
+ C#1      ON
+    SEQ_1              0.520      0.155      0.290      0.934
+    SEQ_2              0.537      0.158      0.302      0.956
+    SEQ_3              0.673      0.230      0.345      1.314
+    SEQ_4              0.581      0.195      0.301      1.121
+    SEQ_5              0.411      0.186      0.169      0.997
+    LICENS             0.148      0.044      0.082      0.265
+    NUFVHS             0.497      0.070      0.378      0.655
+    RACWHT             0.479      0.118      0.295      0.776
+    RACASN             0.608      0.166      0.356      1.038
+    RACHIS             0.545      0.200      0.266      1.118
+    RACBLK             0.547      0.238      0.234      1.282
+    AGEGRP_1           0.337      0.100      0.189      0.601
+    AGEGRP_2           0.467      0.134      0.266      0.821
+    NADULT             0.907      0.099      0.732      1.125
+    FEMALE             0.903      0.108      0.715      1.141
+    WORKER             0.855      0.168      0.582      1.258
+    HINCLO             2.172      0.425      1.480      3.187
+    N00_04             0.288      0.092      0.154      0.538
+    N05_15             0.537      0.156      0.304      0.949
+    N16_17             1.253      0.664      0.443      3.542
+    CMPLXT             0.000      0.000      0.000      0.000
+    CARLVR             0.012      0.041      0.000     10.502
+    UT_SAF             3.655      0.825      2.348      5.690
+    UT_FRQ             1.186      0.419      0.593      2.369
+    UT_REL             1.009      0.341      0.520      1.958
+    UB_SHR             1.077      0.259      0.672      1.725
+    UB_GRN             0.763      0.189      0.469      1.241
+    UB_LAN             1.055      0.297      0.608      1.832
+    UB_RLN             1.135      0.278      0.702      1.836
+    UB_AMN             0.716      0.146      0.480      1.066
+    RES30M             1.088      0.190      0.773      1.531
+    RESAFF             0.629      0.123      0.429      0.922
+    RESCLO             0.911      0.109      0.720      1.153
+    RESHWY             0.842      0.109      0.653      1.084
+    RESSCH             1.080      0.187      0.768      1.517
+    RESSPA             1.050      0.127      0.829      1.331
+    RESTRA             1.735      0.367      1.147      2.625
+    RESWAL             0.556      0.130      0.352      0.879
+
+ C#2      ON
+    SEQ_1              1.166      0.579      0.441      3.086
+    SEQ_2              1.240      0.604      0.477      3.222
+    SEQ_3              1.380      0.749      0.476      4.001
+    SEQ_4              1.716      0.903      0.612      4.814
+    SEQ_5              1.338      0.871      0.374      4.791
+    LICENS             0.111      0.040      0.055      0.223
+    NUFVHS             0.858      0.163      0.591      1.247
+    RACWHT             0.315      0.089      0.181      0.550
+    RACASN             0.375      0.126      0.194      0.723
+    RACHIS             0.618      0.289      0.247      1.544
+    RACBLK             0.527      0.329      0.155      1.793
+    AGEGRP_1           0.242      0.078      0.129      0.454
+    AGEGRP_2           0.369      0.107      0.209      0.650
+    NADULT             2.273      0.270      1.802      2.868
+    FEMALE             2.970      0.587      2.017      4.375
+    WORKER             0.279      0.060      0.184      0.424
+    HINCLO             0.729      0.209      0.415      1.280
+    N00_04             0.793      0.230      0.450      1.399
+    N05_15             0.496      0.165      0.258      0.953
+    N16_17             0.500      0.333      0.136      1.841
+    CMPLXT             0.000      0.000      0.000      0.000
+    CARLVR             1.883      0.393      1.250      2.836
+    UT_SAF             1.368      0.414      0.755      2.477
+    UT_FRQ             0.542      0.190      0.273      1.076
+    UT_REL             0.581      0.214      0.282      1.197
+    UB_SHR             1.104      0.469      0.480      2.536
+    UB_GRN             0.598      0.266      0.249      1.431
+    UB_LAN             0.830      0.415      0.312      2.210
+    UB_RLN             2.264      1.006      0.948      5.407
+    UB_AMN             0.582      0.179      0.319      1.061
+    RES30M             0.692      0.137      0.469      1.020
+    RESAFF             0.851      0.239      0.491      1.477
+    RESCLO             1.185      0.202      0.849      1.654
+    RESHWY             1.274      0.220      0.908      1.788
+    RESSCH             1.236      0.249      0.834      1.833
+    RESSPA             1.615      0.277      1.154      2.260
+    RESTRA             0.634      0.129      0.425      0.945
+    RESWAL             0.659      0.169      0.399      1.088
+
+ C#4      ON
+    SEQ_1              0.851      0.255      0.473      1.530
+    SEQ_2              0.910      0.270      0.509      1.628
+    SEQ_3              0.929      0.312      0.481      1.796
+    SEQ_4              1.185      0.385      0.627      2.240
+    SEQ_5              0.745      0.299      0.339      1.635
+    LICENS            24.510     32.561      1.814    331.245
+    NUFVHS             3.933      0.479      3.098      4.994
+    RACWHT             0.441      0.098      0.286      0.680
+    RACASN             0.484      0.122      0.296      0.794
+    RACHIS             0.443      0.150      0.228      0.862
+    RACBLK             0.716      0.276      0.336      1.526
+    AGEGRP_1           0.221      0.056      0.134      0.362
+    AGEGRP_2           0.383      0.094      0.237      0.620
+    NADULT             1.530      0.132      1.292      1.812
+    FEMALE             0.841      0.087      0.687      1.029
+    WORKER             1.120      0.200      0.790      1.589
+    HINCLO             1.571      0.299      1.082      2.281
+    N00_04             0.395      0.072      0.277      0.564
+    N05_15             0.396      0.080      0.267      0.587
+    N16_17             0.308      0.108      0.155      0.612
+    CMPLXT             0.000      0.000      0.000      0.000
+    CARLVR             2.580      0.363      1.958      3.401
+    UT_SAF             0.747      0.111      0.559      0.999
+    UT_FRQ             0.925      0.223      0.577      1.482
+    UT_REL             0.468      0.111      0.294      0.746
+    UB_SHR             0.874      0.203      0.555      1.378
+    UB_GRN             0.850      0.186      0.554      1.305
+    UB_LAN             0.961      0.236      0.594      1.556
+    UB_RLN             1.493      0.304      1.002      2.225
+    UB_AMN             0.771      0.148      0.529      1.122
+    RES30M             0.851      0.121      0.645      1.124
+    RESAFF             0.997      0.173      0.709      1.401
+    RESCLO             1.150      0.122      0.935      1.416
+    RESHWY             1.436      0.154      1.163      1.772
+    RESSCH             1.500      0.212      1.137      1.980
+    RESSPA             1.204      0.125      0.982      1.476
+    RESTRA             0.671      0.095      0.509      0.885
+    RESWAL             0.509      0.094      0.355      0.732
+
+ C#5      ON
+    SEQ_1              0.488      0.157      0.259      0.917
+    SEQ_2              0.647      0.205      0.348      1.204
+    SEQ_3              0.678      0.246      0.333      1.382
+    SEQ_4              0.642      0.228      0.320      1.289
+    SEQ_5              0.284      0.140      0.108      0.747
+    LICENS             0.217      0.070      0.116      0.407
+    NUFVHS             0.437      0.061      0.333      0.574
+    RACWHT             0.423      0.104      0.262      0.684
+    RACASN             0.473      0.132      0.273      0.819
+    RACHIS             0.527      0.195      0.255      1.088
+    RACBLK             0.234      0.131      0.078      0.701
+    AGEGRP_1           0.380      0.106      0.220      0.655
+    AGEGRP_2           0.531      0.144      0.312      0.902
+    NADULT             0.719      0.081      0.576      0.896
+    FEMALE             0.791      0.095      0.626      1.000
+    WORKER             0.655      0.125      0.450      0.954
+    HINCLO             1.940      0.391      1.307      2.879
+    N00_04             0.437      0.112      0.264      0.721
+    N05_15             0.635      0.166      0.380      1.062
+    N16_17             0.784      0.365      0.314      1.954
+    CMPLXT             0.000      0.000      0.000      0.000
+    CARLVR             0.568      0.105      0.395      0.815
+    UT_SAF             0.760      0.132      0.541      1.069
+    UT_FRQ             0.657      0.181      0.383      1.129
+    UT_REL             0.664      0.184      0.385      1.144
+    UB_SHR             0.844      0.220      0.506      1.406
+    UB_GRN             0.940      0.241      0.569      1.552
+    UB_LAN             1.078      0.316      0.606      1.915
+    UB_RLN             2.554      0.628      1.577      4.136
+    UB_AMN             0.817      0.169      0.545      1.226
+    RES30M             1.099      0.178      0.800      1.509
+    RESAFF             0.453      0.084      0.315      0.653
+    RESCLO             1.001      0.123      0.787      1.273
+    RESHWY             0.700      0.091      0.542      0.903
+    RESSCH             1.090      0.186      0.780      1.523
+    RESSPA             0.957      0.117      0.753      1.217
+    RESTRA             1.091      0.193      0.771      1.544
+    RESWAL             1.223      0.277      0.785      1.906
+
+ C#6      ON
+    SEQ_1              0.599      0.187      0.325      1.103
+    SEQ_2              0.667      0.206      0.364      1.222
+    SEQ_3              0.612      0.218      0.304      1.230
+    SEQ_4              0.696      0.239      0.355      1.365
+    SEQ_5              0.677      0.285      0.297      1.547
+    LICENS            33.271     64.297      0.754   1469.090
+    NUFVHS             1.867      0.252      1.433      2.433
+    RACWHT             0.516      0.122      0.325      0.820
+    RACASN             0.560      0.152      0.329      0.954
+    RACHIS             0.706      0.258      0.346      1.444
+    RACBLK             0.677      0.303      0.281      1.629
+    AGEGRP_1           0.383      0.106      0.223      0.659
+    AGEGRP_2           0.573      0.152      0.340      0.965
+    NADULT             1.872      0.165      1.574      2.226
+    FEMALE             0.843      0.097      0.673      1.056
+    WORKER             0.371      0.066      0.261      0.527
+    HINCLO             1.039      0.223      0.683      1.582
+    N00_04             1.274      0.227      0.898      1.807
+    N05_15             1.581      0.320      1.062      2.352
+    N16_17             0.628      0.227      0.310      1.274
+    CMPLXT             0.965      3.647      0.001   1586.684
+    CARLVR             3.561      0.551      2.630      4.822
+    UT_SAF             0.801      0.133      0.578      1.110
+    UT_FRQ             1.007      0.278      0.586      1.730
+    UT_REL             0.478      0.131      0.279      0.818
+    UB_SHR             0.911      0.242      0.541      1.535
+    UB_GRN             0.972      0.248      0.589      1.603
+    UB_LAN             1.024      0.294      0.584      1.797
+    UB_RLN             1.303      0.305      0.824      2.061
+    UB_AMN             0.733      0.153      0.486      1.105
+    RES30M             0.854      0.131      0.632      1.155
+    RESAFF             0.904      0.167      0.630      1.298
+    RESCLO             1.148      0.137      0.909      1.449
+    RESHWY             1.505      0.181      1.189      1.905
+    RESSCH             1.748      0.269      1.293      2.362
+    RESSPA             1.304      0.152      1.037      1.639
+    RESTRA             0.672      0.107      0.493      0.917
+    RESWAL             0.550      0.112      0.369      0.820
+
+Parameterization using Reference Class 4
+
+ C#1      ON
+    SEQ_1              0.611      0.178      0.345      1.082
+    SEQ_2              0.590      0.169      0.337      1.034
+    SEQ_3              0.724      0.238      0.380      1.379
+    SEQ_4              0.490      0.159      0.259      0.927
+    SEQ_5              0.551      0.246      0.230      1.321
+    LICENS             0.006      0.008      0.000      0.075
+    NUFVHS             0.126      0.018      0.096      0.167
+    RACWHT             1.086      0.226      0.723      1.631
+    RACASN             1.256      0.303      0.783      2.015
+    RACHIS             1.230      0.429      0.620      2.437
+    RACBLK             0.764      0.298      0.356      1.640
+    AGEGRP_1           1.527      0.350      0.975      2.392
+    AGEGRP_2           1.220      0.264      0.798      1.864
+    NADULT             0.593      0.064      0.480      0.733
+    FEMALE             1.075      0.126      0.854      1.353
+    WORKER             0.763      0.137      0.537      1.086
+    HINCLO             1.382      0.240      0.984      1.942
+    N00_04             0.729      0.240      0.382      1.391
+    N05_15             1.358      0.391      0.773      2.386
+    N16_17             4.066      2.068      1.501     11.016
+    CMPLXT            21.418     69.233      0.038  12085.312
+    CARLVR             0.005      0.016      0.000      4.021
+    UT_SAF             4.894      1.077      3.180      7.532
+    UT_FRQ             1.282      0.451      0.643      2.554
+    UT_REL             2.157      0.719      1.122      4.146
+    UB_SHR             1.232      0.288      0.778      1.949
+    UB_GRN             0.897      0.212      0.565      1.426
+    UB_LAN             1.097      0.307      0.635      1.898
+    UB_RLN             0.760      0.187      0.469      1.232
+    UB_AMN             0.929      0.189      0.623      1.385
+    RES30M             1.278      0.204      0.934      1.749
+    RESAFF             0.631      0.113      0.444      0.897
+    RESCLO             0.792      0.094      0.628      0.998
+    RESHWY             0.586      0.073      0.460      0.748
+    RESSCH             0.720      0.118      0.521      0.993
+    RESSPA             0.872      0.103      0.691      1.100
+    RESTRA             2.585      0.504      1.765      3.788
+    RESWAL             1.091      0.215      0.742      1.606
+
+ C#2      ON
+    SEQ_1              1.370      0.604      0.577      3.253
+    SEQ_2              1.363      0.588      0.585      3.176
+    SEQ_3              1.485      0.709      0.582      3.788
+    SEQ_4              1.449      0.674      0.582      3.606
+    SEQ_5              1.796      1.079      0.553      5.833
+    LICENS             0.005      0.006      0.000      0.055
+    NUFVHS             0.218      0.039      0.154      0.310
+    RACWHT             0.715      0.165      0.455      1.123
+    RACASN             0.774      0.221      0.442      1.353
+    RACHIS             1.393      0.603      0.596      3.255
+    RACBLK             0.735      0.403      0.251      2.152
+    AGEGRP_1           1.099      0.267      0.683      1.770
+    AGEGRP_2           0.963      0.191      0.653      1.421
+    NADULT             1.486      0.162      1.199      1.840
+    FEMALE             3.534      0.636      2.484      5.027
+    WORKER             0.249      0.044      0.176      0.352
+    HINCLO             0.464      0.115      0.285      0.754
+    N00_04             2.005      0.545      1.178      3.415
+    N05_15             1.253      0.386      0.685      2.292
+    N16_17             1.622      1.010      0.478      5.500
+    CMPLXT             0.000      0.000      0.000      0.542
+    CARLVR             0.730      0.123      0.524      1.017
+    UT_SAF             1.831      0.513      1.057      3.172
+    UT_FRQ             0.586      0.177      0.324      1.061
+    UT_REL             1.241      0.401      0.659      2.337
+    UB_SHR             1.263      0.493      0.587      2.716
+    UB_GRN             0.703      0.292      0.312      1.585
+    UB_LAN             0.863      0.407      0.343      2.174
+    UB_RLN             1.516      0.644      0.659      3.487
+    UB_AMN             0.755      0.218      0.429      1.329
+    RES30M             0.812      0.138      0.582      1.134
+    RESAFF             0.854      0.209      0.529      1.379
+    RESCLO             1.030      0.159      0.762      1.394
+    RESHWY             0.888      0.137      0.655      1.202
+    RESSCH             0.824      0.140      0.590      1.150
+    RESSPA             1.341      0.210      0.986      1.824
+    RESTRA             0.944      0.159      0.679      1.314
+    RESWAL             1.293      0.255      0.879      1.903
+
+ C#3      ON
+    SEQ_1              1.175      0.352      0.654      2.113
+    SEQ_2              1.099      0.326      0.614      1.966
+    SEQ_3              1.076      0.362      0.557      2.079
+    SEQ_4              0.844      0.274      0.446      1.596
+    SEQ_5              1.342      0.539      0.612      2.947
+    LICENS             0.041      0.054      0.003      0.551
+    NUFVHS             0.254      0.031      0.200      0.323
+    RACWHT             2.269      0.502      1.470      3.500
+    RACASN             2.065      0.520      1.260      3.383
+    RACHIS             2.255      0.765      1.160      4.383
+    RACBLK             1.396      0.539      0.655      2.974
+    AGEGRP_1           4.533      1.146      2.761      7.441
+    AGEGRP_2           2.611      0.642      1.612      4.228
+    NADULT             0.653      0.056      0.552      0.774
+    FEMALE             1.190      0.123      0.972      1.456
+    WORKER             0.893      0.159      0.630      1.266
+    HINCLO             0.636      0.121      0.438      0.924
+    N00_04             2.528      0.458      1.773      3.606
+    N05_15             2.527      0.508      1.704      3.747
+    N16_17             3.245      1.134      1.635      6.438
+    CMPLXT           999.000    999.000    999.000    999.000
+    CARLVR             0.388      0.055      0.294      0.511
+    UT_SAF             1.339      0.198      1.001      1.790
+    UT_FRQ             1.081      0.260      0.675      1.732
+    UT_REL             2.136      0.508      1.340      3.405
+    UB_SHR             1.144      0.266      0.726      1.803
+    UB_GRN             1.176      0.257      0.766      1.804
+    UB_LAN             1.040      0.255      0.643      1.683
+    UB_RLN             0.670      0.136      0.449      0.998
+    UB_AMN             1.298      0.249      0.891      1.890
+    RES30M             1.175      0.167      0.890      1.551
+    RESAFF             1.003      0.174      0.714      1.411
+    RESCLO             0.869      0.092      0.706      1.070
+    RESHWY             0.697      0.075      0.564      0.860
+    RESSCH             0.666      0.094      0.505      0.880
+    RESSPA             0.830      0.086      0.677      1.018
+    RESTRA             1.490      0.210      1.131      1.964
+    RESWAL             1.963      0.363      1.366      2.821
+
+ C#5      ON
+    SEQ_1              0.573      0.169      0.322      1.021
+    SEQ_2              0.711      0.205      0.404      1.252
+    SEQ_3              0.730      0.241      0.382      1.393
+    SEQ_4              0.542      0.175      0.288      1.020
+    SEQ_5              0.381      0.183      0.148      0.979
+    LICENS             0.009      0.012      0.001      0.113
+    NUFVHS             0.111      0.015      0.086      0.144
+    RACWHT             0.960      0.187      0.655      1.407
+    RACASN             0.977      0.231      0.614      1.554
+    RACHIS             1.189      0.397      0.617      2.289
+    RACBLK             0.327      0.162      0.123      0.865
+    AGEGRP_1           1.721      0.355      1.149      2.578
+    AGEGRP_2           1.386      0.264      0.954      2.014
+    NADULT             0.470      0.051      0.379      0.582
+    FEMALE             0.941      0.105      0.757      1.171
+    WORKER             0.585      0.098      0.421      0.812
+    HINCLO             1.235      0.208      0.888      1.717
+    N00_04             1.104      0.273      0.680      1.791
+    N05_15             1.605      0.389      0.999      2.580
+    N16_17             2.543      1.083      1.104      5.858
+    CMPLXT             0.000      0.000      0.000      0.000
+    CARLVR             0.220      0.033      0.164      0.296
+    UT_SAF             1.018      0.168      0.736      1.408
+    UT_FRQ             0.711      0.170      0.445      1.135
+    UT_REL             1.418      0.349      0.875      2.298
+    UB_SHR             0.965      0.235      0.599      1.555
+    UB_GRN             1.105      0.256      0.702      1.741
+    UB_LAN             1.121      0.296      0.668      1.880
+    UB_RLN             1.710      0.400      1.082      2.704
+    UB_AMN             1.060      0.206      0.725      1.552
+    RES30M             1.291      0.178      0.985      1.692
+    RESAFF             0.455      0.072      0.333      0.621
+    RESCLO             0.870      0.099      0.696      1.088
+    RESHWY             0.487      0.057      0.387      0.614
+    RESSCH             0.727      0.110      0.541      0.977
+    RESSPA             0.795      0.090      0.637      0.992
+    RESTRA             1.626      0.236      1.224      2.160
+    RESWAL             2.400      0.426      1.695      3.399
+
+ C#6      ON
+    SEQ_1              0.703      0.143      0.472      1.047
+    SEQ_2              0.733      0.146      0.495      1.084
+    SEQ_3              0.658      0.148      0.423      1.024
+    SEQ_4              0.588      0.133      0.377      0.915
+    SEQ_5              0.909      0.270      0.509      1.626
+    LICENS             1.357      3.032      0.017    108.196
+    NUFVHS             0.475      0.053      0.381      0.592
+    RACWHT             1.171      0.162      0.893      1.536
+    RACASN             1.157      0.200      0.824      1.623
+    RACHIS             1.593      0.417      0.953      2.662
+    RACBLK             0.945      0.276      0.532      1.677
+    AGEGRP_1           1.737      0.257      1.301      2.320
+    AGEGRP_2           1.496      0.192      1.163      1.923
+    NADULT             1.223      0.081      1.074      1.394
+    FEMALE             1.003      0.079      0.860      1.170
+    WORKER             0.331      0.036      0.267      0.411
+    HINCLO             0.661      0.092      0.504      0.868
+    N00_04             3.221      0.425      2.486      4.172
+    N05_15             3.994      0.514      3.104      5.140
+    N16_17             2.039      0.534      1.221      3.406
+    CMPLXT           999.000    999.000    999.000    999.000
+    CARLVR             1.380      0.121      1.162      1.638
+    UT_SAF             1.073      0.135      0.839      1.373
+    UT_FRQ             1.088      0.182      0.785      1.510
+    UT_REL             1.021      0.178      0.725      1.438
+    UB_SHR             1.043      0.210      0.702      1.548
+    UB_GRN             1.143      0.215      0.791      1.651
+    UB_LAN             1.065      0.234      0.693      1.638
+    UB_RLN             0.873      0.163      0.605      1.259
+    UB_AMN             0.951      0.148      0.701      1.290
+    RES30M             1.004      0.095      0.834      1.208
+    RESAFF             0.907      0.107      0.719      1.144
+    RESCLO             0.998      0.081      0.851      1.169
+    RESHWY             1.048      0.086      0.893      1.230
+    RESSCH             1.165      0.109      0.970      1.399
+    RESSPA             1.083      0.089      0.922      1.271
+    RESTRA             1.002      0.092      0.837      1.199
+    RESWAL             1.080      0.109      0.886      1.315
+
+Parameterization using Reference Class 5
+
+ C#1      ON
+    SEQ_1              1.067      0.318      0.595      1.915
+    SEQ_2              0.830      0.242      0.469      1.470
+    SEQ_3              0.992      0.336      0.511      1.928
+    SEQ_4              0.904      0.306      0.466      1.755
+    SEQ_5              1.447      0.755      0.520      4.024
+    LICENS             0.680      0.144      0.448      1.031
+    NUFVHS             1.137      0.175      0.841      1.536
+    RACWHT             1.131      0.243      0.743      1.723
+    RACASN             1.286      0.325      0.784      2.109
+    RACHIS             1.034      0.371      0.512      2.089
+    RACBLK             2.340      1.278      0.802      6.824
+    AGEGRP_1           0.888      0.220      0.547      1.441
+    AGEGRP_2           0.880      0.210      0.551      1.405
+    NADULT             1.263      0.160      0.985      1.619
+    FEMALE             1.142      0.145      0.890      1.464
+    WORKER             1.305      0.241      0.909      1.873
+    HINCLO             1.119      0.198      0.791      1.584
+    N00_04             0.660      0.239      0.325      1.343
+    N05_15             0.846      0.275      0.447      1.601
+    N16_17             1.599      0.852      0.563      4.546
+    CMPLXT           999.000    999.000    999.000    999.000
+    CARLVR             0.021      0.072      0.000     19.031
+    UT_SAF             4.806      1.130      3.031      7.621
+    UT_FRQ             1.804      0.693      0.850      3.829
+    UT_REL             1.521      0.560      0.739      3.128
+    UB_SHR             1.276      0.318      0.783      2.078
+    UB_GRN             0.812      0.209      0.490      1.344
+    UB_LAN             0.979      0.296      0.541      1.772
+    UB_RLN             0.444      0.118      0.264      0.748
+    UB_AMN             0.876      0.183      0.582      1.318
+    RES30M             0.990      0.173      0.703      1.394
+    RESAFF             1.386      0.251      0.972      1.978
+    RESCLO             0.910      0.118      0.705      1.174
+    RESHWY             1.203      0.171      0.911      1.590
+    RESSCH             0.990      0.180      0.693      1.415
+    RESSPA             1.097      0.143      0.850      1.417
+    RESTRA             1.590      0.354      1.028      2.461
+    RESWAL             0.455      0.106      0.288      0.718
+
+ C#2      ON
+    SEQ_1              2.391      1.202      0.893      6.406
+    SEQ_2              1.916      0.940      0.733      5.012
+    SEQ_3              2.035      1.108      0.700      5.916
+    SEQ_4              2.672      1.423      0.941      7.587
+    SEQ_5              4.714      3.300      1.195     18.591
+    LICENS             0.508      0.142      0.294      0.877
+    NUFVHS             1.962      0.383      1.339      2.876
+    RACWHT             0.744      0.191      0.450      1.232
+    RACASN             0.792      0.250      0.427      1.471
+    RACHIS             1.172      0.532      0.481      2.854
+    RACBLK             2.251      1.560      0.579      8.758
+    AGEGRP_1           0.639      0.177      0.371      1.101
+    AGEGRP_2           0.695      0.164      0.437      1.105
+    NADULT             3.164      0.441      2.407      4.158
+    FEMALE             3.753      0.749      2.538      5.550
+    WORKER             0.426      0.088      0.284      0.640
+    HINCLO             0.376      0.100      0.223      0.633
+    N00_04             1.817      0.600      0.951      3.471
+    N05_15             0.781      0.279      0.388      1.572
+    N16_17             0.638      0.450      0.160      2.545
+    CMPLXT           999.000    999.000    999.000    999.000
+    CARLVR             3.317      0.699      2.194      5.014
+    UT_SAF             1.798      0.560      0.977      3.311
+    UT_FRQ             0.825      0.284      0.420      1.619
+    UT_REL             0.875      0.327      0.421      1.819
+    UB_SHR             1.308      0.579      0.549      3.116
+    UB_GRN             0.636      0.294      0.257      1.575
+    UB_LAN             0.770      0.404      0.275      2.155
+    UB_RLN             0.886      0.414      0.355      2.212
+    UB_AMN             0.712      0.221      0.388      1.307
+    RES30M             0.629      0.123      0.430      0.922
+    RESAFF             1.878      0.505      1.108      3.182
+    RESCLO             1.184      0.206      0.842      1.666
+    RESHWY             1.822      0.326      1.282      2.588
+    RESSCH             1.134      0.231      0.761      1.690
+    RESSPA             1.687      0.297      1.195      2.382
+    RESTRA             0.581      0.117      0.392      0.861
+    RESWAL             0.539      0.133      0.333      0.873
+
+ C#3      ON
+    SEQ_1              2.051      0.661      1.090      3.858
+    SEQ_2              1.546      0.490      0.830      2.876
+    SEQ_3              1.474      0.535      0.724      3.004
+    SEQ_4              1.557      0.553      0.776      3.125
+    SEQ_5              3.524      1.739      1.339      9.269
+    LICENS             4.599      1.471      2.457      8.609
+    NUFVHS             2.286      0.317      1.742      3.000
+    RACWHT             2.363      0.579      1.463      3.819
+    RACASN             2.114      0.592      1.221      3.660
+    RACHIS             1.897      0.701      0.919      3.916
+    RACBLK             4.275      2.395      1.426     12.816
+    AGEGRP_1           2.634      0.734      1.526      4.546
+    AGEGRP_2           1.884      0.510      1.108      3.202
+    NADULT             1.392      0.157      1.116      1.736
+    FEMALE             1.264      0.151      1.000      1.597
+    WORKER             1.526      0.292      1.049      2.221
+    HINCLO             0.515      0.104      0.347      0.765
+    N00_04             2.291      0.587      1.387      3.784
+    N05_15             1.575      0.413      0.942      2.632
+    N16_17             1.276      0.595      0.512      3.182
+    CMPLXT           999.000    999.000    999.000    999.000
+    CARLVR             1.761      0.325      1.227      2.530
+    UT_SAF             1.315      0.229      0.935      1.849
+    UT_FRQ             1.521      0.420      0.886      2.613
+    UT_REL             1.506      0.418      0.874      2.597
+    UB_SHR             1.185      0.309      0.711      1.975
+    UB_GRN             1.064      0.272      0.644      1.757
+    UB_LAN             0.928      0.272      0.522      1.649
+    UB_RLN             0.392      0.096      0.242      0.634
+    UB_AMN             1.224      0.253      0.816      1.837
+    RES30M             0.910      0.147      0.663      1.250
+    RESAFF             2.205      0.410      1.531      3.176
+    RESCLO             0.999      0.123      0.785      1.271
+    RESHWY             1.430      0.186      1.108      1.845
+    RESSCH             0.917      0.156      0.656      1.281
+    RESSPA             1.045      0.128      0.822      1.328
+    RESTRA             0.917      0.162      0.648      1.297
+    RESWAL             0.818      0.185      0.525      1.274
+
+ C#4      ON
+    SEQ_1              1.745      0.514      0.980      3.110
+    SEQ_2              1.406      0.406      0.799      2.475
+    SEQ_3              1.370      0.452      0.718      2.615
+    SEQ_4              1.845      0.595      0.980      3.472
+    SEQ_5              2.625      1.264      1.021      6.745
+    LICENS           112.714    146.488      8.825   1439.650
+    NUFVHS             8.991      1.177      6.956     11.620
+    RACWHT             1.042      0.203      0.710      1.527
+    RACASN             1.024      0.243      0.644      1.629
+    RACHIS             0.841      0.281      0.437      1.620
+    RACBLK             3.063      1.523      1.156      8.115
+    AGEGRP_1           0.581      0.120      0.388      0.871
+    AGEGRP_2           0.721      0.138      0.496      1.048
+    NADULT             2.130      0.233      1.719      2.639
+    FEMALE             1.062      0.118      0.854      1.321
+    WORKER             1.710      0.286      1.232      2.373
+    HINCLO             0.810      0.136      0.582      1.126
+    N00_04             0.906      0.224      0.558      1.470
+    N05_15             0.623      0.151      0.388      1.001
+    N16_17             0.393      0.167      0.171      0.906
+    CMPLXT           999.000    999.000    999.000    999.000
+    CARLVR             4.545      0.687      3.379      6.114
+    UT_SAF             0.982      0.162      0.710      1.358
+    UT_FRQ             1.407      0.337      0.881      2.249
+    UT_REL             0.705      0.174      0.435      1.143
+    UB_SHR             1.036      0.252      0.643      1.669
+    UB_GRN             0.905      0.210      0.574      1.425
+    UB_LAN             0.892      0.235      0.532      1.497
+    UB_RLN             0.585      0.137      0.370      0.924
+    UB_AMN             0.943      0.183      0.644      1.380
+    RES30M             0.775      0.107      0.591      1.015
+    RESAFF             2.198      0.349      1.610      3.001
+    RESCLO             1.149      0.131      0.919      1.437
+    RESHWY             2.052      0.242      1.629      2.586
+    RESSCH             1.376      0.208      1.024      1.850
+    RESSPA             1.258      0.142      1.008      1.570
+    RESTRA             0.615      0.089      0.463      0.817
+    RESWAL             0.417      0.074      0.294      0.590
+
+ C#6      ON
+    SEQ_1              1.228      0.365      0.685      2.200
+    SEQ_2              1.031      0.300      0.583      1.823
+    SEQ_3              0.902      0.306      0.465      1.752
+    SEQ_4              1.084      0.358      0.567      2.071
+    SEQ_5              2.387      1.157      0.923      6.173
+    LICENS           153.003    285.445      3.951   5925.709
+    NUFVHS             4.268      0.595      3.247      5.610
+    RACWHT             1.220      0.249      0.818      1.820
+    RACASN             1.185      0.295      0.727      1.930
+    RACHIS             1.340      0.469      0.674      2.663
+    RACBLK             2.893      1.518      1.034      8.093
+    AGEGRP_1           1.009      0.221      0.657      1.550
+    AGEGRP_2           1.079      0.216      0.728      1.598
+    NADULT             2.605      0.288      2.097      3.236
+    FEMALE             1.065      0.126      0.844      1.344
+    WORKER             0.566      0.094      0.409      0.784
+    HINCLO             0.536      0.100      0.372      0.772
+    N00_04             2.918      0.696      1.828      4.657
+    N05_15             2.489      0.590      1.564      3.960
+    N16_17             0.802      0.344      0.346      1.857
+    CMPLXT           999.000    999.000    999.000    999.000
+    CARLVR             6.273      0.987      4.608      8.539
+    UT_SAF             1.054      0.189      0.742      1.497
+    UT_FRQ             1.532      0.396      0.922      2.544
+    UT_REL             0.720      0.194      0.424      1.222
+    UB_SHR             1.080      0.292      0.635      1.835
+    UB_GRN             1.034      0.270      0.620      1.724
+    UB_LAN             0.950      0.289      0.524      1.724
+    UB_RLN             0.510      0.131      0.308      0.845
+    UB_AMN             0.897      0.187      0.596      1.351
+    RES30M             0.778      0.114      0.584      1.036
+    RESAFF             1.993      0.330      1.441      2.757
+    RESCLO             1.147      0.140      0.902      1.457
+    RESHWY             2.151      0.270      1.682      2.752
+    RESSCH             1.603      0.251      1.180      2.178
+    RESSPA             1.362      0.166      1.073      1.729
+    RESTRA             0.616      0.095      0.455      0.833
+    RESWAL             0.450      0.085      0.311      0.651
+
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for Mixture analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  16:41:35
+        Ending Time:  16:41:43
+       Elapsed Time:  00:00:08
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

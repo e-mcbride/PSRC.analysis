@@ -1,0 +1,516 @@
+Mplus VERSION 8.6
+MUTHEN & MUTHEN
+11/01/2021   1:51 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE: 3-class LCA: mode
+  DATA: FILE = "mode_cleaned_aux-data-mplus-ready_9cbdafdca9831a1c9d6734f8cf969a75.dat";
+  VARIABLE:
+    NAMES = personid pass sov dr_oth walk bike transit other ut_saf ut_frq ut_rel ub_shr
+       ub_grn ub_lan ub_rln ub_amn res30m resaff resclo reshwy ressch resspa restra
+       reswal carlvr racwht racasn rachis racblk racoth female school worker hinclo
+       n00_04 n05_15 n16_17 licens cmplxt agegrp_1 agegrp_2 agegrp_3 clustn_1 clustn_2
+       clustn_3 clustn_4 clustn_5 clustn_6 clustn_NA;
+    IDVAR = personid;
+    USEVAR =      sov dr_oth pass transit walk bike other;
+    CATEGORICAL = sov dr_oth pass transit walk bike other;
+    MISSING=.;
+    CLASSES = c(3);
+  ANALYSIS: TYPE = MIXTURE;
+            PROCESSORS = 6(STARTS);
+  !          STSCALE = 10;
+  !          STARTS = 1000 250;
+            STARTS = 0;
+            OPTSEED = 49221;
+  !          K-1STARTS = 500 125;
+            LRTSTARTS = 0 0 2000 500;
+
+  PLOT: TYPE=PLOT3;
+        SERIES = sov dr_oth pass transit walk bike other(*);
+  OUTPUT: TECH11;
+  OUTPUT: TECH14;
+  !SAVEDATA:	FILE IS LCA_mode_cleaned_aux_c3_save.txt;
+  !			SAVE IS CPROB;
+  !            MISSFLAG=9999;
+  !			FORMAT IS FREE;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+3-class LCA: mode_cleaned_aux
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        9184
+
+Number of dependent variables                                    7
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   SOV         DR_OTH      PASS        TRANSIT     WALK        BIKE
+   OTHER
+
+Categorical latent variables
+   C
+
+Variables with special functions
+
+  ID variable           PERSONID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Random Starts Specifications
+  Random seed for analysis                                   49221
+Link                                                         LOGIT
+
+Input data file(s)
+  mode_cleaned_aux-data-mplus-ready_9cbdafdca9831a1c9d6734f8cf969a75.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+     Number of y missing data patterns           0
+     Number of u missing data patterns           1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    SOV
+      Category 1    0.379         3485.000
+      Category 2    0.621         5699.000
+    DR_OTH
+      Category 1    0.665         6108.000
+      Category 2    0.335         3076.000
+    PASS
+      Category 1    0.766         7031.000
+      Category 2    0.234         2153.000
+    TRANSIT
+      Category 1    0.680         6247.000
+      Category 2    0.320         2937.000
+    WALK
+      Category 1    0.525         4821.000
+      Category 2    0.475         4363.000
+    BIKE
+      Category 1    0.934         8582.000
+      Category 2    0.066          602.000
+    OTHER
+      Category 1    0.901         8276.000
+      Category 2    0.099          908.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       23
+
+Loglikelihood
+
+          H0 Value                      -31764.585
+          H0 Scaling Correction Factor      1.0578
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   63575.171
+          Bayesian (BIC)                 63739.051
+          Sample-Size Adjusted BIC       63665.961
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit for the Binary and Ordered Categorical
+(Ordinal) Outcomes
+
+          Pearson Chi-Square
+
+          Value                           1542.208
+          Degrees of Freedom                   104
+          P-Value                           0.0000
+
+          Likelihood Ratio Chi-Square
+
+          Value                           1861.350
+          Degrees of Freedom                   104
+          P-Value                           0.0000
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1       1666.88662          0.18150
+       2       4301.81753          0.46840
+       3       3215.29586          0.35010
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1       1666.88662          0.18150
+       2       4301.81753          0.46840
+       3       3215.29586          0.35010
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1             1614          0.17574
+       2             4381          0.47703
+       3             3189          0.34723
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.772
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.862    0.097    0.040
+    2   0.054    0.910    0.035
+    3   0.011    0.049    0.939
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.835    0.143    0.022
+    2   0.037    0.927    0.036
+    3   0.020    0.048    0.932
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      3.643    1.878    0.000
+    2      0.001    3.235    0.000
+    3     -3.834   -2.962    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Thresholds
+    SOV$1             -3.560      0.503     -7.079      0.000
+    DR_OTH$1          -0.895      0.094     -9.527      0.000
+    PASS$1            -0.184      0.068     -2.719      0.007
+    TRANSIT$1         -0.303      0.077     -3.952      0.000
+    WALK$1            -2.526      0.165    -15.276      0.000
+    BIKE$1             1.802      0.079     22.840      0.000
+    OTHER$1            0.747      0.069     10.897      0.000
+
+Latent Class 2
+
+ Thresholds
+    SOV$1             -2.433      0.183    -13.305      0.000
+    DR_OTH$1           0.551      0.048     11.573      0.000
+    PASS$1             2.038      0.079     25.926      0.000
+    TRANSIT$1          2.989      0.147     20.358      0.000
+    WALK$1             1.355      0.064     21.022      0.000
+    BIKE$1             3.961      0.154     25.666      0.000
+    OTHER$1            4.658      0.233     19.951      0.000
+
+Latent Class 3
+
+ Thresholds
+    SOV$1              3.219      0.636      5.061      0.000
+    DR_OTH$1           2.204      0.156     14.127      0.000
+    PASS$1             1.195      0.051     23.230      0.000
+    TRANSIT$1         -0.205      0.058     -3.555      0.000
+    WALK$1            -0.416      0.043     -9.669      0.000
+    BIKE$1             2.328      0.065     35.575      0.000
+    OTHER$1            2.163      0.063     34.390      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1               -0.657      0.057    -11.439      0.000
+    C#2                0.291      0.060      4.869      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.130E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+RESULTS IN PROBABILITY SCALE
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ SOV
+    Category 1         0.028      0.014      2.045      0.041
+    Category 2         0.972      0.014     71.932      0.000
+ DR_OTH
+    Category 1         0.290      0.019     14.996      0.000
+    Category 2         0.710      0.019     36.698      0.000
+ PASS
+    Category 1         0.454      0.017     26.993      0.000
+    Category 2         0.546      0.017     32.462      0.000
+ TRANSIT
+    Category 1         0.425      0.019     22.711      0.000
+    Category 2         0.575      0.019     30.736      0.000
+ WALK
+    Category 1         0.074      0.011      6.531      0.000
+    Category 2         0.926      0.011     81.657      0.000
+ BIKE
+    Category 1         0.858      0.010     89.502      0.000
+    Category 2         0.142      0.010     14.766      0.000
+ OTHER
+    Category 1         0.678      0.015     45.380      0.000
+    Category 2         0.322      0.015     21.504      0.000
+
+Latent Class 2
+
+ SOV
+    Category 1         0.081      0.014      5.950      0.000
+    Category 2         0.919      0.014     67.758      0.000
+ DR_OTH
+    Category 1         0.634      0.011     57.463      0.000
+    Category 2         0.366      0.011     33.130      0.000
+ PASS
+    Category 1         0.885      0.008    110.379      0.000
+    Category 2         0.115      0.008     14.375      0.000
+ TRANSIT
+    Category 1         0.952      0.007    142.101      0.000
+    Category 2         0.048      0.007      7.154      0.000
+ WALK
+    Category 1         0.795      0.011     75.658      0.000
+    Category 2         0.205      0.011     19.523      0.000
+ BIKE
+    Category 1         0.981      0.003    346.849      0.000
+    Category 2         0.019      0.003      6.602      0.000
+ OTHER
+    Category 1         0.991      0.002    455.967      0.000
+    Category 2         0.009      0.002      4.323      0.000
+
+Latent Class 3
+
+ SOV
+    Category 1         0.962      0.024     40.886      0.000
+    Category 2         0.038      0.024      1.635      0.102
+ DR_OTH
+    Category 1         0.901      0.014     64.495      0.000
+    Category 2         0.099      0.014      7.116      0.000
+ PASS
+    Category 1         0.768      0.009     83.658      0.000
+    Category 2         0.232      0.009     25.328      0.000
+ TRANSIT
+    Category 1         0.449      0.014     31.393      0.000
+    Category 2         0.551      0.014     38.553      0.000
+ WALK
+    Category 1         0.398      0.010     38.588      0.000
+    Category 2         0.602      0.010     58.489      0.000
+ BIKE
+    Category 1         0.911      0.005    172.040      0.000
+    Category 2         0.089      0.005     16.770      0.000
+ OTHER
+    Category 1         0.897      0.006    154.153      0.000
+    Category 2         0.103      0.006     17.731      0.000
+
+
+LATENT CLASS INDICATOR ODDS RATIOS FOR THE LATENT CLASSES
+
+                                                95% C.I.
+                    Estimate       S.E.  Lower 2.5% Upper 2.5%
+
+Latent Class 1 Compared to Latent Class 2
+
+ SOV
+    Category > 1       3.089      1.333      1.326      7.198
+ DR_OTH
+    Category > 1       4.244      0.423      3.491      5.160
+ PASS
+    Category > 1       9.235      0.933      7.576     11.256
+ TRANSIT
+    Category > 1      26.882      3.962     20.138     35.884
+ WALK
+    Category > 1      48.451      8.010     35.041     66.992
+ BIKE
+    Category > 1       8.668      1.545      6.112     12.292
+ OTHER
+    Category > 1      49.976     12.010     31.204     80.043
+
+Latent Class 1 Compared to Latent Class 3
+
+ SOV
+    Category > 1     879.722    780.934    154.424   5011.589
+ DR_OTH
+    Category > 1      22.179      4.277     15.197     32.367
+ PASS
+    Category > 1       3.972      0.368      3.312      4.764
+ TRANSIT
+    Category > 1       1.102      0.096      0.928      1.308
+ WALK
+    Category > 1       8.248      1.371      5.955     11.425
+ BIKE
+    Category > 1       1.693      0.175      1.382      2.074
+ OTHER
+    Category > 1       4.120      0.384      3.432      4.946
+
+Latent Class 2 Compared to Latent Class 3
+
+ SOV
+    Category > 1     284.757    196.892     73.436   1104.175
+ DR_OTH
+    Category > 1       5.225      0.989      3.606      7.573
+ PASS
+    Category > 1       0.430      0.046      0.349      0.530
+ TRANSIT
+    Category > 1       0.041      0.007      0.030      0.056
+ WALK
+    Category > 1       0.170      0.012      0.148      0.196
+ BIKE
+    Category > 1       0.195      0.034      0.139      0.274
+ OTHER
+    Category > 1       0.082      0.020      0.051      0.133
+
+
+TECHNICAL 11 OUTPUT
+
+     Random Starts Specifications for the k-1 Class Analysis Model
+        Number of initial stage random starts                  20
+        Number of final stage optimizations                     4
+
+
+
+     VUONG-LO-MENDELL-RUBIN LIKELIHOOD RATIO TEST FOR 2 (H0) VERSUS 3 CLASSES
+
+          H0 Loglikelihood Value                       -32848.287
+          2 Times the Loglikelihood Difference           2167.403
+          Difference in the Number of Parameters                8
+          Mean                                             13.611
+          Standard Deviation                               11.462
+          P-Value                                          0.0000
+
+     LO-MENDELL-RUBIN ADJUSTED LRT TEST
+
+          Value                                          2138.114
+          P-Value                                          0.0000
+
+
+TECHNICAL 14 OUTPUT
+
+     Random Starts Specifications for the k-1 Class Analysis Model
+        Number of initial stage random starts                  20
+        Number of final stage optimizations                     4
+
+     Random Starts Specification for the k-1 Class Model for Generated Data
+        Number of initial stage random starts                   0
+        Number of final stage optimizations for the
+           initial stage random starts                          0
+     Random Starts Specification for the k Class Model for Generated Data
+        Number of initial stage random starts                2000
+        Number of final stage optimizations                   500
+     Number of bootstrap draws requested                   Varies
+
+
+     PARAMETRIC BOOTSTRAPPED LIKELIHOOD RATIO TEST FOR 2 (H0) VERSUS 3 CLASSES
+
+          H0 Loglikelihood Value                       -32848.287
+          2 Times the Loglikelihood Difference           2167.403
+          Difference in the Number of Parameters                8
+          Approximate P-Value                              0.0000
+          Successful Bootstrap Draws                            5
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values)
+  Scatterplots (sample values)
+  Sample proportions and estimated probabilities
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for Mixture analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  13:51:54
+        Ending Time:  13:52:26
+       Elapsed Time:  00:00:32
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen
