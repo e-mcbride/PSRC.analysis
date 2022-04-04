@@ -3,7 +3,6 @@
 library(tidyverse)
 library(here)
 library(MplusAutomation)
-# library(ggrepel)
 devtools::load_all()
 
 model_name <- "mode_cleaned_aux"
@@ -66,28 +65,12 @@ plotMixtures.probscale <- function(modelList,
   return(classplot)
 }
 
-
-## Fn: Create IPPs ------------------------------------------
-# create_ipps <- function(outfile, parameter = "Means") {
-#   outfile %>%
-#     plotMixtures(parameter = parameter, ci = NULL) +
-#
-#     # ggplot specifications
-#     aes(linetype = "solid", shape = "circle") +
-#     guides(linetype = 'none', shape = "none") +
-#     facet_wrap(~ Title, scales = "free_y", ncol = 2) +
-#     theme(strip.text = element_text(size = 8),
-#           legend.title = element_text(size = 8),
-#           text = element_text(size = 7, family = "serif"))
-# }
-
-
-
+# aesthetic modifications to `plotMixtures.probscale`:
 create_ipps.probscale <- function(outfile,
                                   coefficients,
                                   paramCat,
                                   paramOrder = c("bik", "wlk", "trn", "dal", "dot", "pas", "oth", "wsfh")) {
-  plotMixtures.probscale(modelList = outfile, coefficients, paramCat, paramOrder) + #parameter = parameter, ci = NULL) +
+  plotMixtures.probscale(modelList = outfile, coefficients, paramCat, paramOrder) +
 
     # ggplot specifications
     aes(linetype = "solid", shape = "circle") +
@@ -105,53 +88,13 @@ create_ipps.probscale <- function(outfile,
     #       text = element_text(size = 7, family = "serif"))
 }
 
-## Fn: add counts of estimates ---------------------------------
-add_estcount <- function(outfile) {
-  combo <- outfile %>%
-    enframe() %>%
-    transmute(name,
-              est_count = map(value,
-                              ~ .x$class_counts$modelEstimated %>%
-                                mutate(class = as.character(class))
-              ),
-              label_time = map(value,
-                               ~ .x$parameters$unstandardized %>%
-                                 filter(paramHeader == "Means") %>%
-                                 filter(!str_detect(param, "C#")) %>%
-                                 group_by(LatentClass) %>%
-                                 mutate(est_se = as.numeric(est_se),
-                                        est = as.numeric(est),
-                                        maxest = est == max(est)) %>%
-                                 filter(maxest)
-              ),
+## Execute IPP creation -------------------------------
 
-    ) %>%
-    unnest(cols = c(est_count, label_time)) %>%
-    rename(Class = LatentClass,
-           Variable = param,
-           Value = est)
+# parses model results (from .out files) from a specific directory (model_name)
+allOut_mode <- readModels(here(paste0("analysis/Mplus/", model_name)), recursive = FALSE)
 
-  if(any(combo$class != combo$LatentClass)){
-    warning("Something went wrong")
-  }
-  return(combo)# message("Count Added successfully. NAs introduced by coercion are to be expected.")
-}
-
-
-## Exec IPP creation -------------------------------
-
-## Import allOut ------
-# allOut <- readModels(here("analysis/Mplus/"), recursive = TRUE)
-#
-# shorten <- allOut %>%
-#   names() %>%
-#   str_split(".Mplus.") %>%
-#   map(~.x[2])
-# names(allOut) <- shorten
-
-allOut <- readModels(here(paste0("analysis/Mplus/", model_name)), recursive = FALSE)
-
-shorten <- allOut %>%
+# shorten long model names auto-generated from file names:
+shorten <- allOut_mode %>%
   names() %>%
   str_split("X") %>%
   map(~.x[2]) %>%
@@ -159,18 +102,12 @@ shorten <- allOut %>%
   map(~.x[1])
 # shorten
 
-names(allOut) <- shorten
+names(allOut_mode) <- shorten
 
-# allOut_mode <- allOut %>%
-#   keep(str_detect(names(.), pattern = model_name))
 
 ### Travel Mode -------------------------------------------------------------
 
-allOut_mode <- allOut
-
-# %>%
-#   keep(str_detect(names(.), pattern = paste0(model_name, "\\.(?=[:digit:])")))
-
+# ordering of variables in plot:
 modeOrder <- c('sov' = 'Single Occupancy Vehicle',
                'dr_oth' = 'Drive Others',
                'pass' = 'Passenger',
@@ -179,19 +116,15 @@ modeOrder <- c('sov' = 'Single Occupancy Vehicle',
                'bike' = 'Bike',
                'other' = 'Other Modes')
 
-
+# create plots for all models in one image:
 ipps_mode <- create_ipps.probscale(outfile = allOut_mode,
                                    coefficients = "probability.scale",
                                    paramCat = 2,
                                    paramOrder = names(modeOrder)) +
   scale_x_discrete(labels = str_wrap(unname(modeOrder), width = 10)) +
   ylab("Estimated Probabilities")
-# +
-#   scale_color_discrete(type = RColorBrewer::brewer.pal(n = 7, name = "Set1"))# +
-  # theme_dark(base_size = 7, base_family = "serif")
 
 ipps_mode
-  # scale_color_brewer(type = "qual", palette = RColorBrewer::brewer.pal(n = 7, name = "Accent")) + theme_dark()
 
 ggsave(plot = ipps_mode,here::here("analysis/figures/all_ipps_mode-cl-aux.png"), width = 6.5, height = 4.5)
 
@@ -199,7 +132,7 @@ ggsave(plot = ipps_mode,here::here("analysis/figures/all_ipps_mode-cl-aux.png"),
 
 # IPP for selected number of classes ===================================================
 
-# for 5 class
+# for 5 class Un-comment this and run instead of 6 class below
 # c <- 5 # final n classes selected
 # mode_className <- c('Carpool Drivers',
 #                     'Diverse Mode Users',
@@ -207,8 +140,10 @@ ggsave(plot = ipps_mode,here::here("analysis/figures/all_ipps_mode-cl-aux.png"),
 #                     'Car Passengers',
 #                     'Solitary Drivers')
 
-# # for 6 class. Un-comment this and run instead of 5 class above
+# for 6 class. Un-comment this and run instead of 5 class above
 nclasses <- 6 # final n classes selected
+
+# names for mode classes:
 mode_className <- c('Transit Users',
                     'Car Passengers',
                     'Diverse Mode Users',
@@ -216,14 +151,15 @@ mode_className <- c('Transit Users',
                     'Walkers',
                     'Non-solitary Drivers')
 
-classCounts <- allOut_mode[[nclasses]]$class_counts$mostLikely
+## create plot class labels: ---------------------------------------------------
+# proportion of observations by class, turn into percentages (for labels on plot)
+classProp <- (allOut_mode[[nclasses]]$class_counts$mostLikely$proportion) * 100 %>%
+  round(digits = 1)
 
-classProp <- round(classCounts$proportion * 100, digits = 1)
-
-classname_count_labels <- paste0(mode_className, " (n=", classCounts$count, ")")
-
+# Create strings to be used as class labels
 classname_prop_labels <- paste0(mode_className, " (", classProp, "%)")
 
+## create final plot with labels ---------------------------------------------------
 ipp <- allOut_mode[nclasses] %>%
   create_ipps.probscale(coefficients = "probability.scale",
                         paramCat = 2,
@@ -238,8 +174,6 @@ ipp <- allOut_mode[nclasses] %>%
         legend.title = element_text(size = 10),
         text = element_text(size = 10, family = "serif"))
 
-# +
-#   theme_dark()
 
 ipp
 
