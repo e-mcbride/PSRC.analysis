@@ -12,10 +12,10 @@ software](https://cloud.r-project.org/) itself and optionally\* [RStudio
 Desktop](https://rstudio.com/products/rstudio/download/).
 
 The statistical analysis in this compendium also heavily relies on the
-proprietary software [Mplus](https://www.statmodel.com/). An Mplus
-license and installation on your computer are necessary to run the
-complete analysis. Mplus version 8.6 was used to run this analysis,
-although using a later version should not cause any issues.
+proprietary software [Mplus](https://www.statmodel.com/). You will need
+an Mplus license and installation on your computer to run the complete
+analysis. Mplus version 8.6 was used to run this analysis, although
+using a later version should not cause any issues.
 
 1.  Clone this repository
 2.  Clone the other repository called
@@ -55,7 +55,8 @@ The [**analysis**](/analysis) directory contains:
     removed from the main analysis workflow, but I want to keep a record
     of.
 -   :scroll: **.R files**: Files to run the analysis, named to indicate
-    the the order to run them in. Please see “.R file naming protocol”
+    the the order to run them in. Please see section [**.R file naming
+    protocol**](https://github.com/e-mcbride/PSRC.analysis#r-file-naming-protocol)
     for a description of the numbering/naming system.
 
 Also in the [**analysis**](/analysis) directory are three
