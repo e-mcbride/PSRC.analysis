@@ -18,7 +18,7 @@ plotMixtures.probscale <- function(modelList,
                                    coefficients,
                                    paramCat,
                                    paramOrder = c("bik", "wlk", "trn", "dal", "dot", "pas", "oth", "wsfh")) {
-  # select the category to plot (cat 2),
+  # select the category to plot (cat 2)
   plotdat <-
     lapply(modelList, function(x) {
       subset(x$parameters[[coefficients]], x$parameters[[coefficients]]$category == paramCat)

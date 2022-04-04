@@ -1,4 +1,5 @@
-# XX_03 Analyze, update and re-run
+# 03_03 Analyze model results
+##    This is also when updates to .inp syntax and model re-runs would occur
 # Imports =====
 library(tidyverse)
 library(here)
