@@ -10,7 +10,10 @@ model_name <- "mode_cleaned_aux"
 
 # Get the table of values =====
 
-#make into fn
+# TO DO: make into fxn in "/R/"?
+
+# Takes Mplus model results list object (created by `MplusAutomation::readModels()`),
+#     extracts parameters of interest into a table:
 fitind <- function(outfiles) {
   outfiles %>%
     enframe() %>%
@@ -34,12 +37,11 @@ fitind <- function(outfiles) {
     )
 }
 
-# allOut <- readModels(here("analysis/Mplus/"), recursive = TRUE)
+# parses model results (from .out files) from a specific directory (model_name)
+allOut_mode <- readModels(here(paste0("analysis/Mplus/", model_name)), recursive = FALSE)
 
-
-allOut <- readModels(here(paste0("analysis/Mplus/", model_name)), recursive = FALSE)
-
-shorten <- allOut %>%
+# shorten long model names auto-generated from file names:
+shorten <- allOut_mode %>%
   names() %>%
   str_split("X") %>%
   map(~.x[2]) %>%
@@ -47,29 +49,28 @@ shorten <- allOut %>%
   map(~.x[1])
 shorten
 
-names(allOut) <- shorten
+names(allOut_mode) <- shorten
 
-allOut_mode <- allOut %>%
-  keep(str_detect(names(.), pattern = model_name))
+# # does not do anything now, but would be useful if more directories were extracted from:
+# allOut <- allOut_mode %>%
+#   keep(str_detect(names(.), pattern = model_name))
 
-
+# create fit indices table from function defined earlier:
 fitind_mode <- fitind(allOut_mode)
 
 
+# elbow plot of BIC and ABIC results:
 fitind_mode %>% ggplot(aes(x = as.numeric(nclasses))) +
   geom_line(aes(y = as.numeric(ABIC), color = "red")) +
   geom_line(aes(y = as.numeric(BIC), color = "blue")) +
   scale_color_discrete(name = "Legend", labels = c("ABIC", "BIC"))
 
-# From the elbow plot of ABIC and BIC, the 4-class model is where the elbow is
-
-
+# condense fit stats table for use in paper/presentation:
 fitstats_tbl_mode <- fitind_mode %>%
   select(-name, -LLRepTbl, -summaries, -llnreps, -optseed, -seedused, -t11_km1ll) %>%
   unnest(cols = c(nclasses, Loglikelihood, BIC, ABIC, BLRT_pval, VLMRT_pval,
                   Entropy))
 
-fitstats_tbl_mode %>% write.table("clipboard", sep = "\t") #row.names = FALSE, col.names = FALSE)
+# Copy to clipboard for pasting into Excel for beautification
+fitstats_tbl_mode %>% write.table("clipboard", sep = "\t")
 
-# %>%
-#   filter(nclasses < 7)
